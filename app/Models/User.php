@@ -28,32 +28,21 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $fillable = ['name', 'email', 'password'];
 
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-        'two_factor_recovery_codes',
-        'two_factor_secret',
-    ];
+    protected $hidden = ['password', 'remember_token', 'two_factor_recovery_codes', 'two_factor_secret'];
 
     /**
      * The accessors to append to the model's array form.
      *
      * @var array<int, string>
      */
-    protected $appends = [
-        'profile_photo_url',
-    ];
+    protected $appends = ['profile_photo_url'];
 
     /**
      * Get the attributes that should be cast.
@@ -70,13 +59,15 @@ class User extends Authenticatable
 
     public function words(): HasMany
     {
-      return $this->hasmany(Word::class);
+        return $this->hasmany(Word::class);
     }
 
     public function wordCountInTeam($teamId)
     {
-      return $this->words()->whereHas('team', function ($query) use ($teamId) {
-        $query->where('team_id', $teamId);
-      })->count();
+        return $this->words()
+            ->whereHas('team', function ($query) use ($teamId) {
+                $query->where('team_id', $teamId);
+            })
+            ->count();
     }
 }

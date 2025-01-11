@@ -97,11 +97,11 @@ onMounted(() => {
 
 <template>
   <div dir="rtl">
-    <div class="p-6 lg:p-8 bg-white dark:bg-gray-800 dark:bg-gradient-to-bl dark:from-gray-700/50 dark:via-transparent border-b border-gray-200 dark:border-gray-700">
-      <h1 class="mt-8 text-2xl font-medium text-gray-900 dark:text-white">
+    <div class="p-6 lg:p-8 bg-gradient-to-br from-gray-800/50 to-gray-700/50 border-b border-gray-700">
+      <h1 class="mt-8 text-2xl font-medium text-white">
         به دیکشنری مدرن خوش آمدید!
       </h1>
-      <p class="mt-6 text-gray-500 dark:text-gray-400 leading-relaxed">
+      <p class="mt-6 text-white/70 leading-relaxed">
         دیکشنری مدرن ما به عنوان یک ابزار جامع و کاربرپسند، به شما این امکان را می‌دهد که به راحتی و سرعت به معانی، مترادف‌ها و ترجمه‌های دقیق کلمات دسترسی پیدا کنید.
       </p>
     </div>
@@ -112,77 +112,99 @@ onMounted(() => {
         <canvas id="dashboardChart"></canvas>
       </div>
     </div>
-    <div class="bg-gray-200 dark:bg-gray-800 bg-opacity-25 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 p-6 lg:p-8">
+
+    <div class="bg-gradient-to-br from-gray-800/50 to-gray-700/50 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 p-6 lg:p-8">
+        <!-- Words Section -->
         <div class="text-white">
           <h1 class="text-xl font-bold mb-6">کلمات جدید</h1>
-          <div class="pb-2 grid grid-cols-4">
-          <div class="pr-12"><strong> کلمه </strong></div>
-          <div><strong> معنی </strong></div>
-          <div><strong> تلفظ </strong></div>
-          <div><strong> توضیحات </strong></div>
+
+          <!-- Desktop Headers -->
+          <div class="hidden md:grid md:grid-cols-4 pb-2">
+            <div class="pr-4 lg:pr-8"><strong>کلمه</strong></div>
+            <div class="pr-4"><strong>معنی</strong></div>
+            <div class="pr-4"><strong>تلفظ</strong></div>
+            <div class="pr-4"><strong>توضیحات</strong></div>
           </div>
-          <div v-if="words.length > 0" class="space-y-2 border rounded">
+
+          <div v-if="words.length > 0" class="space-y-2 border border-gray-700 rounded">
+            <!-- Mobile View -->
             <div
-            v-for="(word, index) in words"
-            :key="word.id"
-            class="p-4 rounded shadow-sm grid grid-cols-4 text-white items-center"
+              v-for="(word, index) in words"
+              :key="word.id"
+              class="p-4 rounded shadow-sm md:hidden flex flex-col gap-2 transition duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 hover:bg-gray-700/50 ring-1 ring-white/10"
             >
-            <div class="flex items-center">
-              <div class="ml-5">{{ index + 1 }}</div>
-              <div>{{ word.word }}</div>
+              <div class="flex items-center font-medium">
+                <span class="ml-2 text-white/70">{{ index + 1 }}.</span>
+                <span class="text-white">{{ word.word }}</span>
+              </div>
+              <div class="grid gap-1 text-sm">
+                <div><span class="text-white/70">معنی:</span> <span class="text-white">{{ word.meaning }}</span></div>
+                <div><span class="text-white/70">تلفظ:</span> <span class="text-white">{{ word.pronansiation }}</span></div>
+                <div><span class="text-white/70">توضیحات:</span> <span class="text-white">{{ word.description }}</span></div>
+              </div>
             </div>
-            <div>{{ word.meaning }}</div>
-            <div>{{ word.pronansiation }}</div>
-            <div>{{ word.description }}</div>
+
+            <!-- Desktop View -->
+            <div
+              v-for="(word, index) in words"
+              :key="word.id"
+              class="hidden md:grid md:grid-cols-4 p-4 rounded shadow-sm items-start gap-4 transition duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 hover:bg-gray-700/50 ring-1 ring-white/10"
+            >
+              <div class="flex items-center">
+                <span class="ml-2 text-white/70">{{ index + 1 }}.</span>
+                <span class="truncate text-white">{{ word.word }}</span>
+              </div>
+              <div class="truncate pr-2 text-white">{{ word.meaning }}</div>
+              <div class="truncate pr-2 text-white">{{ word.pronansiation }}</div>
+              <div class="line-clamp-2 pr-2 text-white">{{ word.description }}</div>
             </div>
-      </div>
-    <p v-else class="text-white">هیچ کلمه ای یافت نشد</p>
+          </div>
+          <p v-else class="text-white">هیچ کلمه ای یافت نشد</p>
         </div>
 
+        <!-- Users Section -->
         <div class="text-white">
           <h1 class="text-xl font-bold mb-6">اعضای جدید</h1>
-          <div class="pb-2 grid grid-cols-3 items-center">
-          <div class="pr-12"><strong> اسم </strong></div>
-          <div class="pr-12"><strong> ایمیل </strong></div>
-          <div class="pr-10"><strong> تاریخ عضویت </strong></div>
+
+          <!-- Desktop Headers -->
+          <div class="hidden md:grid md:grid-cols-3 pb-2">
+            <div class="pr-4 lg:pr-8"><strong>اسم</strong></div>
+            <div class="pr-4"><strong>ایمیل</strong></div>
+            <div class="pr-4"><strong>تاریخ عضویت</strong></div>
           </div>
-          <div v-if="users.length > 0" class="space-y-2 border rounded">
+
+          <div v-if="users.length > 0" class="space-y-2 border border-gray-700 rounded">
+            <!-- Mobile View -->
             <div
-            v-for="(user, index) in users"
-            :key="user.id"
-            class="p-4 rounded shadow-sm grid grid-cols-3 text-white items-center"
+              v-for="(user, index) in users"
+              :key="user.id"
+              class="p-4 rounded shadow-sm md:hidden flex flex-col gap-2 transition duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 hover:bg-gray-700/50 ring-1 ring-white/10"
             >
-            <div class="flex items-center">
-              <div class="ml-5">{{ index + 1 }}</div>
-              <div>{{ user.name }}</div>
+              <div class="flex items-center font-medium">
+                <span class="ml-2 text-white/70">{{ index + 1 }}.</span>
+                <span class="text-white">{{ user.name }}</span>
+              </div>
+              <div class="grid gap-1 text-sm">
+                <div><span class="text-white/70">ایمیل:</span> <span class="text-white">{{ user.email }}</span></div>
+                <div><span class="text-white/70">تاریخ عضویت:</span> <span class="text-white">{{ user.formatted_created_at }}</span></div>
+              </div>
             </div>
-            <div>{{ user.email }}</div>
-            <div class="pr-10">{{ user.formatted_created_at }}</div>
+
+            <!-- Desktop View -->
+            <div
+              v-for="(user, index) in users"
+              :key="user.id"
+              class="hidden md:grid md:grid-cols-3 p-4 rounded shadow-sm items-start gap-4 transition duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 hover:bg-gray-700/50 ring-1 ring-white/10"
+            >
+              <div class="flex items-center">
+                <span class="ml-2 text-white/70">{{ index + 1 }}.</span>
+                <span class="truncate text-white">{{ user.name }}</span>
+              </div>
+              <div class="truncate pr-2 text-white">{{ user.email }}</div>
+              <div class="truncate pr-2 text-white">{{ user.formatted_created_at }}</div>
             </div>
-      </div>
+          </div>
         </div>
     </div>
-</div>
-
+  </div>
 </template>
-
-<!-- <script>
-export default {
-  props: {
-        words: {
-          type: Array,
-          required: true,
-          default: () => [],
-        },
-        users: {
-          type: Array,
-          required: true,
-          default: () => [],
-        },
-        chartData: {
-          type: Object,
-          required: true,
-        },
-      },
-    };
-</script> -->

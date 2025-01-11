@@ -10,17 +10,11 @@ class Word extends Model
 {
     protected $table = 'words';
     protected $primarykey = 'id';
-    protected $fillable = [
-      'word',
-      'meaning',
-      'pronansiation',
-      'description',
-      'user_id'
-    ];
+    protected $fillable = ['word', 'meaning', 'pronansiation', 'description', 'user_id'];
 
     public function user(): belongsTo
     {
-      return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
     use HasFactory;
 }

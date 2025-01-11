@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Word;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WordController extends Controller
 {
@@ -23,10 +24,10 @@ class WordController extends Controller
 
     public function userWords()
     {
-      $words = auth()->user()->words;
-      return Inertia::render('Words/Index', [
-          'words' => $words,
-      ]);
+        $words = Auth::user()->words;
+        return Inertia::render('Words/Index', [
+            'words' => $words,
+        ]);
     }
 
     /**
@@ -42,11 +43,11 @@ class WordController extends Controller
         ]);
 
         Word::create([
-        'word' => $request->input('word'),
-        'meaning' => $request->input('meaning'),
-        'pronansiation' => $request->input('pronansiation'),
-        'description' => $request->input('description'),
-        'user_id' => auth()->id(), // اضافه کردن ID کاربر فعلی
+            'word' => $request->input('word'),
+            'meaning' => $request->input('meaning'),
+            'pronansiation' => $request->input('pronansiation'),
+            'description' => $request->input('description'),
+            'user_id' => Auth::id(),
         ]);
 
         return redirect()->route('words.index');
