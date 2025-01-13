@@ -48,7 +48,7 @@ const deleteWord = (id) => {
                         @focus="openSearchModal"
                         type="text"
                         placeholder="جستجوی کلمه یا معنی..."
-                        class="w-full border rounded-lg p-2 sm:p-3 lg:p-4 text-white focus:outline-none dark:bg-gray-800/50 focus:ring-2 focus:ring-[#FF2D20] transition-all duration-200 placeholder-gray-400 text-sm sm:text-base lg:text-lg"
+                        class="w-full border rounded-xl p-2 sm:p-3 lg:p-4 text-white focus:outline-none dark:bg-gray-800/50 focus:ring-2 focus:ring-[#FF2D20] hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 placeholder-gray-400 text-sm sm:text-base lg:text-lg"
                     />
                 </div>
 
@@ -56,7 +56,7 @@ const deleteWord = (id) => {
                 <div class="lg:justify-self-end w-full lg:w-auto">
                     <button
                         @click="showAddModal = true"
-                        class="w-full lg:w-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-3 lg:py-4 bg-gradient-to-r from-[#FF2D20] to-red-600 text-white rounded-lg hover:from-red-600 hover:to-[#FF2D20] transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#FF2D20] focus:ring-offset-2 focus:ring-offset-gray-800 text-sm sm:text-base lg:text-lg font-medium"
+                        class="w-full lg:w-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-3 lg:py-4 bg-gradient-to-r from-[#FF2D20] to-red-600 text-white rounded-xl hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 focus:outline-none focus:ring-2 focus:ring-[#FF2D20] text-sm sm:text-base lg:text-lg font-medium transform translate-y-0 hover:-translate-y-1"
                     >
                         افزودن کلمه جدید
                     </button>
@@ -164,11 +164,11 @@ const deleteWord = (id) => {
                             </div>
                         </div>
 
-                        <div v-if="words.length > 0" class="space-y-2 border rounded">
+                        <div v-if="words.length > 0" class="space-y-2 border rounded-xl">
                             <div
                                 v-for="(word, index) in words"
                                 :key="word.id"
-                                class="p-4 xl:p-6 rounded shadow-sm flex flex-col lg:grid lg:grid-cols-5 gap-4 lg:gap-6 xl:gap-8 items-start lg:items-center hover:bg-gray-800/30 transition-all duration-200"
+                                class="p-4 xl:p-6 rounded-xl shadow-sm flex flex-col lg:grid lg:grid-cols-5 gap-4 lg:gap-6 xl:gap-8 items-start lg:items-center hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 transform translate-y-0 hover:-translate-y-1 text-white"
                             >
                                 <!-- Word -->
                                 <div class="flex items-center w-full">

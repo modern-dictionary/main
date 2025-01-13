@@ -93,57 +93,57 @@ const displayableRole = (role) => {
 </script>
 
 <template>
-    <div>
+    <div class="slide-up">
         <div v-if="userPermissions.canAddTeamMembers">
             <SectionBorder />
 
             <!-- Add Team Member -->
-            <FormSection @submitted="addTeamMember">
+            <FormSection @submitted="addTeamMember" class="p-5 rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50">
                 <template #title>
-                    Add Team Member
+                    <span class="text-white">Add Team Member</span>
                 </template>
 
                 <template #description>
-                    Add a new team member to your team, allowing them to collaborate with you.
+                    <span class="text-white">Add a new team member to your team, allowing them to collaborate with you.</span>
                 </template>
 
                 <template #form>
                     <div class="col-span-6">
-                        <div class="max-w-xl text-sm text-gray-600 dark:text-gray-400">
+                        <div class="max-w-xl text-sm text-white">
                             Please provide the email address of the person you would like to add to this team.
                         </div>
                     </div>
 
                     <!-- Member Email -->
                     <div class="col-span-6 sm:col-span-4">
-                        <InputLabel for="email" value="Email" />
+                        <InputLabel for="email" value="Email" class="text-white" />
                         <TextInput
                             id="email"
                             v-model="addTeamMemberForm.email"
                             type="email"
-                            class="mt-1 block w-full"
+                            class="mt-1 block w-full rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50"
                         />
                         <InputError :message="addTeamMemberForm.errors.email" class="mt-2" />
                     </div>
 
                     <!-- Role -->
-                    <div v-if="availableRoles.length > 0" class="col-span-6 lg:col-span-4">
-                        <InputLabel for="roles" value="Role" />
+                    <div v-if="availableRoles.length > 0" class=" col-span-6 lg:col-span-4">
+                        <InputLabel for="roles" value="Role" class=" text-white" />
                         <InputError :message="addTeamMemberForm.errors.role" class="mt-2" />
 
-                        <div class="relative z-0 mt-1 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer">
+                        <div class=" relative z-0 mt-1 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer">
                             <button
                                 v-for="(role, i) in availableRoles"
                                 :key="role.key"
                                 type="button"
-                                class="relative px-4 py-3 inline-flex w-full rounded-lg focus:z-10 focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-600"
+                                class="mb-5 rounded relative px-4 py-3 inline-flex w-full rounded-lg focus:z-10 focus:outline-none hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50"
                                 :class="{'border-t border-gray-200 dark:border-gray-700 focus:border-none rounded-t-none': i > 0, 'rounded-b-none': i != Object.keys(availableRoles).length - 1}"
                                 @click="addTeamMemberForm.role = role.key"
                             >
                                 <div :class="{'opacity-50': addTeamMemberForm.role && addTeamMemberForm.role != role.key}">
                                     <!-- Role Name -->
                                     <div class="flex items-center">
-                                        <div class="text-sm text-gray-600 dark:text-gray-400" :class="{'font-semibold': addTeamMemberForm.role == role.key}">
+                                        <div class="rounded text-sm text-white" :class="{'font-semibold': addTeamMemberForm.role == role.key}">
                                             {{ role.name }}
                                         </div>
 
@@ -153,7 +153,7 @@ const displayableRole = (role) => {
                                     </div>
 
                                     <!-- Role Description -->
-                                    <div class="mt-2 text-xs text-gray-600 dark:text-gray-400 text-start">
+                                    <div class="mt-2 text-xs text-white text-start">
                                         {{ role.description }}
                                     </div>
                                 </div>
@@ -163,11 +163,15 @@ const displayableRole = (role) => {
                 </template>
 
                 <template #actions>
-                    <ActionMessage :on="addTeamMemberForm.recentlySuccessful" class="me-3">
+                    <ActionMessage :on="addTeamMemberForm.recentlySuccessful" class="me-3 text-white">
                         Added.
                     </ActionMessage>
 
-                    <PrimaryButton :class="{ 'opacity-25': addTeamMemberForm.processing }" :disabled="addTeamMemberForm.processing">
+                    <PrimaryButton
+                        :class="{ 'opacity-25': addTeamMemberForm.processing }"
+                        :disabled="addTeamMemberForm.processing"
+                        class="rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50"
+                    >
                         Add
                     </PrimaryButton>
                 </template>
@@ -178,20 +182,24 @@ const displayableRole = (role) => {
             <SectionBorder />
 
             <!-- Team Member Invitations -->
-            <ActionSection class="mt-10 sm:mt-0">
+            <ActionSection class="mb-5 p-5 mt-10 sm:mt-0 rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 slide-up">
                 <template #title>
-                    Pending Team Invitations
+                    <span class="text-white">Pending Team Invitations</span>
                 </template>
 
                 <template #description>
-                    These people have been invited to your team and have been sent an invitation email. They may join the team by accepting the email invitation.
+                    <span class="text-white">
+                        These people have been invited to your team and have been sent an invitation email. They may join the team by accepting the email invitation.
+                    </span>
                 </template>
 
                 <!-- Pending Team Member Invitation List -->
                 <template #content>
                     <div class="space-y-6">
-                        <div v-for="invitation in team.team_invitations" :key="invitation.id" class="flex items-center justify-between">
-                            <div class="text-gray-600 dark:text-gray-400">
+                        <div v-for="invitation in team.team_invitations"
+                            :key="invitation.id"
+                            class="flex items-center justify-between p-4 rounded-lg hover:ring-white/20 hover:shadow-xl  transition duration-300 hover:bg-gray-700/50">
+                            <div class="text-white">
                                 {{ invitation.email }}
                             </div>
 
@@ -199,7 +207,7 @@ const displayableRole = (role) => {
                                 <!-- Cancel Team Invitation -->
                                 <button
                                     v-if="userPermissions.canRemoveTeamMembers"
-                                    class="cursor-pointer ms-6 text-sm text-red-500 focus:outline-none"
+                                    class="rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300  bg-white p-2 text-black"
                                     @click="cancelTeamInvitation(invitation)"
                                 >
                                     Cancel
@@ -381,3 +389,20 @@ const displayableRole = (role) => {
         </ConfirmationModal>
     </div>
 </template>
+
+<style>
+.slide-up {
+    animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+</style>

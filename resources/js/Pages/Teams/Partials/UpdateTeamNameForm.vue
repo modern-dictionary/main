@@ -25,26 +25,26 @@ const updateTeamName = () => {
 </script>
 
 <template>
-    <FormSection @submitted="updateTeamName">
+    <FormSection @submitted="updateTeamName" class="p-5  rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50">
         <template #title>
-            Team Name
+            <span class="text-white">Team Name</span>
         </template>
 
         <template #description>
-            The team's name and owner information.
+            <span class="text-white">The team's name and owner information.</span>
         </template>
 
         <template #form>
             <!-- Team Owner Information -->
             <div class="col-span-6">
-                <InputLabel value="Team Owner" />
+                <InputLabel value="Team Owner" class="text-white" />
 
                 <div class="flex items-center mt-2">
                     <img class="size-12 rounded-full object-cover" :src="team.owner.profile_photo_url" :alt="team.owner.name">
 
                     <div class="ms-4 leading-tight">
-                        <div class="text-gray-900 dark:text-white">{{ team.owner.name }}</div>
-                        <div class="text-gray-700 dark:text-gray-300 text-sm">
+                        <div class="text-white">{{ team.owner.name }}</div>
+                        <div class="text-white text-sm">
                             {{ team.owner.email }}
                         </div>
                     </div>
@@ -53,13 +53,13 @@ const updateTeamName = () => {
 
             <!-- Team Name -->
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="name" value="Team Name" />
+                <InputLabel for="name" value="Team Name" class="text-white" />
 
                 <TextInput
                     id="name"
                     v-model="form.name"
                     type="text"
-                    class="mt-1 block w-full"
+                    class="mt-1 block w-full rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50"
                     :disabled="! permissions.canUpdateTeam"
                 />
 
@@ -68,11 +68,15 @@ const updateTeamName = () => {
         </template>
 
         <template v-if="permissions.canUpdateTeam" #actions>
-            <ActionMessage :on="form.recentlySuccessful" class="me-3">
+            <ActionMessage :on="form.recentlySuccessful" class="me-3 text-white">
                 Saved.
             </ActionMessage>
 
-            <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+            <PrimaryButton
+                :class="{ 'opacity-25': form.processing }"
+                :disabled="form.processing"
+                class="rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50"
+            >
                 Save
             </PrimaryButton>
         </template>
