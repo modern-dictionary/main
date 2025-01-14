@@ -157,7 +157,7 @@
 <template>
     <div dir="rtl">
         <div
-            class="mb-5 p-5 lg:p-8 bg-gradient-to-br from-gray-800/50 to-gray-700/50 border-b border-gray-700 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 rounded-lg slide-up">
+            class="mb-5 p-5 lg:p-8 bg-gradient-to-br border-gray-700 transition duration-300 rounded-lg slide-up">
             <h1 class="mt-8 text-2xl font-medium text-white">
                 به دیکشنری مدرن خوش آمدید!
             </h1>
