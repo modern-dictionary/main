@@ -127,7 +127,13 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <div id="recaptcha-container" class="flex justify-center"></div>
+                <div
+                    id="recaptcha-container"
+                    class="flex justify-center min-h-[78px]"
+                ></div>
+                <p v-if="!recaptchaLoaded" class="text-sm text-gray-400 text-center">
+                    Loading reCAPTCHA...
+                </p>
                 <InputError class="mt-2" :message="form.errors['g-recaptcha-response']" />
             </div>
 
