@@ -38,13 +38,13 @@ const closeModal = () => {
 </script>
 
 <template>
-    <ActionSection>
+    <ActionSection class="p-5 rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 transform hover:-translate-y-1">
         <template #title>
-            Delete Account
+            <span class="text-white">Delete Account</span>
         </template>
 
         <template #description>
-            Permanently delete your account.
+            <span class="text-white">Permanently delete your account.</span>
         </template>
 
         <template #content>
@@ -53,7 +53,8 @@ const closeModal = () => {
             </div>
 
             <div class="mt-5">
-                <DangerButton @click="confirmUserDeletion">
+                <DangerButton @click="confirmUserDeletion"
+                    class="rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 transform hover:-translate-y-1">
                     Delete Account
                 </DangerButton>
             </div>
@@ -61,39 +62,42 @@ const closeModal = () => {
             <!-- Delete Account Confirmation Modal -->
             <DialogModal :show="confirmingUserDeletion" @close="closeModal">
                 <template #title>
-                    Delete Account
+                    <span class="text-white">Delete Account</span>
                 </template>
 
                 <template #content>
-                    Are you sure you want to delete your account? Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.
+                    <div class="text-white rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 transform hover:-translate-y-1">
+                        Are you sure you want to delete your account? Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.
 
-                    <div class="mt-4">
-                        <TextInput
-                            ref="passwordInput"
-                            v-model="form.password"
-                            type="password"
-                            class="mt-1 block w-3/4"
-                            placeholder="Password"
-                            autocomplete="current-password"
-                            @keyup.enter="deleteUser"
-                        />
+                        <div class="mt-4">
+                            <TextInput
+                                ref="passwordInput"
+                                v-model="form.password"
+                                type="password"
+                                class="mt-1 block w-3/4 text-white rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 transform hover:-translate-y-1"
+                                placeholder="Password"
+                                autocomplete="current-password"
+                                @keyup.enter="deleteUser"
+                            />
 
-                        <InputError :message="form.errors.password" class="mt-2" />
+                            <InputError :message="form.errors.password" class="mt-2 text-white" />
+                        </div>
                     </div>
                 </template>
 
                 <template #footer>
-                    <SecondaryButton @click="closeModal">
-                        Cancel
+                    <SecondaryButton @click="closeModal"
+                        class="rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 transform hover:-translate-y-1">
+                        <span class="text-white">Cancel</span>
                     </SecondaryButton>
 
                     <DangerButton
-                        class="ms-3"
+                        class="ms-3 rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 transform hover:-translate-y-1"
                         :class="{ 'opacity-25': form.processing }"
                         :disabled="form.processing"
                         @click="deleteUser"
                     >
-                        Delete Account
+                        <span class="text-white">Delete Account</span>
                     </DangerButton>
                 </template>
             </DialogModal>
