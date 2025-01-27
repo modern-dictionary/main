@@ -7,6 +7,7 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import { ref, onMounted } from 'vue';
 
 defineProps({
     canResetPassword: Boolean,
@@ -17,14 +18,38 @@ const form = useForm({
     email: '',
     password: '',
     remember: false,
+    'g-recaptcha-response': '',
+});
+
+const recaptchaLoaded = ref(false);
+
+onMounted(() => {
+    const script = document.createElement('script');
+    script.src = 'https://www.google.com/recaptcha/api.js?render=explicit';
+    script.async = true;
+    script.defer = true;
+    script.onload = () => {
+        recaptchaLoaded.value = true;
+        window.grecaptcha.ready(() => {
+            window.grecaptcha.render('recaptcha-container', {
+                sitekey: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
+                callback: (response) => {
+                    form['g-recaptcha-response'] = response;
+                }
+            });
+        });
+    };
+    document.head.appendChild(script);
 });
 
 const submit = () => {
-    form.transform(data => ({
-        ...data,
-        remember: form.remember ? 'on' : '',
-    })).post(route('login'), {
-        onFinish: () => form.reset('password'),
+    form.post(route('login'), {
+        onFinish: () => {
+            form.reset('password');
+            if (window.grecaptcha) {
+                window.grecaptcha.reset();
+            }
+        },
     });
 };
 </script>
@@ -85,6 +110,17 @@ const submit = () => {
                                 autocomplete="current-password"
                             />
                             <InputError class="mt-2" :message="form.errors.password" />
+                        </div>
+
+                        <div class="mt-4">
+                            <div
+                                id="recaptcha-container"
+                                class="flex justify-center min-h-[78px]"
+                            ></div>
+                            <p v-if="!recaptchaLoaded" class="text-sm text-gray-400 text-center">
+                                Loading reCAPTCHA...
+                            </p>
+                            <InputError class="mt-2" :message="form.errors['g-recaptcha-response']" />
                         </div>
 
                         <div class="flex items-center">
