@@ -37,7 +37,7 @@ const deleteWord = (id) => {
         <template #header dir="rtl">
             <div class="flex flex-col gap-4 sm:gap-6 md:grid md:grid-cols-2 lg:grid-cols-3 items-center">
                 <!-- Title -->
-                <h2 class="font-semibold text-lg sm:text-xl lg:text-2xl text-gray-800 dark:text-gray-200 leading-tight text-center md:text-right col-span-1">
+                <h2 class="font-semibold text-xl text-white leading-tight rounded-lg">
                     کلمات
                 </h2>
 
@@ -48,7 +48,7 @@ const deleteWord = (id) => {
                         @focus="openSearchModal"
                         type="text"
                         placeholder="جستجوی کلمه یا معنی..."
-                        class="w-full border rounded-xl p-2 sm:p-3 lg:p-4 text-white focus:outline-none dark:bg-gray-800/50 focus:ring-2 focus:ring-[#FF2D20] hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 placeholder-gray-400 text-sm sm:text-base lg:text-lg"
+                        class="w-full border rounded-xl p-2 sm:p-3 lg:p-4 text-white focus:outline-none dark:bg-gray-800/50 focus:ring-2 focus:ring-[#FF2D20] hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 placeholder-gray-400 text-sm sm:text-base lg:text-medium"
                     />
                 </div>
 
@@ -56,7 +56,7 @@ const deleteWord = (id) => {
                 <div class="lg:justify-self-end w-full lg:w-auto">
                     <button
                         @click="showAddModal = true"
-                        class="w-full lg:w-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-3 lg:py-4 bg-gradient-to-r from-[#FF2D20] to-red-600 text-white rounded-xl hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 focus:outline-none focus:ring-2 focus:ring-[#FF2D20] text-sm sm:text-base lg:text-lg font-medium transform translate-y-0 hover:-translate-y-1"
+                        class="w-full lg:w-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-3 lg:py-4 bg-green-700 from-[#FF2D20] to-red-600 text-white rounded-xl hover:ring-white/20 duration-300 hover:bg-gray-700/50 focus:outline-none focus:ring-2 focus:ring-[#FF2D20] text-sm sm:text-base lg:text-medium font-medium transform translate-y-0 hover:-translate-y-1"
                     >
                         افزودن کلمه جدید
                     </button>
@@ -89,7 +89,7 @@ const deleteWord = (id) => {
                                     v-model="searchTerm"
                                     type="text"
                                     placeholder="جستجوی کلمه یا معنی..."
-                                    class="w-1/2 border justify-center dark:bg-gray-800 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    class="lg:w-1/2 w-full border justify-center dark:bg-gray-800 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 />
                             </div>
 
@@ -280,7 +280,7 @@ const deleteWord = (id) => {
                 <div class="flex justify-end gap-3 mt-8 border-t border-gray-700 pt-4">
                     <button
                         @click="editWord(selectedWord)"
-                        class="px-6 py-2.5 bg-[#FF2D20] text-white rounded-lg hover:bg-red-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#FF2D20] focus:ring-offset-2 focus:ring-offset-gray-800"
+                        class="px-6 py-2.5 bg-blue-500 text-white rounded-lg hover:bg-blue-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#FF2D20] focus:ring-offset-2 focus:ring-offset-gray-800"
                     >
                         ویرایش
                     </button>
@@ -424,7 +424,7 @@ const deleteWord = (id) => {
                     <div class="flex justify-end gap-3 mt-6">
                         <button
                             type="submit"
-                            class="px-6 py-2.5 bg-[#FF2D20] text-white rounded-lg hover:bg-red-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#FF2D20] focus:ring-offset-2 focus:ring-offset-gray-800"
+                            class="px-6 py-2.5 bg-blue-700 text-white rounded-lg hover:bg-blue-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#FF2D20] focus:ring-offset-2 focus:ring-offset-gray-800"
                         >
                             ذخیره تغییرات
                         </button>
@@ -527,6 +527,7 @@ export default {
             };
         },
         editWord(word) {
+            this.showModal = false;
             this.editForm = { ...word }; // کپی مشخصات کلمه برای ویرایش
             this.showEditModal = true;
         },

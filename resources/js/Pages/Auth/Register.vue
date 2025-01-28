@@ -20,33 +20,33 @@ const form = useForm({
 
 const recaptchaLoaded = ref(false);
 
-onMounted(() => {
-    // Load reCAPTCHA script
-    const script = document.createElement('script');
-    script.src = 'https://www.google.com/recaptcha/api.js?render=explicit';
-    script.async = true;
-    script.defer = true;
-    script.onload = () => {
-        recaptchaLoaded.value = true;
-        window.grecaptcha.ready(() => {
-            window.grecaptcha.render('recaptcha-container', {
-                sitekey: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
-                callback: (response) => {
-                    form['g-recaptcha-response'] = response;
-                }
-            });
-        });
-    };
-    document.head.appendChild(script);
-});
+// onMounted(() => {
+//     // Load reCAPTCHA script
+//     const script = document.createElement('script');
+//     script.src = 'https://www.google.com/recaptcha/api.js?render=explicit';
+//     script.async = true;
+//     script.defer = true;
+//     script.onload = () => {
+//         recaptchaLoaded.value = true;
+//         window.grecaptcha.ready(() => {
+//             window.grecaptcha.render('recaptcha-container', {
+//                 sitekey: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
+//                 callback: (response) => {
+//                     form['g-recaptcha-response'] = response;
+//                 }
+//             });
+//         });
+//     };
+//     document.head.appendChild(script);
+// });
 
 const submit = () => {
     form.post(route('register'), {
         onFinish: () => {
             form.reset('password', 'password_confirmation');
-            if (window.grecaptcha) {
-                window.grecaptcha.reset();
-            }
+            // if (window.grecaptcha) {
+            //     window.grecaptcha.reset();
+            // }
         },
     });
 };
@@ -126,10 +126,10 @@ const submit = () => {
                 <InputError class="mt-2" :message="form.errors.password_confirmation" />
             </div>
 
-            <div class="mt-4">
-                <div id="recaptcha-container" class="flex justify-center"></div>
-                <InputError class="mt-2" :message="form.errors['g-recaptcha-response']" />
-            </div>
+<!--            <div class="mt-4">-->
+<!--                <div id="recaptcha-container" class="flex justify-center"></div>-->
+<!--                <InputError class="mt-2" :message="form.errors['g-recaptcha-response']" />-->
+<!--            </div>-->
 
             <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature" class="mt-4">
                 <InputLabel for="terms">
