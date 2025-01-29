@@ -30,23 +30,39 @@ class WordController extends Controller
         ]);
     }
 
+
+    /**
+     * validates the word.
+     *
+     * @param Request $request
+     * @return array
+     */
+    private function validateWord(Request $request): array
+    {
+        return $request->validate([
+            'word' => 'required|string|max:255',
+            'meaning' => 'required|string|max:1000',
+            'pronunciation' => 'nullable|string|max:255',
+            'description' => 'nullable|string|max:2000',
+        ]);
+    }
+
+    //TODO: add error handling
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Inertia\Response
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'word' => 'required|string', // Example validation rule
-        ]);
+        $validated = $this->validateWord($request);
 
         Word::create([
-            'word' => $request->input('word'),
-            'meaning' => $request->input('meaning'),
-            'pronansiation' => $request->input('pronansiation'),
-            'description' => $request->input('description'),
+            'word' => $validated['word'],
+            'meaning' => $validated['meaning'],
+            'pronunciation' => $validated['pronunciation'] ?? null,
+            'description' => $validated['description'] ?? null,
             'user_id' => Auth::id(),
         ]);
 
@@ -63,14 +79,17 @@ class WordController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Inertia\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {
         $request->validate([
-            'word' => 'required|string', // Example validation rule
+            'word' => 'required|string|max:255',
+            'meaning' => 'required|string|max:1000',
+            'pronunciation' => 'nullable|string|max:255',
+            'description' => 'nullable|string|max:2000',
         ]);
 
         $word = Word::findOrFail($id);
