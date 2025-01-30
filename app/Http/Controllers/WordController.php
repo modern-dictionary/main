@@ -58,7 +58,7 @@ class WordController extends Controller
     {
         $validated = $this->validateWord($request);
 
-        Word::create([
+        $word = Word::create([
             'word' => $validated['word'],
             'meaning' => $validated['meaning'],
             'pronunciation' => $validated['pronunciation'] ?? null,
@@ -66,7 +66,7 @@ class WordController extends Controller
             'user_id' => Auth::id(),
         ]);
 
-        return redirect()->route('words.index');
+        return response()->json(['message' => 'کلمه با موفقیت ایجاد شد', 'word' => $word], 201);
     }
 
     /**
@@ -95,7 +95,7 @@ class WordController extends Controller
         $word = Word::findOrFail($id);
         $word->update($request->all());
 
-        return redirect()->route('words.index');
+        return response()->json(['message' => 'کلمه با موفقیت به‌روزرسانی شد', 'word' => $word], 200);
     }
 
     /**
@@ -109,6 +109,6 @@ class WordController extends Controller
         $word = Word::findOrFail($id);
         $word->delete();
 
-        return redirect()->route('words.index');
+        return response()->json(['message' => 'کلمه با موفقیت حذف شد'], 200);
     }
 }

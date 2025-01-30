@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('word');
             $table->string('meaning');
-            $table->string('pronansiation')->nullable();
+            $table->string('pronunciation')->nullable();
             $table->string('description')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();

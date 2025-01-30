@@ -58,7 +58,7 @@ const logout = () => {
                                 </NavLink>
                             </div>
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink :href="route('categories.index')" :active="route().current('words.index')">
+                                <NavLink :href="route('categories.index')" :active="route().current('categories.index')">
                                     دسته بندی
                                 </NavLink>
                             </div>

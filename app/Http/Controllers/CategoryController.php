@@ -36,20 +36,21 @@ class CategoryController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
-    {
-        $validated = $this->validateCategory($request);
+     public function store(Request $request)
+     {
+       $validated = $this->validateCategory($request);
 
-        Category::create([
-            'name' => $validated['name'],
-            'slug' => Str::slug($request->name),
-            'description' => $validated['description'] ?? null,
+       $category = Category::create([
+          'name' => $validated['name'],
+          'slug' => Str::slug($request->name),
+          'description' => $validated['description'] ?? null,
         ]);
 
-        return redirect()->route('words.categories');
-    }
+       return response()->json(['message' => 'دسته‌بندی با موفقیت ایجاد شد', 'category' => $category], 201);
+     }
+
 
     /**
      * Display the specified resource.
@@ -67,28 +68,25 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id): \Illuminate\Http\RedirectResponse
     {
-        $request->validate([
-            'name' => 'required|string|unique:categories,name|max:255',
-            'description' => 'nullable|string|max:1000',
-        ]);
+        $validated = $this->validateCategory($request);
 
         $category = Category::findOrFail($id);
         $category->update($request->all());
 
-        return redirect()->route('words.categories');
+        return response()->json(['message' => 'دسته‌بندی با موفقیت به‌روزرسانی شد', 'category' => $category], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
         $category->delete();
 
-        return redirect()->route('words.categories');
+        return response()->json(['message' => 'دسته‌بندی با موفقیت حذف شد'], 200);
     }
 }

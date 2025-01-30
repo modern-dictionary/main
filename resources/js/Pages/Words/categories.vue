@@ -21,8 +21,10 @@ const submit = () => {
 
 const deleteCategory = (id) => {
     if (confirm("از حذف دسته بندی مورد نظر اطمینان دارید؟")) {
-        axios.delete(route("categories.destroy", id));
-        location.reload();
+        axios.delete(route("categories.destroy", id))
+        .then(() => {
+                location.reload();
+            });
     }
 };
 </script>
@@ -156,15 +158,6 @@ const deleteCategory = (id) => {
 
                     <div class="text-white p-4 md:px-10 xl:px-24 2xl:px-4 py-10">
                         <h1 class="text-xl lg:text-2xl font-bold mb-6">لیست دسته بندی</h1>
-
-                        <!-- Table Headers for PC -->
-                        <div class="hidden lg:grid lg:grid-cols-5 xl:grid-cols-5 pb-4">
-                            <div class="pr-12 xl:pr-20"><strong>اسم</strong></div>
-                            <div class="xl:pr-8"><strong>توضیحات</strong></div>
-                            <div class="text-right xl:pr-8">
-                                <strong>دکمه‌های عملیات</strong>
-                            </div>
-                        </div>
 
                         <div v-if="categories.length > 0" class="grid grid-cols-2 gap-4 border rounded-xl p-4">
                             <div
@@ -318,12 +311,12 @@ const deleteCategory = (id) => {
                 @click.stop
             >
                 <h2 class="text-xl lg:text-2xl font-bold mb-6 text-white">
-                    ویرایش کلمه
+                    ویرایش دسته بندی
                 </h2>
 
                 <form @submit.prevent="saveCategory" class="space-y-4">
                     <div class="grid md:grid-cols-2 gap-4">
-                        <!-- Word Input -->
+                        <!-- Name Input -->
                         <div>
                             <label class="block font-medium text-white mb-2">کلمه:</label>
                             <input
@@ -414,15 +407,14 @@ export default {
         //   }
         // },
         addCategory() {
-            axios.post(route("categories.store"), this.newCategory)
-                .then((response) => {
-                    this.categories.push(response.data); // افزودن دسته جدید به لیست
-                    this.newCategory = { name: "", description: "" }; // پاک کردن فرم
-                    this.closeAddModal();
-                })
-                .catch((error) => {
-                    console.error("Error adding category:", error);
-                });
+            axios.post(route("categories.store"), this.newCategory).then((response) => {
+              console.log("دسته جدید اضافه شد:", response.data);
+              this.categories.push(response.data); // افزودن دسته جدید به لیست
+              this.closeAddModal();
+              setTimeout(() => {
+                location.reload();
+               }, 500);
+            });
         },
         closeAddModal() {
             this.showAddModal = false;
@@ -464,9 +456,10 @@ export default {
                 (category) => category.id === this.editForm.id
             );
             if (categoryIndex !== -1) {
-                this.$set(this.words, categoryIndex, { ...this.editForm });
+                this.$set(this.categories, categoryIndex, { ...this.editForm });
             }
             this.closeEditModal();
+            location.reload();
 
             // } catch (error) {
             //   console.error("Error updating word:", error);

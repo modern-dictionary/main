@@ -13,7 +13,7 @@ import axios from "axios";
 const form = useForm({
     word: "",
     meaning: "",
-    pronansiation: "",
+    pronunciation: "",
     description: "",
 });
 
@@ -23,8 +23,10 @@ const submit = () => {
 
 const deleteWord = (id) => {
     if (confirm("از حذف کلمه مورد نظر اطمینان دارید؟")) {
-        axios.delete(route("words.destroy", id));
-        location.reload();
+        axios.delete(route("words.destroy", id))
+        .then(() => {
+           location.reload();
+        });
     }
 };
 </script>
@@ -114,7 +116,7 @@ const deleteWord = (id) => {
                                             <div>{{ word.word }}</div>
                                         </div>
                                         <div>{{ word.meaning }}</div>
-                                        <div>{{ word.pronansiation }}</div>
+                                        <div>{{ word.pronunciation }}</div>
                                         <div class="line-clamp-2 xl:pr-4">
                                             {{ word.description }}
                                         </div>
@@ -184,7 +186,7 @@ const deleteWord = (id) => {
                                     </div>
                                     <div class="flex flex-col">
                                         <span class="text-gray-400 text-sm">تلفظ:</span>
-                                        <span class="truncate">{{ word.pronansiation }}</span>
+                                        <span class="truncate">{{ word.pronunciation }}</span>
                                     </div>
                                     <div class="flex flex-col">
                                         <span class="text-gray-400 text-sm">توضیحات:</span>
@@ -197,7 +199,7 @@ const deleteWord = (id) => {
                                     {{ word.meaning }}
                                 </div>
                                 <div class="hidden lg:block truncate xl:pr-4">
-                                    {{ word.pronansiation }}
+                                    {{ word.pronunciation }}
                                 </div>
                                 <div class="hidden ml-20 lg:block line-clamp-2 xl:pl-10">
                                     {{ word.description }}
@@ -264,7 +266,7 @@ const deleteWord = (id) => {
                     <!-- Pronunciation -->
                     <div class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">
                         <strong class="text-white text-lg sm:col-span-1">تلفظ:</strong>
-                        <span class="text-gray-300 sm:col-span-5">{{ selectedWord.pronansiation }}</span>
+                        <span class="text-gray-300 sm:col-span-5">{{ selectedWord.pronunciation }}</span>
                     </div>
 
                     <!-- Description -->
@@ -327,10 +329,10 @@ const deleteWord = (id) => {
                         />
                     </div>
                     <div>
-                        <label for="add-pronansiation">تلفظ</label>
+                        <label for="add-pronunciation">تلفظ</label>
                         <input
-                            id="add-pronansiation"
-                            v-model="newWord.pronansiation"
+                            id="add-pronunciation"
+                            v-model="newWord.pronunciation"
                             type="text"
                             class="mt-1 block dark:bg-gray-800 w-full border rounded p-2"
                         />
@@ -403,7 +405,7 @@ const deleteWord = (id) => {
                         <div>
                             <label class="block font-medium text-white mb-2">تلفظ:</label>
                             <input
-                                v-model="editForm.pronansiation"
+                                v-model="editForm.pronunciation"
                                 type="text"
                                 class="w-full px-4 py-2 rounded-lg border border-gray-700 bg-gray-800/50 text-white focus:outline-none focus:ring-2 focus:ring-[#FF2D20] transition-all duration-200"
                             />
@@ -460,7 +462,7 @@ export default {
             newWord: {
                 word: "",
                 meaning: "",
-                pronansiation: "",
+                pronunciation: "",
                 description: "",
             },
             showEditModal: false,
@@ -468,7 +470,7 @@ export default {
                 id: null,
                 word: "",
                 meaning: "",
-                pronansiation: "",
+                pronunciation: "",
                 description: "",
             },
             showModal: false,
@@ -504,7 +506,7 @@ export default {
             this.newWord = {
                 word: "",
                 meaning: "",
-                pronansiation: "",
+                pronunciation: "",
                 description: "",
             };
         },
@@ -522,7 +524,7 @@ export default {
             this.newWord = {
                 word: "",
                 meaning: "",
-                pronansiation: "",
+                pronunciation: "",
                 description: "",
             };
         },
