@@ -448,9 +448,7 @@ export default {
             this.showEditModal = false;
         },
         async saveCategory() {
-            // try {
-            // ارسال درخواست PUT به روت update
-            axios.put(route("categories.update", this.editForm.id), this.editForm);
+          axios.put(route("categories.update", this.editForm.id), this.editForm).then(() => {
             location.reload();
             const categoryIndex = this.categories.findIndex(
                 (category) => category.id === this.editForm.id
@@ -460,11 +458,12 @@ export default {
             }
             this.closeEditModal();
             location.reload();
-
-            // } catch (error) {
-            //   console.error("Error updating word:", error);
-            // }
+          });
+          setTimeout(() => {
+            window.location.reload(true);
+          }, 500);
         },
+
     },
     computed: {
         // فیلتر کلمات بر اساس کلمه یا معنی
@@ -473,8 +472,7 @@ export default {
             if (!term) return this.categories;
             return this.categories.filter(
                 (category) =>
-                    category.name.toLowerCase().includes(term) ||
-                    category.description.toLowerCase().includes(term)
+                    category.name.toLowerCase().includes(term)
             );
         },
     },

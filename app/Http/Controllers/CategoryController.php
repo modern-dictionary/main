@@ -68,10 +68,20 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id): \Illuminate\Http\RedirectResponse
     {
-        $validated = $this->validateCategory($request);
-
         $category = Category::findOrFail($id);
-        $category->update($request->all());
+
+        // اصلاح اعتبارسنجی برای مجاز کردن نام فعلی در دیتابیس
+        $validated = $request->validate([
+          'name' => "required|string|unique:categories,name,{$category->id}",
+          'description' => 'nullable|string',
+        ]);
+
+        // به‌روزرسانی مقادیر دسته‌بندی
+        $category->update([
+          'name' => $validated['name'],
+          'slug' => Str::slug($validated['name']),
+          'description' => $request->filled('description') ? $validated['description'] : $category->description,
+        ]);
 
         return response()->json(['message' => 'دسته‌بندی با موفقیت به‌روزرسانی شد', 'category' => $category], 200);
     }

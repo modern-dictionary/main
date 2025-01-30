@@ -539,15 +539,17 @@ export default {
         async saveWord() {
             // try {
             // ارسال درخواست PUT به روت update
-            axios.put(route("words.update", this.editForm.id), this.editForm);
-            location.reload();
-            const wordIndex = this.words.findIndex(
-                (word) => word.id === this.editForm.id
-            );
-            if (wordIndex !== -1) {
-                this.$set(this.words, wordIndex, { ...this.editForm });
-            }
-            this.closeEditModal();
+            axios.put(route("words.update", this.editForm.id), this.editForm).then((response) => {
+              location.reload();
+              const wordIndex = this.words.findIndex(
+                  (word) => word.id === this.editForm.id
+              );
+              if (wordIndex !== -1) {
+                  this.$set(this.words, wordIndex, { ...this.editForm });
+              }
+              this.closeEditModal();
+              location.reload();
+            });
 
             // } catch (error) {
             //   console.error("Error updating word:", error);
