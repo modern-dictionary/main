@@ -52,7 +52,7 @@ const deleteCategory = (id) => {
                     />
                 </div>
 
-                <!-- New Word Button -->
+                <!-- New category Button -->
                 <div class="lg:justify-self-end w-full lg:w-auto">
                     <button
                         @click="showAddModal = true"
@@ -73,86 +73,75 @@ const deleteCategory = (id) => {
                 <div
                     class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg"
                 >
-                    <!-- Search Module -->
+                <!-- Search Module -->
+                <div
+                    v-if="showSearchModal"
+                    class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50"
+                    @click="closeModal"
+                >
                     <div
-                        v-if="showSearchModal"
-                        class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50"
-                        @click="closeModal"
+                        class="bg-white text-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 p-6 rounded shadow-md w-3/4"
+                        @click.stop
                     >
-                        <div
-                            class="bg-white text-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 p-6 rounded shadow-md w-3/4"
-                            @click.stop
-                        >
-                            <!-- search bar in module -->
-                            <div class="mb-4 flex">
-                                <input
-                                    v-model="searchTerm"
-                                    type="text"
-                                    placeholder="جستجوی دسته بندی..."
-                                    class="lg:w-1/2 w-full border justify-center dark:bg-gray-800 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                />
-                            </div>
-
-                            <!-- Search results -->
-                            <div>
-                                <h3 class="text-md font-bold mb-2">
-                                    نتایج جستجو:
-                                </h3>
-                                <div
-                                    v-if="filteredCategories.length > 0"
-                                    class="list-disc pl-5"
-                                >
-                                    <div class="grid grid-cols-2 gap-4">
-                                        <div
-                                            v-for="(category, index) in filteredCategories"
-                                            :key="category.id"
-                                            class="p-4 rounded shadow-sm flex justify-between items-center border border-gray-200"
-                                        >
-                                            <!-- ستون نام و دسته‌بندی -->
-                                            <div class="flex items-center">
-                                                <div class="mr-4 font-bold">{{ index + 1 }}</div>
-                                                <div>{{ category.category.name }}</div>
-                                            </div>
-
-                                            <!-- دکمه‌های عملیات -->
-                                            <div class="flex">
-                                                <button
-                                                    @click="viewCategory(category)"
-                                                    class="px-4 py-2 rounded bg-blue-200 text-blue-700 ml-2 hover:bg-blue-300"
-                                                >
-                                                    مشاهده
-                                                </button>
-
-                                                <button
-                                                    @click.stop="editCategory(category)"
-                                                    class="px-4 py-2 rounded bg-blue-500 text-white ml-2 hover:bg-blue-600"
-                                                >
-                                                    ویرایش
-                                                </button>
-
-                                                <button
-                                                    @click="deleteCategory(category.id)"
-                                                    class="px-4 py-2 rounded bg-red-500 text-white ml-2 hover:bg-red-600"
-                                                >
-                                                    حذف
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-<!--                                    &lt;!&ndash; نمایش توضیحات دسته‌بندی در مودال &ndash;&gt;-->
-<!--                                    <Modal v-if="selectedCategory" @close="selectedCategory = null">-->
-<!--                                        <div class="p-4">-->
-<!--                                            <h2 class="text-lg font-bold">{{ selectedCategory.category.name }}</h2>-->
-<!--                                            <p class="text-gray-600 mt-2">-->
-<!--                                                {{ selectedCategory.category.description || "توضیحی وجود ندارد." }}-->
-<!--                                            </p>-->
-<!--                                        </div>-->
-<!--                                    </Modal>-->
-
-                                </div>
+                        <!-- search bar in module -->
+                        <div class="mb-4 flex">
+                            <input
+                                v-model="searchTerm"
+                                type="text"
+                                placeholder="جستجوی کلمه یا معنی..."
+                                class="lg:w-1/2 w-full border justify-center dark:bg-gray-800 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
                         </div>
-                    </div>
+
+                        <!-- Search results -->
+                        <div>
+                            <h3 class="text-md font-bold mb-2">
+                                نتایج جستجو:
+                            </h3>
+                            <div
+                                v-if="filteredCategories.length > 0"
+                                class="grid grid-cols-2 gap-4 border rounded-xl p-4"
+                            >
+                                <div
+                                    v-for="(category, index) in filteredCategories"
+                                    :key="category.id"
+                                    class="p-4 rounded border shadow-sm grid grid-cols-2 items-center"
+                                >
+                                    <div class="flex items-center ">
+                                        <div class="ml-5">
+                                            {{ index + 1 }}
+                                        </div>
+                                        <div>{{ category.name }}</div>
+                                    </div>
+                                    <!-- دکمه‌های عملیات -->
+                                    <div class="flex justify-end ">
+                                        <button
+                                            @click="viewCategory(category)"
+                                            class="px-4 py-2 rounded bg-blue-200 text-blue-700 ml-2 hover:bg-blue-300"
+                                        >
+                                            مشاهده
+                                        </button>
+
+                                        <button
+                                            @click.stop="editCategory(category)"
+                                            class="px-4 py-2 rounded bg-blue-500 text-white ml-2 hover:bg-blue-600"
+                                        >
+                                            ویرایش
+                                        </button>
+
+                                        <button
+                                            @click="deleteCategory(category.id)"
+                                            class="px-4 py-2 rounded bg-red-500 text-white ml-2 hover:bg-red-600"
+                                        >
+                                            حذف
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <p v-else class="text-gray-500">
+                                نتیجه‌ای یافت نشد.
+                            </p>
+                        </div>
                     </div>
                 </div>
 
@@ -201,6 +190,7 @@ const deleteCategory = (id) => {
                             هیچ کلمه‌ای یافت نشد
                         </p>
                     </div>
+                  </div>
         </div>
         <!-- Show Modal -->
         <div
@@ -217,7 +207,7 @@ const deleteCategory = (id) => {
                 </h2>
 
                 <div class="space-y-6 mb-6">
-                    <!-- Word -->
+                    <!-- Category -->
                     <div class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">
                         <strong class="text-white text-lg sm:col-span-1">کلمه:</strong>
                         <span class="text-gray-300 sm:col-span-5">{{ selectedCategory.name }}</span>
@@ -226,7 +216,7 @@ const deleteCategory = (id) => {
                     <!-- Description -->
                     <div class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">
                         <strong class="text-white text-lg sm:col-span-1">توضیحات:</strong>
-                        <div class="text-gray-300 sm:col-span-5 break-words whitespace-pre-wrap min-h-[100px] bg-gray-800/50 p-4 rounded-lg border border-gray-700">
+                        <div class="text-gray-300 sm:col-span-5 break-categorys whitespace-pre-wrap min-h-[100px] bg-gray-800/50 p-4 rounded-lg border border-gray-700">
                             {{ selectedCategory.description }}
                         </div>
                     </div>
@@ -263,9 +253,9 @@ const deleteCategory = (id) => {
                 <h2 class="text-lg font-bold mb-4">افزودن دسته بندی جدید</h2>
                 <form @submit.prevent="addCategory" class="grid grid-cols-2 gap-4">
                     <div>
-                        <label for="add-word">نام</label>
+                        <label for="add-category">نام</label>
                         <input
-                            id="add-word"
+                            id="add-category"
                             v-model="newCategory.name"
                             type="text"
                             class="mt-1 block dark:bg-gray-800 w-full border rounded p-2"
@@ -435,7 +425,7 @@ export default {
             this.searchTerm = "";
             this.showAddModal = false;
             this.newCategory = {
-                word: "",
+                name: "",
                 description: "",
             };
         },
