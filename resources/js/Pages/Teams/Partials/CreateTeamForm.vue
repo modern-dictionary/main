@@ -21,31 +21,30 @@ const createTeam = () => {
 <template>
     <FormSection @submitted="createTeam" class="p-5 rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 slide-up">
         <template #title>
-            <span class="text-white">Team Details</span>
+            <span class="text-white">جزئیات تیم</span>
         </template>
 
         <template #description>
-            <span class="text-white">Create a new team to collaborate with others on projects.</span>
+            <span class="text-white">یک تیم جدید برای همکاری با دیگران در پروژه‌ها ایجاد کنید.</span>
         </template>
 
         <template #form>
-            <div class="col-span-6">
-                <InputLabel value="Team Owner" class="text-white" />
+            <div class="col-span-6" dir="rtl">
+                <InputLabel value="مالک تیم" class="text-white" />
 
                 <div class="flex items-center mt-2">
-                    <img class="object-cover size-12 rounded-full" :src="$page.props.auth.user.profile_photo_url" :alt="$page.props.auth.user.name">
-
-                    <div class="ms-4 leading-tight">
+                    <div class="me-4 leading-tight">
                         <div class="text-white">{{ $page.props.auth.user.name }}</div>
                         <div class="text-sm text-white">
                             {{ $page.props.auth.user.email }}
                         </div>
                     </div>
+                    <img class="object-cover size-12 rounded-full" :src="$page.props.auth.user.profile_photo_url" :alt="$page.props.auth.user.name">
                 </div>
             </div>
 
-            <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="name" value="Team Name" class="text-white" />
+            <div class="col-span-6 sm:col-span-4" dir="rtl">
+                <InputLabel for="name" value="نام تیم" class="text-white" />
                 <TextInput
                     id="name"
                     v-model="form.name"
@@ -63,7 +62,7 @@ const createTeam = () => {
                 :disabled="form.processing"
                 class="rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50"
             >
-                <span class="text-black">Create</span>
+                <span class="text-black">ایجاد</span>
             </PrimaryButton>
         </template>
     </FormSection>

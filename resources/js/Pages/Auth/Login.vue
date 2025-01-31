@@ -55,7 +55,7 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="Log in" />
+    <Head title="ورود به سیستم" />
     <div class="bg-gradient-to-br from-gray-900 to-gray-800 min-h-screen">
         <img
             class="fixed inset-0 w-full h-full object-cover opacity-10"
@@ -86,7 +86,7 @@ const submit = () => {
 
                     <form @submit.prevent="submit" class="space-y-6">
                         <div>
-                            <InputLabel for="email" value="Email" class="text-white/90 text-lg" />
+                            <InputLabel for="email" value="ایمیل" class="text-white/90 text-lg" />
                             <TextInput
                                 id="email"
                                 v-model="form.email"
@@ -100,7 +100,7 @@ const submit = () => {
                         </div>
 
                         <div>
-                            <InputLabel for="password" value="Password" class="text-white/90 text-lg" />
+                            <InputLabel for="password" value="رمز عبور" class="text-white/90 text-lg" />
                             <TextInput
                                 id="password"
                                 v-model="form.password"
@@ -118,7 +118,7 @@ const submit = () => {
                                 class="flex justify-center min-h-[78px]"
                             ></div>
                             <p v-if="!recaptchaLoaded" class="text-sm text-gray-400 text-center">
-                                Loading reCAPTCHA...
+                                در حال بارگذاری reCAPTCHA...
                             </p>
                             <InputError class="mt-2" :message="form.errors['g-recaptcha-response']" />
                         </div>
@@ -126,7 +126,7 @@ const submit = () => {
                         <div class="flex items-center">
                             <label class="flex items-center">
                                 <Checkbox v-model:checked="form.remember" name="remember" class="bg-gray-700/50 border-gray-700" />
-                                <span class="ms-2 text-sm text-white/70 hover:text-white/90">Remember me</span>
+                                <span class="p-4 me-2 text-sm text-white/70 hover:text-white/90">مرا به خاطر بسپار</span>
                             </label>
                         </div>
 
@@ -134,17 +134,17 @@ const submit = () => {
                             <Link
                                 v-if="canResetPassword"
                                 :href="route('password.request')"
-                                class="text-sm text-white/70 hover:text-white/90 rounded-md transition-all duration-300 hover:scale-105"
+                                class="p-4 text-sm text-white/70 hover:text-white/90 rounded-md transition-all duration-300 hover:scale-105"
                             >
-                                Forgot your password?
+                                رمز عبور خود را فراموش کرده‌اید؟
                             </Link>
 
                             <PrimaryButton
-                                class="ms-4 bg-[#FF2D20] hover:bg-[#FF2D20]/90   hover:scale-105 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300"
+                                class="me-4 bg-[#FF2D20] hover:bg-[#FF2D20]/90 hover:scale-105 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300"
                                 :class="{ 'opacity-25': form.processing }"
                                 :disabled="form.processing"
                             >
-                                Log in
+                                ورود
                             </PrimaryButton>
                         </div>
                     </form>

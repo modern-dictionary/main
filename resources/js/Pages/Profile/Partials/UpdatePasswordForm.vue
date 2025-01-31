@@ -40,16 +40,16 @@ const updatePassword = () => {
 <template>
     <FormSection @submitted="updatePassword" class="p-5 rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 slide-up">
         <template #title>
-            <span class="text-white">Update Password</span>
+            <span class="text-white">به‌روزرسانی رمز عبور</span>
         </template>
 
         <template #description>
-            <span class="text-white">Ensure your account is using a long, random password to stay secure.</span>
+            <span class="text-white">برای حفظ امنیت، اطمینان حاصل کنید که حساب شما از یک رمز عبور طولانی و تصادفی استفاده می‌کند.</span>
         </template>
 
         <template #form>
-            <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="current_password" value="Current Password" class="text-white" />
+            <div class="col-span-6 sm:col-span-4" dir="rtl">
+                <InputLabel for="current_password" value="رمز عبور فعلی" class="text-white" />
                 <TextInput
                     id="current_password"
                     ref="currentPasswordInput"
@@ -61,8 +61,8 @@ const updatePassword = () => {
                 <InputError :message="form.errors.current_password" class="mt-2" />
             </div>
 
-            <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="password" value="New Password" class="text-white" />
+            <div class="col-span-6 sm:col-span-4" dir="rtl">
+                <InputLabel for="password" value="رمز عبور جدید" class="text-white" />
                 <TextInput
                     id="password"
                     ref="passwordInput"
@@ -74,8 +74,8 @@ const updatePassword = () => {
                 <InputError :message="form.errors.password" class="mt-2" />
             </div>
 
-            <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="password_confirmation" value="Confirm Password" class="text-white" />
+            <div class="col-span-6 sm:col-span-4" dir="rtl">
+                <InputLabel for="password_confirmation" value="تایید رمز عبور" class="text-white" />
                 <TextInput
                     id="password_confirmation"
                     v-model="form.password_confirmation"
@@ -88,8 +88,8 @@ const updatePassword = () => {
         </template>
 
         <template #actions>
-            <ActionMessage :on="form.recentlySuccessful" class="me-3 text-white">
-                Saved.
+            <ActionMessage :on="form.recentlySuccessful" class="ms-3 text-white">
+                ذخیره شد.
             </ActionMessage>
 
             <PrimaryButton
@@ -97,7 +97,7 @@ const updatePassword = () => {
                 :disabled="form.processing"
                 class="rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50"
             >
-                <span class="black-white">Save</span>
+                <span class="black-white">ذخیره</span>
             </PrimaryButton>
         </template>
     </FormSection>

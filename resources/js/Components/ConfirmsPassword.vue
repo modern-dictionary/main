@@ -11,15 +11,15 @@ const emit = defineEmits(['confirmed']);
 defineProps({
     title: {
         type: String,
-        default: 'Confirm Password',
+        default: 'تایید رمز عبور',
     },
     content: {
         type: String,
-        default: 'For your security, please confirm your password to continue.',
+        default: 'برای امنیت شما، لطفاً رمز عبور خود را برای ادامه تایید کنید.',
     },
     button: {
         type: String,
-        default: 'Confirm',
+        default: 'تایید',
     },
 });
 
@@ -78,39 +78,41 @@ const closeModal = () => {
 
         <DialogModal :show="confirmingPassword" @close="closeModal">
             <template #title>
-                {{ title }}
+                <span class="text-white">{{ title }}</span>
             </template>
 
             <template #content>
-                {{ content }}
+                <div dir="rtl">
+                    <span class="text-white">{{ content }}</span>
 
-                <div class="mt-4">
-                    <TextInput
-                        ref="passwordInput"
-                        v-model="form.password"
-                        type="password"
-                        class="mt-1 block w-3/4"
-                        placeholder="Password"
-                        autocomplete="current-password"
-                        @keyup.enter="confirmPassword"
-                    />
+                    <div class="mt-4">
+                        <TextInput
+                            ref="passwordInput"
+                            v-model="form.password"
+                            type="password"
+                            class="mt-1 block w-3/4 rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50"
+                            placeholder="رمز عبور"
+                            autocomplete="current-password"
+                            @keyup.enter="confirmPassword"
+                        />
 
-                    <InputError :message="form.error" class="mt-2" />
+                        <InputError :message="form.error" class="mt-2" />
+                    </div>
                 </div>
             </template>
 
             <template #footer>
-                <SecondaryButton @click="closeModal">
-                    Cancel
+                <SecondaryButton @click="closeModal" class="rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50">
+                    <span class="text-white">انصراف</span>
                 </SecondaryButton>
 
                 <PrimaryButton
-                    class="ms-3"
+                    class="ms-3 rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                     @click="confirmPassword"
                 >
-                    {{ button }}
+                    <span class="text-black">{{ button }}</span>
                 </PrimaryButton>
             </template>
         </DialogModal>

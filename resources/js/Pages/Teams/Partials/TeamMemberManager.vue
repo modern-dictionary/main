@@ -97,26 +97,26 @@ const displayableRole = (role) => {
         <div v-if="userPermissions.canAddTeamMembers">
             <SectionBorder />
 
-            <!-- Add Team Member -->
+            <!-- افزودن عضو تیم -->
             <FormSection @submitted="addTeamMember" class="p-5 rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50">
                 <template #title>
-                    <span class="text-white">Add Team Member</span>
+                    <span class="text-white">افزودن عضو تیم</span>
                 </template>
 
                 <template #description>
-                    <span class="text-white">Add a new team member to your team, allowing them to collaborate with you.</span>
+                    <span class="text-white">افزودن یک عضو جدید به تیم شما، به آنها اجازه همکاری با شما را می‌دهد.</span>
                 </template>
 
                 <template #form>
-                    <div class="col-span-6">
+                    <div class="col-span-6" dir="rtl">
                         <div class="max-w-xl text-sm text-white">
-                            Please provide the email address of the person you would like to add to this team.
+                            لطفاً آدرس ایمیل شخصی که می‌خواهید به این تیم اضافه کنید را وارد نمایید.
                         </div>
                     </div>
 
-                    <!-- Member Email -->
-                    <div class="col-span-6 sm:col-span-4">
-                        <InputLabel for="email" value="Email" class="text-white" />
+                    <!-- ایمیل عضو -->
+                    <div class="col-span-6 sm:col-span-4" dir="rtl">
+                        <InputLabel for="email" value="ایمیل" class="text-white" />
                         <TextInput
                             id="email"
                             v-model="addTeamMemberForm.email"
@@ -126,12 +126,12 @@ const displayableRole = (role) => {
                         <InputError :message="addTeamMemberForm.errors.email" class="mt-2" />
                     </div>
 
-                    <!-- Role -->
-                    <div v-if="availableRoles.length > 0" class=" col-span-6 lg:col-span-4">
-                        <InputLabel for="roles" value="Role" class=" text-white" />
+                    <!-- نقش -->
+                    <div v-if="availableRoles.length > 0" class="col-span-6 lg:col-span-4" dir="rtl">
+                        <InputLabel for="roles" value="نقش" class="text-white" />
                         <InputError :message="addTeamMemberForm.errors.role" class="mt-2" />
 
-                        <div class=" relative z-0 mt-1 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer">
+                        <div class="relative z-0 mt-1 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer">
                             <button
                                 v-for="(role, i) in availableRoles"
                                 :key="role.key"
@@ -141,18 +141,18 @@ const displayableRole = (role) => {
                                 @click="addTeamMemberForm.role = role.key"
                             >
                                 <div :class="{'opacity-50': addTeamMemberForm.role && addTeamMemberForm.role != role.key}">
-                                    <!-- Role Name -->
+                                    <!-- نام نقش -->
                                     <div class="flex items-center">
                                         <div class="rounded text-sm text-white" :class="{'font-semibold': addTeamMemberForm.role == role.key}">
                                             {{ role.name }}
                                         </div>
 
-                                        <svg v-if="addTeamMemberForm.role == role.key" class="ms-2 size-5 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <svg v-if="addTeamMemberForm.role == role.key" class="me-2 size-5 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
                                     </div>
 
-                                    <!-- Role Description -->
+                                    <!-- توضیحات نقش -->
                                     <div class="mt-2 text-xs text-white text-start">
                                         {{ role.description }}
                                     </div>
@@ -164,7 +164,7 @@ const displayableRole = (role) => {
 
                 <template #actions>
                     <ActionMessage :on="addTeamMemberForm.recentlySuccessful" class="me-3 text-white">
-                        Added.
+                        اضافه شد.
                     </ActionMessage>
 
                     <PrimaryButton
@@ -172,7 +172,7 @@ const displayableRole = (role) => {
                         :disabled="addTeamMemberForm.processing"
                         class="rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50"
                     >
-                        Add
+                        افزودن
                     </PrimaryButton>
                 </template>
             </FormSection>
@@ -181,36 +181,35 @@ const displayableRole = (role) => {
         <div v-if="team.team_invitations.length > 0 && userPermissions.canAddTeamMembers">
             <SectionBorder />
 
-            <!-- Team Member Invitations -->
+            <!-- دعوت‌نامه‌های اعضای تیم -->
             <ActionSection class="mb-5 p-5 mt-10 sm:mt-0 rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 slide-up">
                 <template #title>
-                    <span class="text-white">Pending Team Invitations</span>
+                    <span class="text-white">دعوت‌نامه‌های در انتظار تیم</span>
                 </template>
 
                 <template #description>
                     <span class="text-white">
-                        These people have been invited to your team and have been sent an invitation email. They may join the team by accepting the email invitation.
+                        این افراد به تیم شما دعوت شده‌اند و ایمیل دعوت‌نامه برای آنها ارسال شده است. آنها می‌توانند با پذیرش دعوت‌نامه به تیم بپیوندند.
                     </span>
                 </template>
 
-                <!-- Pending Team Member Invitation List -->
+                <!-- لیست دعوت‌نامه‌های در انتظار -->
                 <template #content>
-                    <div class="space-y-6">
+                    <div class="space-y-6" dir="rtl">
                         <div v-for="invitation in team.team_invitations"
                             :key="invitation.id"
-                            class="flex items-center justify-between p-4 rounded-lg hover:ring-white/20 hover:shadow-xl  transition duration-300 hover:bg-gray-700/50">
+                            class="flex items-center justify-between p-4 rounded-lg hover:ring-white/20 hover:shadow-xl transition duration-300 hover:bg-gray-700/50">
                             <div class="text-white">
                                 {{ invitation.email }}
                             </div>
 
                             <div class="flex items-center">
-                                <!-- Cancel Team Invitation -->
                                 <button
                                     v-if="userPermissions.canRemoveTeamMembers"
-                                    class="rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300  bg-white p-2 text-black"
+                                    class="rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 bg-white p-2 text-black"
                                     @click="cancelTeamInvitation(invitation)"
                                 >
-                                    Cancel
+                                    لغو
                                 </button>
                             </div>
                         </div>
@@ -222,57 +221,54 @@ const displayableRole = (role) => {
         <div v-if="team.users.length > 0">
             <SectionBorder />
 
-            <!-- Manage Team Members -->
+            <!-- مدیریت اعضای تیم -->
             <ActionSection class="mt-10 sm:mt-0">
                 <template #title>
-                    Team Members
+                    اعضای تیم
                 </template>
 
                 <template #description>
-                    All of the people that are part of this team.
+                    تمام افرادی که عضو این تیم هستند.
                 </template>
 
-                <!-- Team Member List -->
+                <!-- لیست اعضای تیم -->
                 <template #content>
-                    <div class="space-y-6">
+                    <div class="space-y-6" dir="rtl">
                         <div v-for="user in team.users" :key="user.id" class="flex items-center justify-between">
                             <div class="flex items-center">
-                                <img class="size-8 rounded-full object-cover" :src="user.profile_photo_url" :alt="user.name">
-                                <div class="ms-4 dark:text-white">
+                                <div class="me-4 dark:text-white">
                                     {{ user.name }}
                                 </div>
+                                <img class="size-8 rounded-full object-cover" :src="user.profile_photo_url" :alt="user.name">
                             </div>
 
                             <div class="flex items-center">
-                                <!-- Manage Team Member Role -->
                                 <button
                                     v-if="userPermissions.canUpdateTeamMembers && availableRoles.length"
-                                    class="ms-2 text-sm text-gray-400 underline"
+                                    class="me-2 text-sm text-gray-400 underline"
                                     @click="manageRole(user)"
                                 >
                                     {{ displayableRole(user.membership.role) }}
                                 </button>
 
-                                <div v-else-if="availableRoles.length" class="ms-2 text-sm text-gray-400">
+                                <div v-else-if="availableRoles.length" class="me-2 text-sm text-gray-400">
                                     {{ displayableRole(user.membership.role) }}
                                 </div>
 
-                                <!-- Leave Team -->
                                 <button
                                     v-if="$page.props.auth.user.id === user.id"
-                                    class="cursor-pointer ms-6 text-sm text-red-500"
+                                    class="cursor-pointer me-6 text-sm text-red-500"
                                     @click="confirmLeavingTeam"
                                 >
-                                    Leave
+                                    خروج
                                 </button>
 
-                                <!-- Remove Team Member -->
                                 <button
                                     v-else-if="userPermissions.canRemoveTeamMembers"
-                                    class="cursor-pointer ms-6 text-sm text-red-500"
+                                    class="cursor-pointer me-6 text-sm text-red-500"
                                     @click="confirmTeamMemberRemoval(user)"
                                 >
-                                    Remove
+                                    حذف
                                 </button>
                             </div>
                         </div>
@@ -281,14 +277,14 @@ const displayableRole = (role) => {
             </ActionSection>
         </div>
 
-        <!-- Role Management Modal -->
+        <!-- مودال مدیریت نقش -->
         <DialogModal :show="currentlyManagingRole" @close="currentlyManagingRole = false">
             <template #title>
-                Manage Role
+                مدیریت نقش
             </template>
 
             <template #content>
-                <div v-if="managingRoleFor">
+                <div v-if="managingRoleFor" dir="rtl">
                     <div class="relative z-0 mt-1 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer">
                         <button
                             v-for="(role, i) in availableRoles"
@@ -299,18 +295,18 @@ const displayableRole = (role) => {
                             @click="updateRoleForm.role = role.key"
                         >
                             <div :class="{'opacity-50': updateRoleForm.role && updateRoleForm.role !== role.key}">
-                                <!-- Role Name -->
+                                <!-- نام نقش -->
                                 <div class="flex items-center">
                                     <div class="text-sm text-gray-600 dark:text-gray-400" :class="{'font-semibold': updateRoleForm.role === role.key}">
                                         {{ role.name }}
                                     </div>
 
-                                    <svg v-if="updateRoleForm.role == role.key" class="ms-2 size-5 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <svg v-if="updateRoleForm.role == role.key" class="me-2 size-5 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                 </div>
 
-                                <!-- Role Description -->
+                                <!-- توضیحات نقش -->
                                 <div class="mt-2 text-xs text-gray-600 dark:text-gray-400">
                                     {{ role.description }}
                                 </div>
@@ -322,68 +318,68 @@ const displayableRole = (role) => {
 
             <template #footer>
                 <SecondaryButton @click="currentlyManagingRole = false">
-                    Cancel
+                    انصراف
                 </SecondaryButton>
 
                 <PrimaryButton
-                    class="ms-3"
+                    class="me-3"
                     :class="{ 'opacity-25': updateRoleForm.processing }"
                     :disabled="updateRoleForm.processing"
                     @click="updateRole"
                 >
-                    Save
+                    ذخیره
                 </PrimaryButton>
             </template>
         </DialogModal>
 
-        <!-- Leave Team Confirmation Modal -->
+        <!-- مودال تایید خروج از تیم -->
         <ConfirmationModal :show="confirmingLeavingTeam" @close="confirmingLeavingTeam = false">
             <template #title>
-                Leave Team
+                خروج از تیم
             </template>
 
             <template #content>
-                Are you sure you would like to leave this team?
+                آیا مطمئن هستید که می‌خواهید از این تیم خارج شوید؟
             </template>
 
             <template #footer>
                 <SecondaryButton @click="confirmingLeavingTeam = false">
-                    Cancel
+                    انصراف
                 </SecondaryButton>
 
                 <DangerButton
-                    class="ms-3"
+                    class="me-3"
                     :class="{ 'opacity-25': leaveTeamForm.processing }"
                     :disabled="leaveTeamForm.processing"
                     @click="leaveTeam"
                 >
-                    Leave
+                    خروج
                 </DangerButton>
             </template>
         </ConfirmationModal>
 
-        <!-- Remove Team Member Confirmation Modal -->
+        <!-- مودال تایید حذف عضو تیم -->
         <ConfirmationModal :show="teamMemberBeingRemoved" @close="teamMemberBeingRemoved = null">
             <template #title>
-                Remove Team Member
+                حذف عضو تیم
             </template>
 
             <template #content>
-                Are you sure you would like to remove this person from the team?
+                آیا مطمئن هستید که می‌خواهید این شخص را از تیم حذف کنید؟
             </template>
 
             <template #footer>
                 <SecondaryButton @click="teamMemberBeingRemoved = null">
-                    Cancel
+                    انصراف
                 </SecondaryButton>
 
                 <DangerButton
-                    class="ms-3"
+                    class="me-3"
                     :class="{ 'opacity-25': removeTeamMemberForm.processing }"
                     :disabled="removeTeamMemberForm.processing"
                     @click="removeTeamMember"
                 >
-                    Remove
+                    حذف
                 </DangerButton>
             </template>
         </ConfirmationModal>

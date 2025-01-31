@@ -53,7 +53,7 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="Register" />
+    <Head title="ثبت نام" />
 
     <AuthenticationCard>
         <template #logo>
@@ -72,9 +72,9 @@ const submit = () => {
                     </div>
         </template>
 
-        <form @submit.prevent="submit" dir='rtl'>
+        <form @submit.prevent="submit" dir="rtl">
             <div>
-                <InputLabel for="name" value="Name" class="text-white" />
+                <InputLabel for="name" value="نام" class="text-white" />
                 <TextInput
                     id="name"
                     v-model="form.name"
@@ -88,7 +88,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="email" value="Email" class="text-white" />
+                <InputLabel for="email" value="ایمیل" class="text-white" />
                 <TextInput
                     id="email"
                     v-model="form.email"
@@ -101,7 +101,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password" value="Password" class="text-white" />
+                <InputLabel for="password" value="رمز عبور" class="text-white" />
                 <TextInput
                     id="password"
                     v-model="form.password"
@@ -114,7 +114,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password_confirmation" value="Confirm Password" class="text-white" />
+                <InputLabel for="password_confirmation" value="تایید رمز عبور" class="text-white" />
                 <TextInput
                     id="password_confirmation"
                     v-model="form.password_confirmation"
@@ -131,7 +131,7 @@ const submit = () => {
                     class="flex justify-center min-h-[78px]"
                 ></div>
                 <p v-if="!recaptchaLoaded" class="text-sm text-gray-400 text-center">
-                    Loading reCAPTCHA...
+                    در حال بارگذاری ریکپچا...
                 </p>
                 <InputError class="mt-2" :message="form.errors['g-recaptcha-response']" />
             </div>
@@ -141,8 +141,8 @@ const submit = () => {
                     <div class="flex items-center">
                         <Checkbox id="terms" v-model:checked="form.terms" name="terms" required class="text-white" />
 
-                        <div class="ms-2 text-white">
-                            I agree to the <a target="_blank" :href="route('terms.show')" class="underline text-sm text-white hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">Terms of Service</a> and <a target="_blank" :href="route('policy.show')" class="underline text-sm text-white hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">Privacy Policy</a>
+                        <div class="me-2 text-white">
+                            من با <a target="_blank" :href="route('terms.show')" class="underline text-sm text-white hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">شرایط خدمات</a> و <a target="_blank" :href="route('policy.show')" class="underline text-sm text-white hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">سیاست حفظ حریم خصوصی</a> موافقم
                         </div>
                     </div>
                     <InputError class="mt-2" :message="form.errors.terms" />
@@ -150,12 +150,12 @@ const submit = () => {
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <Link :href="route('login')" class="underline text-sm text-white hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
-                    Already registered?
+                <Link :href="route('login')" class="p-4 underline text-sm text-white hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
+                    قبلاً ثبت نام کرده‌اید؟
                 </Link>
 
-                <PrimaryButton class="ms-4 text-white rounded-lg transform transition-all duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 hover:bg-gray-700/50 translate-y-0 hover:-translate-y-1" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Register
+                <PrimaryButton class="me-4 text-white rounded-lg transform transition-all duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 hover:bg-gray-700/50 translate-y-0 hover:-translate-y-1" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                    ثبت نام
                 </PrimaryButton>
             </div>
         </form>

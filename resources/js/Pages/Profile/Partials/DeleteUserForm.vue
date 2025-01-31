@@ -40,34 +40,34 @@ const closeModal = () => {
 <template>
     <ActionSection class="p-5 rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 transform hover:-translate-y-1">
         <template #title>
-            <span class="text-white">Delete Account</span>
+            <span class="text-white">حذف حساب کاربری</span>
         </template>
 
         <template #description>
-            <span class="text-white">Permanently delete your account.</span>
+            <span class="text-white">حذف دائمی حساب کاربری شما.</span>
         </template>
 
         <template #content>
-            <div class="max-w-xl text-sm text-gray-600 dark:text-gray-400">
-                Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.
+            <div class="max-w-xl text-sm text-gray-600 dark:text-gray-400" dir="rtl">
+                پس از حذف حساب کاربری شما، تمام منابع و داده‌های آن به طور دائمی حذف خواهند شد. قبل از حذف حساب کاربری خود، لطفاً هر گونه داده یا اطلاعاتی را که می‌خواهید نگه دارید، دانلود کنید.
             </div>
 
-            <div class="mt-5">
+            <div class="mt-5" dir="rtl">
                 <DangerButton @click="confirmUserDeletion"
                     class="rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 transform hover:-translate-y-1">
-                    Delete Account
+                    حذف حساب کاربری
                 </DangerButton>
             </div>
 
-            <!-- Delete Account Confirmation Modal -->
+            <!-- مودال تایید حذف حساب کاربری -->
             <DialogModal :show="confirmingUserDeletion" @close="closeModal">
                 <template #title>
-                    <span class="text-white">Delete Account</span>
+                    <span class="text-white">حذف حساب کاربری</span>
                 </template>
 
                 <template #content>
-                    <div class="text-white rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 transform hover:-translate-y-1">
-                        Are you sure you want to delete your account? Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.
+                    <div class="text-white rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 transform hover:-translate-y-1" dir="rtl">
+                        آیا مطمئن هستید که می‌خواهید حساب کاربری خود را حذف کنید؟ پس از حذف حساب کاربری شما، تمام منابع و داده‌های آن به طور دائمی حذف خواهند شد. لطفاً برای تایید حذف دائمی حساب کاربری خود، رمز عبور خود را وارد کنید.
 
                         <div class="mt-4">
                             <TextInput
@@ -75,7 +75,7 @@ const closeModal = () => {
                                 v-model="form.password"
                                 type="password"
                                 class="mt-1 block w-3/4 text-white rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 transform hover:-translate-y-1"
-                                placeholder="Password"
+                                placeholder="رمز عبور"
                                 autocomplete="current-password"
                                 @keyup.enter="deleteUser"
                             />
@@ -88,7 +88,7 @@ const closeModal = () => {
                 <template #footer>
                     <SecondaryButton @click="closeModal"
                         class="rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 transform hover:-translate-y-1">
-                        <span class="text-white">Cancel</span>
+                        <span class="text-white">انصراف</span>
                     </SecondaryButton>
 
                     <DangerButton
@@ -97,7 +97,7 @@ const closeModal = () => {
                         :disabled="form.processing"
                         @click="deleteUser"
                     >
-                        <span class="text-white">Delete Account</span>
+                        <span class="text-white">حذف حساب کاربری</span>
                     </DangerButton>
                 </template>
             </DialogModal>

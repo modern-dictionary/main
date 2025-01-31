@@ -15,7 +15,7 @@ use Laravel\Jetstream\Jetstream;
 class JetstreamServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * ثبت هر گونه سرویس برنامه
      */
     public function register(): void
     {
@@ -23,7 +23,7 @@ class JetstreamServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap any application services.
+     * راه‌اندازی هر گونه سرویس برنامه
      */
     public function boot(): void
     {
@@ -39,23 +39,23 @@ class JetstreamServiceProvider extends ServiceProvider
     }
 
     /**
-     * Configure the roles and permissions that are available within the application.
+     * پیکربندی نقش‌ها و مجوزهایی که در برنامه در دسترس هستند
      */
     protected function configurePermissions(): void
     {
         Jetstream::defaultApiTokenPermissions(['read']);
 
-        Jetstream::role('admin', 'Administrator', [
+        Jetstream::role('admin', 'مدیر', [
             'create',
             'read',
             'update',
             'delete',
-        ])->description('Administrator users can perform any action.');
+        ])->description('کاربران مدیر می‌توانند هر عملیاتی را انجام دهند.');
 
-        Jetstream::role('editor', 'Editor', [
+        Jetstream::role('editor', 'ویرایشگر', [
             'read',
             'create',
             'update',
-        ])->description('Editor users have the ability to read, create, and update.');
+        ])->description('کاربران ویرایشگر توانایی خواندن، ایجاد و به‌روزرسانی را دارند.');
     }
 }

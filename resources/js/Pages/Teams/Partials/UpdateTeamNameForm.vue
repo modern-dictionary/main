@@ -25,35 +25,34 @@ const updateTeamName = () => {
 </script>
 
 <template>
-    <FormSection @submitted="updateTeamName" class="p-5  rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50">
+    <FormSection @submitted="updateTeamName" class="p-5 rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50">
         <template #title>
-            <span class="text-white">Team Name</span>
+            <span class="text-white">نام تیم</span>
         </template>
 
         <template #description>
-            <span class="text-white">The team's name and owner information.</span>
+            <span class="text-white">اطلاعات نام تیم و مالک آن.</span>
         </template>
 
         <template #form>
-            <!-- Team Owner Information -->
-            <div class="col-span-6">
-                <InputLabel value="Team Owner" class="text-white" />
+            <!-- اطلاعات مالک تیم -->
+            <div class="col-span-6" dir="rtl">
+                <InputLabel value="مالک تیم" class="text-white" />
 
                 <div class="flex items-center mt-2">
-                    <img class="size-12 rounded-full object-cover" :src="team.owner.profile_photo_url" :alt="team.owner.name">
-
-                    <div class="ms-4 leading-tight">
+                    <div class="me-4 leading-tight">
                         <div class="text-white">{{ team.owner.name }}</div>
                         <div class="text-white text-sm">
                             {{ team.owner.email }}
                         </div>
                     </div>
+                    <img class="size-12 rounded-full object-cover" :src="team.owner.profile_photo_url" :alt="team.owner.name">
                 </div>
             </div>
 
-            <!-- Team Name -->
-            <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="name" value="Team Name" class="text-white" />
+            <!-- نام تیم -->
+            <div class="col-span-6 sm:col-span-4" dir="rtl">
+                <InputLabel for="name" value="نام تیم" class="text-white" />
 
                 <TextInput
                     id="name"
@@ -69,7 +68,7 @@ const updateTeamName = () => {
 
         <template v-if="permissions.canUpdateTeam" #actions>
             <ActionMessage :on="form.recentlySuccessful" class="me-3 text-white">
-                Saved.
+                ذخیره شد.
             </ActionMessage>
 
             <PrimaryButton
@@ -77,7 +76,7 @@ const updateTeamName = () => {
                 :disabled="form.processing"
                 class="rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50"
             >
-                Save
+                ذخیره
             </PrimaryButton>
         </template>
     </FormSection>
