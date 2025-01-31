@@ -152,90 +152,95 @@ const deleteWord = (id) => {
                         </div>
                     </div>
 
+                    <!-- Words List -->
                     <div class="text-white p-4 md:px-10 xl:px-24 2xl:px-4 py-10">
-                        <h1 class="text-xl lg:text-2xl font-bold mb-6">لیست کلمات</h1>
+                      <h1 class="text-xl lg:text-2xl font-bold mb-6">لیست کلمات</h1>
 
-                        <!-- Table Headers for PC -->
-                        <div class="hidden lg:grid lg:grid-cols-5 xl:grid-cols-5 pb-4">
-                            <div class="pr-12 xl:pr-20"><strong>کلمه</strong></div>
-                            <div class="xl:pr-8"><strong>معنی</strong></div>
-                            <div class="xl:pr-8"><strong>تلفظ</strong></div>
-                            <div class="xl:pr-8"><strong>توضیحات</strong></div>
-                            <div class="text-right xl:pr-8">
-                                <strong>دکمه‌های عملیات</strong>
-                            </div>
+                      <!-- Table Headers for PC -->
+                      <div class="hidden lg:grid lg:grid-cols-5 xl:grid-cols-4 pb-4">
+                        <div class="pr-12 xl:pr-20"><strong>کلمه</strong></div>
+                        <div class="xl:pr-8"><strong>معنی</strong></div>
+                        <div class="xl:pr-8"><strong>دسته‌بندی</strong></div>
+                        <div class="text-right xl:pr-8">
+                          <strong>دکمه‌های عملیات</strong>
+                        </div>
+                      </div>
+
+                      <div v-if="words.length > 0" class="space-y-2 border rounded-xl">
+                        <div
+                        v-for="(word, index) in words"
+                        :key="word.id"
+                        class="p-4 xl:p-6 rounded-xl shadow-sm flex flex-col lg:grid lg:grid-cols-4 gap-4 lg:gap-6 xl:gap-8 items-start lg:items-center hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 transform translate-y-0 hover:-translate-y-1 text-white"
+                        >
+                        <!-- Word -->
+                        <div class="flex items-center w-full">
+                          <div class="ml-8 xl:ml-12 text-gray-400">{{ index + 1 }}</div>
+                          <div class="font-medium truncate">{{ word.word }}</div>
                         </div>
 
-                        <div v-if="words.length > 0" class="space-y-2 border rounded-xl">
-                            <div
-                                v-for="(word, index) in words"
-                                :key="word.id"
-                                class="p-4 xl:p-6 rounded-xl shadow-sm flex flex-col lg:grid lg:grid-cols-5 gap-4 lg:gap-6 xl:gap-8 items-start lg:items-center hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 transform translate-y-0 hover:-translate-y-1 text-white"
-                            >
-                                <!-- Word -->
-                                <div class="flex items-center w-full">
-                                    <div class="ml-8 xl:ml-12 text-gray-400">{{ index + 1 }}</div>
-                                    <div class="font-medium truncate">{{ word.word }}</div>
-                                </div>
-
-                                <!-- Mobile Labels and Content -->
-                                <div class="grid grid-cols-1 gap-2 w-full lg:hidden">
-                                    <div class="flex flex-col">
-                                        <span class="text-gray-400 text-sm">معنی:</span>
-                                        <span class="truncate">{{ word.meaning }}</span>
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <span class="text-gray-400 text-sm">تلفظ:</span>
-                                        <span class="truncate">{{ word.pronunciation }}</span>
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <span class="text-gray-400 text-sm">توضیحات:</span>
-                                        <span class="line-clamp-2">{{ word.description }}</span>
-                                    </div>
-                                </div>
-
-                                <!-- Desktop Content (hidden on mobile) -->
-                                <div class="hidden lg:block truncate xl:pr-4">
-                                    {{ word.meaning }}
-                                </div>
-                                <div class="hidden lg:block truncate xl:pr-4">
-                                    {{ word.pronunciation }}
-                                </div>
-                                <div class="hidden ml-20 lg:block line-clamp-2 xl:pl-10">
-                                    {{ word.description }}
-                                </div>
-
-                                <!-- Action Buttons -->
-                                <div class="flex justify-end gap-3 xl:gap-2 w-full">
-                                    <button
-                                        @click="viewWord(word)"
-                                        class="px-4 xl:px-5 py-2 rounded bg-blue-200 text-blue-700 hover:bg-blue-300 transition-all duration-200 hover:scale-105"
-                                    >
-                                        مشاهده
-                                    </button>
-
-                                    <button
-                                        @click="editWord(word)"
-                                        class="px-4 xl:px-5 py-2 rounded bg-blue-500 text-white hover:bg-blue-600 transition-all duration-200 hover:scale-105"
-                                    >
-                                        ویرایش
-                                    </button>
-
-                                    <button
-                                        @click="deleteWord(word.id)"
-                                        class="px-4 xl:px-5 py-2 rounded bg-red-500 text-white hover:bg-red-600 transition-all duration-200 hover:scale-105"
-                                    >
-                                        حذف
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <p v-else class="text-gray-600 text-center py-8 text-lg">هیچ کلمه ای یافت نشد</p>
-                    </div>
-
+                        <!-- Mobile Labels and Content -->
+                        <div class="grid grid-cols-1 gap-2 w-full lg:hidden">
+                <div class="flex flex-col">
+                    <span class="text-gray-400 text-sm">معنی:</span>
+                    <span class="truncate">{{ word.meaning }}</span>
                 </div>
+                <div class="flex flex-col">
+                    <span class="text-gray-400 text-sm">دسته‌بندی‌ها:</span>
+                    <span class="truncate">
+                        <span v-for="(category, i) in word.categories.slice(0, 3)" :key="i"
+                              class="bg-gray-500 px-2 py-1 text-sm rounded-lg mx-1">
+                            {{ category.name }}
+                        </span>
+                    </span>
+                </div>
+              </div>
+
+              <!-- Desktop Content -->
+              <div class="hidden lg:block truncate xl:pr-4">
+                  {{ word.meaning }}
+                </div>
+                <div class="flex justify-start gap-3 xl:gap-2 w-full ml-auto">
+                  <span
+                  v-for="(category, i) in word.categories.slice(0, 2)"
+                  :key="category.id"
+                  class="bg-gray-600 text-white text-xs px-3 py-1 rounded-xl"
+                  >
+                  {{ category.name }}
+                </span>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="flex justify-end gap-3 xl:gap-2 w-full">
+                  <button
+                      @click="viewWord(word)"
+                      class="px-4 xl:px-5 py-2 rounded bg-blue-200 text-blue-700 hover:bg-blue-300 transition-all duration-200 hover:scale-105"
+                      >
+                      مشاهده
+                    </button>
+
+                    <button
+                      @click="editWord(word)"
+                      class="px-4 xl:px-5 py-2 rounded bg-blue-500 text-white hover:bg-blue-600 transition-all duration-200 hover:scale-105"
+                      >
+                      ویرایش
+                    </button>
+
+                    <button
+                      @click="deleteWord(word.id)"
+                      class="px-4 xl:px-5 py-2 rounded bg-red-500 text-white hover:bg-red-600 transition-all duration-200 hover:scale-105"
+                      >
+                      حذف
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <p v-else class="text-gray-600 text-center py-8 text-lg">هیچ کلمه‌ای یافت نشد</p>
             </div>
+
+
+          </div>
         </div>
+      </div>
         <!-- Show Modal -->
         <div
             v-if="showModal"
@@ -276,6 +281,21 @@ const deleteWord = (id) => {
                             {{ selectedWord.description }}
                         </div>
                     </div>
+
+                    <!-- Categories -->
+                    <div class="flex flex-wrap gap-2 mt-3">
+                      <strong class="text-white text-lg sm:col-span-1 ml-16">توضیحات:</strong>
+                      <span
+                      v-for="category in selectedWord.categories"
+                      :key="categoryId"
+                      class="bg-gray-600 text-white text-xs px-3 py-1 rounded-full flex items-center"
+                      >
+                      {{ category.name  }}
+                      <button type="button" @click="removeCategory(categoryId)" class="ml-2 text-red-400">
+                        ×
+                      </button>
+                    </span>
+                  </div>
                 </div>
 
                 <!-- Action Buttons -->
@@ -346,6 +366,35 @@ const deleteWord = (id) => {
                             class="mt-1 block dark:bg-gray-800 w-full border rounded p-2"
                         />
                     </div>
+
+                    <!-- انتخاب دسته‌بندی‌ها -->
+                    <div class="col-span-2">
+                        <label for="add-categories">دسته‌بندی‌ها</label>
+                        <select
+                            id="add-categories"
+                            v-model="newWord.selectedCategories"
+                            multiple
+                            class="mt-1 block dark:bg-gray-800 w-full border rounded p-2"
+                        >
+                            <option v-for="category in categories" :key="category.id" :value="category.id">
+                                {{ category.name }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="flex flex-wrap gap-2 mt-3">
+                      <span
+                      v-for="categoryId in newWord.selectedCategories"
+                      :key="categoryId"
+                      class="bg-gray-600 text-white text-xs px-3 py-1 rounded-full flex items-center"
+                      >
+                      {{ getCategoryName(categoryId) }}
+                      <button type="button" @click="removeCategory(categoryId)" class="ml-2 text-red-400">
+                        ×
+                      </button>
+                    </span>
+                  </div>
+
                     <div class="col-span-2 flex justify-start">
                         <button
                             type="submit"
@@ -420,6 +469,37 @@ const deleteWord = (id) => {
                                 class="w-full px-4 py-2 rounded-lg border border-gray-700 bg-gray-800/50 text-white focus:outline-none focus:ring-2 focus:ring-[#FF2D20] transition-all duration-200"
                             />
                         </div>
+                        <!-- Category Selection -->
+                        <div class="md:col-span-2">
+                          <label class="block font-medium text-white mb-2">دسته‌بندی‌ها:</label>
+
+                          <!-- انتخاب چندگانه از دسته‌بندی‌های موجود -->
+                          <select
+                          v-model="editForm.selectedCategories"
+                          multiple
+                          class="w-full px-4 py-2 rounded-lg border border-gray-700 bg-gray-800/50 text-white focus:outline-none focus:ring-2 focus:ring-[#FF2D20] transition-all duration-200"
+                          >
+                          <option v-for="category in categories" :key="category.id" :value="category.id">
+                            {{ category.name }}
+                          </option>
+                        </select>
+
+                        <!-- نمایش دسته‌بندی‌های انتخاب‌شده -->
+                        <div class="flex flex-wrap gap-2 mt-3">
+                          <span
+                          v-for="categoryId in editForm.selectedCategories"
+                          :key="categoryId"
+                          class="bg-gray-600 text-white text-xs px-3 py-1 rounded-full flex items-center"
+                          >
+                          {{ getCategoryName(categoryId) }}
+                          <button type="button" @click="removeCategory(categoryId)" class="ml-2 text-red-400">
+                            ×
+                          </button>
+                        </span>
+                      </div>
+                    </div>
+
+
                     </div>
 
                     <!-- Action Buttons -->
@@ -453,9 +533,14 @@ export default {
             type: Array,
             required: true,
         },
+        categories: {
+          type: Array,
+          required: true,
+        },
     },
     data() {
         return {
+            allCategories: [],
             showSearchModal: false,
             searchTerm: "",
             showAddModal: false,
@@ -464,6 +549,7 @@ export default {
                 meaning: "",
                 pronunciation: "",
                 description: "",
+                selectedCategories: [],
             },
             showEditModal: false,
             editForm: {
@@ -472,6 +558,7 @@ export default {
                 meaning: "",
                 pronunciation: "",
                 description: "",
+                selectedCategories: [],
             },
             showModal: false,
             selectedWord: {},
@@ -485,21 +572,18 @@ export default {
             this.showSearchModal = false;
             this.searchTerm = ""; // پاک کردن عبارت جستجو هنگام بستن ماژول
         },
-        // handleClickOutside(event) {
-        //   if (
-        //     this.showSearchModal &&
-        //     !event.target.closest(".absolute") &&
-        //     !event.target.closest("input")
-        //   ) {
-        //     this.closeSearchModal();
-        //   }
-        // },
         addWord() {
-            axios.post(route("words.store"), this.newWord).then((response) => {
-                this.words.push(response.data);
-                this.closeAddModal();
-                location.reload();
-            });
+          axios.post(route("words.store"), {
+            word: this.newWord.word,
+            meaning: this.newWord.meaning,
+            pronunciation: this.newWord.pronunciation,
+            description: this.newWord.description,
+            categories: this.newWord.selectedCategories, // ارسال دسته‌بندی‌ها
+          }).then((response) => {
+            this.words.push(response.data.word); // کلمه جدید را به لیست اضافه کن
+            this.closeAddModal();
+            location.reload();
+          });
         },
         closeAddModal() {
             this.showAddModal = false;
@@ -511,8 +595,11 @@ export default {
             };
         },
         viewWord(word) {
-            this.selectedWord = word;
-            this.showModal = true;
+          this.selectedWord = {
+            ...word,
+            categories: word.categories || [] // مقداردهی پیش‌فرض برای جلوگیری از خطا
+          };
+          this.showModal = true;
         },
         closeModal() {
             this.showSearchModal = false;
@@ -530,37 +617,63 @@ export default {
         },
         editWord(word) {
             this.showModal = false;
-            this.editForm = { ...word }; // کپی مشخصات کلمه برای ویرایش
+            this.editForm = {
+                id: word.id,
+                word: word.word,
+                meaning: word.meaning,
+                pronunciation: word.pronunciation,
+                description: word.description,
+                selectedCategories: word.categories.map(cat => cat.id),
+              };
+              this.showEditModal = true;
             this.showEditModal = true;
         },
         closeEditModal() {
             this.showEditModal = false;
         },
-        async saveWord() {
-            // try {
-            // ارسال درخواست PUT به روت update
-            axios.put(route("words.update", this.editForm.id), this.editForm).then((response) => {
-              location.reload();
-              const wordIndex = this.words.findIndex(
-                  (word) => word.id === this.editForm.id
-              );
-              if (wordIndex !== -1) {
-                  this.$set(this.words, wordIndex, { ...this.editForm });
-              }
-              this.closeEditModal();
-              location.reload();
-            });
-
-            // } catch (error) {
-            //   console.error("Error updating word:", error);
-            // }
+        getCategoryName(categoryId) {
+          const category = this.categories.find(cat => cat.id === categoryId);
+          return category ? category.name : 'نامشخص';
         },
+
+        removeCategory(categoryId) {
+          this.editForm.selectedCategories = this.editForm.selectedCategories.filter(id => id !== categoryId);
+        },
+
+        openEditModal(word) {
+          this.editForm = {
+              word: word.word,
+              meaning: word.meaning,
+              pronunciation: word.pronunciation,
+              description: word.description,
+              selectedCategories: word.categories.map(cat => cat.id),
+            };
+            this.showEditModal = true;
+          },
+          async saveWord() {
+              axios.put(route("words.update", this.editForm.id), {
+                word: this.editForm.word,
+                meaning: this.editForm.meaning,
+                pronunciation: this.editForm.pronunciation,
+                description: this.editForm.description,
+                selectedCategories: this.editForm.selectedCategories,
+              }).then((response) => {
+                location.reload();
+                const wordIndex = this.words.findIndex(word => word.id === this.editForm.id);
+                if (wordIndex !== -1) {
+                  this.words[wordIndex] = response.data.word;  // اینجا دیتا به‌روز می‌شود
+                }
+                location.reload();
+                this.closeModal();
+              });
+          },
+
     },
     computed: {
         // فیلتر کلمات بر اساس کلمه یا معنی
         filteredWords() {
             const term = this.searchTerm.trim().toLowerCase();
-            if (!term) return [];
+            if (!term) return this.words;
             return this.words.filter(
                 (word) =>
                     word.word.toLowerCase().includes(term) ||

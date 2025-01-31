@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Word;
+use App\Models\Category;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,9 +25,12 @@ class WordController extends Controller
 
     public function userWords()
     {
-        $words = Auth::user()->words;
-        return Inertia::render('Words/Index', [
-            'words' => $words,
+      $words = Auth::user()->words()->with('categories')->get();
+      $categories = Category::all();
+
+      return Inertia::render('Words/Index', [
+          'words' => $words,
+          'categories' => $categories,
         ]);
     }
 
@@ -66,6 +70,10 @@ class WordController extends Controller
             'user_id' => Auth::id(),
         ]);
 
+        if (!empty($request->categories) && is_array($request->categories)) {
+          $word->categories()->sync($request->categories);
+        }
+
         return response()->json(['message' => 'کلمه با موفقیت ایجاد شد', 'word' => $word], 201);
     }
 
@@ -94,6 +102,7 @@ class WordController extends Controller
 
         $word = Word::findOrFail($id);
         $word->update($request->all());
+        $word->categories()->sync($request->selectedCategories);
 
         return response()->json(['message' => 'کلمه با موفقیت به‌روزرسانی شد', 'word' => $word], 200);
     }
