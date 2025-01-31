@@ -145,6 +145,7 @@ const deleteCategory = (id) => {
                     </div>
                 </div>
 
+                    <!-- Categories List -->
                     <div class="text-white p-4 md:px-10 xl:px-24 2xl:px-4 py-10">
                         <h1 class="text-xl lg:text-2xl font-bold mb-6">لیست دسته بندی</h1>
 
@@ -159,6 +160,7 @@ const deleteCategory = (id) => {
                                     <div class="ml-4 text-gray-400">{{ index + 1 }}</div>
                                     <div class="font-medium truncate">{{ category.name }}</div>
                                 </div>
+                                <div><strong>{{ category.words_count }}</strong></div>
 
                                 <!-- دکمه‌های عملیات -->
                                 <div class="flex gap-2">
@@ -219,6 +221,25 @@ const deleteCategory = (id) => {
                         <div class="text-gray-300 sm:col-span-5 break-categorys whitespace-pre-wrap min-h-[100px] bg-gray-800/50 p-4 rounded-lg border border-gray-700">
                             {{ selectedCategory.description }}
                         </div>
+                    </div>
+
+                    <!-- Category Words -->
+                    <div v-if="selectedCategory.words && selectedCategory.words.length > 0" class="mt-6">
+                      <h3 class="text-lg font-bold text-white border-b border-gray-700 pb-2">لیست کلمات</h3>
+                      <ul v-if="selectedCategory.words && selectedCategory.words.length > 0" class="mt-4 space-y-2">
+                        <li v-for="(word, index) in selectedCategory.words" :key="word.id" class="text-gray-300 p-2 border-b border-gray-600">
+                          <div class="p-4 rounded shadow-sm grid grid-cols-3 items-center">
+                            <div class="flex">
+                              <div class="mx-5">{{ index + 1 }}</div>
+                              <div class="mx-5">{{ word.word }}</div>
+                            </div>
+
+                            <div class="">{{ word.meaning }}</div>
+                            <div class="">{{ word.pronunciation }}</div>
+                          </div>
+                        </li>
+                      </ul>
+                      <p v-else class="text-gray-400 mt-4">هنوز کلمه‌ای در این دسته‌بندی ثبت نشده است.</p>
                     </div>
                 </div>
 
@@ -414,8 +435,13 @@ export default {
             };
         },
         viewCategory(category) {
-            this.selectedCategory = category;
+          axios.get(`/categories/${category.id}/words`).then(response => {
+            this.selectedCategory = response.data.category;
             this.showModal = true;
+          })
+          .catch(error => {
+            console.error("Error fetching words:", error);
+          });
         },
         closeModal() {
             this.showSearchModal = false;
