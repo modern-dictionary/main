@@ -26,7 +26,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     // Category Management Routes
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
     Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
-    Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show'); // Show specific category
+    Route::get('/categories/{id}/words', [CategoryController::class, 'getCategoryWords']); //get the words of a category
     Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update'); // Update category
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy'); // Delete category
 });

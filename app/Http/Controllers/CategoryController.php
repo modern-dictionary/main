@@ -11,10 +11,16 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::withCount('words')->get();
         return Inertia::render('Words/categories', [
             'categories' => $categories,
         ]);
+    }
+
+    public function getCategoryWords($id)
+    {
+      $category = Category::with('words')->findOrFail($id);
+      return response()->json(['category' => $category]);
     }
 
     /**
