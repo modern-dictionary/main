@@ -7,6 +7,8 @@ use App\Models\Category;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
 
 class WordController extends Controller
 {
@@ -46,7 +48,9 @@ class WordController extends Controller
         return $request->validate([
             'word' => 'required|string|max:255',
             'meaning' => 'required|string|max:1000',
-            'pronunciation' => 'nullable|string|max:255',
+            'pronunciation' => 'required|string|max:1000',
+            'voice' => 'nullable|mimes:mp3,wav',
+            'image' => 'nullable|mimes:jpg,jpeg,png',
             'description' => 'nullable|string|max:2000',
         ]);
     }
@@ -62,10 +66,24 @@ class WordController extends Controller
     {
         $validated = $this->validateWord($request);
 
+        if ($request->hasFile('voice')) {
+            $voicePath = $request->file('voice')->store('voices', 'public');
+        } else {
+            $voicePath = null;
+        }
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+        } else {
+            $imagePath = null;
+        }
+
         $word = Word::create([
             'word' => $validated['word'],
             'meaning' => $validated['meaning'],
             'pronunciation' => $validated['pronunciation'] ?? null,
+            'voice' => $voicePath,
+            'image' => $imagePath,
             'description' => $validated['description'] ?? null,
             'user_id' => Auth::id(),
         ]);
@@ -94,14 +112,39 @@ class WordController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'word' => 'required|string|max:255',
-            'meaning' => 'required|string|max:1000',
-            'pronunciation' => 'nullable|string|max:255',
-            'description' => 'nullable|string|max:2000',
+          'word' => 'required|string|max:255',
+          'meaning' => 'required|string|max:1000',
+          'meaning' => 'required|string|max:1000',
+          'voice' => 'nullable|mimes:mp3,wav',
+          'image' => 'nullable|mimes:jpg,jpeg,png',
+          'description' => 'nullable|string|max:2000',
         ]);
 
         $word = Word::findOrFail($id);
-        $word->update($request->all());
+
+        // Prepare data for updating
+        $data = $request->only(['word', 'meaning', 'description']);
+
+        // Handle voice file upload if provided
+        if ($request->hasFile('voice')) {
+          // Delete old voice file if exists
+          if ($word->voice) {
+            Storage::disk('public')->delete($word->voice);
+          }
+          $data['voice'] = $request->file('voice')->store('voices', 'public');
+        }
+
+        // Handle image file upload if provided
+        if ($request->hasFile('image')) {
+          // Delete old image file if exists
+          if ($word->image) {
+            Storage::disk('public')->delete($word->image);
+          }
+          $data['image'] = $request->file('image')->store('images', 'public');
+        }
+
+
+        $word->update($data);
         $word->categories()->sync($request->selectedCategories);
 
         return response()->json(['message' => 'کلمه با موفقیت به‌روزرسانی شد', 'word' => $word], 200);

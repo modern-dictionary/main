@@ -367,6 +367,32 @@ const deleteWord = (id) => {
                         />
                     </div>
 
+                    <!-- آپلود صوت -->
+                    <div>
+                      <label for="add-voice">فایل صوتی</label>
+                      <input
+                      id="add-voice"
+                      type="file"
+                      accept="audio/*"
+                      @change="handleVoiceUpload"
+                      class="mt-1 block dark:bg-gray-800 w-full border rounded p-2"
+                      />
+                      <p v-if="newWord.voice" class="text-sm text-green-400">فایل انتخاب شده: {{ newWord.voice.name }}</p>
+                    </div>
+
+                    <!-- آپلود تصویر -->
+                    <div>
+                      <label for="add-image">تصویر</label>
+                      <input
+                      id="add-image"
+                      type="file"
+                      accept="image/*"
+                      @change="handleImageUpload"
+                      class="mt-1 block dark:bg-gray-800 w-full border rounded p-2"
+                      />
+                      <p v-if="newWord.image" class="text-sm text-green-400">فایل انتخاب شده: {{ newWord.image.name }}</p>
+                    </div>
+
                     <!-- انتخاب دسته‌بندی‌ها -->
                     <div class="col-span-2">
                         <label for="add-categories">دسته‌بندی‌ها</label>
@@ -549,6 +575,8 @@ export default {
                 meaning: "",
                 pronunciation: "",
                 description: "",
+                voice: "",
+                image: "",
                 selectedCategories: [],
             },
             showEditModal: false,
@@ -558,6 +586,8 @@ export default {
                 meaning: "",
                 pronunciation: "",
                 description: "",
+                voice: "",
+                image: "",
                 selectedCategories: [],
             },
             showModal: false,
@@ -578,6 +608,8 @@ export default {
             meaning: this.newWord.meaning,
             pronunciation: this.newWord.pronunciation,
             description: this.newWord.description,
+            voice: this.newWord.voice,
+            image: this.newWord.image,
             categories: this.newWord.selectedCategories, // ارسال دسته‌بندی‌ها
           }).then((response) => {
             this.words.push(response.data.word); // کلمه جدید را به لیست اضافه کن
@@ -592,6 +624,8 @@ export default {
                 meaning: "",
                 pronunciation: "",
                 description: "",
+                voice: "",
+                image: "",
             };
         },
         viewWord(word) {
@@ -613,6 +647,8 @@ export default {
                 meaning: "",
                 pronunciation: "",
                 description: "",
+                voice: "",
+                image: "",
             };
         },
         editWord(word) {
@@ -623,6 +659,8 @@ export default {
                 meaning: word.meaning,
                 pronunciation: word.pronunciation,
                 description: word.description,
+                voice: word.voice,
+                image: word.image,
                 selectedCategories: word.categories.map(cat => cat.id),
               };
               this.showEditModal = true;
@@ -639,23 +677,14 @@ export default {
         removeCategory(categoryId) {
           this.editForm.selectedCategories = this.editForm.selectedCategories.filter(id => id !== categoryId);
         },
-
-        openEditModal(word) {
-          this.editForm = {
-              word: word.word,
-              meaning: word.meaning,
-              pronunciation: word.pronunciation,
-              description: word.description,
-              selectedCategories: word.categories.map(cat => cat.id),
-            };
-            this.showEditModal = true;
-          },
           async saveWord() {
               axios.put(route("words.update", this.editForm.id), {
                 word: this.editForm.word,
                 meaning: this.editForm.meaning,
                 pronunciation: this.editForm.pronunciation,
                 description: this.editForm.description,
+                voice: word.voice,
+                image: word.image,
                 selectedCategories: this.editForm.selectedCategories,
               }).then((response) => {
                 location.reload();
