@@ -10,17 +10,6 @@ import TextInput from "@/Components/TextInput.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import axios from "axios";
 
-const form = useForm({
-    word: "",
-    meaning: "",
-    pronunciation: "",
-    description: "",
-});
-
-const submit = () => {
-    form.post(route("words.store"));
-};
-
 const deleteWord = (id) => {
     if (confirm("از حذف کلمه مورد نظر اطمینان دارید؟")) {
         axios.delete(route("words.destroy", id))
@@ -107,7 +96,7 @@ const deleteWord = (id) => {
                                     <div
                                         v-for="(word, index) in filteredWords"
                                         :key="word.id"
-                                        class="p-4 rounded shadow-sm grid grid-cols-5 items-center"
+                                        class="p-4 rounded shadow-sm grid grid-cols-4 items-center"
                                     >
                                         <div class="flex items-center">
                                             <div class="ml-5">
@@ -117,9 +106,6 @@ const deleteWord = (id) => {
                                         </div>
                                         <div>{{ word.meaning }}</div>
                                         <div>{{ word.pronunciation }}</div>
-                                        <div class="line-clamp-2 xl:pr-4">
-                                            {{ word.description }}
-                                        </div>
                                         <!-- دکمه‌های عملیات -->
                                         <div class="flex justify-end ">
                                             <button
@@ -156,16 +142,6 @@ const deleteWord = (id) => {
                     <div class="text-white p-4 md:px-10 xl:px-24 2xl:px-4 py-10">
                       <h1 class="text-xl lg:text-2xl font-bold mb-6">لیست کلمات</h1>
 
-                      <!-- Table Headers for PC -->
-                      <div class="hidden lg:grid lg:grid-cols-5 xl:grid-cols-4 pb-4">
-                        <div class="pr-12 xl:pr-20"><strong>کلمه</strong></div>
-                        <div class="xl:pr-8"><strong>معنی</strong></div>
-                        <div class="xl:pr-8"><strong>دسته‌بندی</strong></div>
-                        <div class="text-right xl:pr-8">
-                          <strong>دکمه‌های عملیات</strong>
-                        </div>
-                      </div>
-
                       <div v-if="words.length > 0" class="space-y-2 border rounded-xl">
                         <div
                         v-for="(word, index) in words"
@@ -174,7 +150,10 @@ const deleteWord = (id) => {
                         >
                         <!-- Word -->
                         <div class="flex items-center w-full">
-                          <div class="ml-8 xl:ml-12 text-gray-400">{{ index + 1 }}</div>
+                          <div class="ml-4 xl:ml-12 text-gray-400">{{ index + 1 }}</div>
+                          <div class="ml-4 xl:ml-12">
+                            <img :src="`/storage/${word.image}`" alt="Word Image" class="w-12 h-12 object-cover rounded-full">
+                          </div>
                           <div class="font-medium truncate">{{ word.word }}</div>
                         </div>
 
@@ -187,7 +166,7 @@ const deleteWord = (id) => {
                 <div class="flex flex-col">
                     <span class="text-gray-400 text-sm">دسته‌بندی‌ها:</span>
                     <span class="truncate">
-                        <span v-for="(category, i) in word.categories.slice(0, 3)" :key="i"
+                        <span v-for="(category, i) in (word.categories ? word.categories.slice(0, 3) : [])" :key="i"
                               class="bg-gray-500 px-2 py-1 text-sm rounded-lg mx-1">
                             {{ category.name }}
                         </span>
@@ -201,7 +180,7 @@ const deleteWord = (id) => {
                 </div>
                 <div class="flex justify-start gap-3 xl:gap-2 w-full ml-auto">
                   <span
-                  v-for="(category, i) in word.categories.slice(0, 2)"
+                  v-for="(category, i) in (word.categories ? word.categories.slice(0, 2) : [])"
                   :key="category.id"
                   class="bg-gray-600 text-white text-xs px-3 py-1 rounded-xl"
                   >
@@ -280,6 +259,20 @@ const deleteWord = (id) => {
                         <div class="text-gray-300 sm:col-span-5 break-words whitespace-pre-wrap min-h-[100px] bg-gray-800/50 p-4 rounded-lg border border-gray-700">
                             {{ selectedWord.description }}
                         </div>
+                    </div>
+
+                    <div v-if="selectedWord.voice" class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">
+                      <strong class="text-white text-lg sm:col-span-1">وویس:</strong>
+                      <audio controls class="sm:col-span-5">
+                        <source :src="`/storage/${selectedWord.voice}`" type="audio/mp3" />
+                        Your browser does not support the audio element.
+                      </audio>
+                    </div>
+
+                    <!-- Image -->
+                    <div v-if="selectedWord.image" class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">
+                      <strong class="text-white text-lg sm:col-span-1">تصویر:</strong>
+                      <img :src="`/storage/${selectedWord.image}`" alt="Word Image" class="sm:col-span-5 rounded-lg shadow-md" />
                     </div>
 
                     <!-- Categories -->
@@ -378,20 +371,20 @@ const deleteWord = (id) => {
                       class="mt-1 block dark:bg-gray-800 w-full border rounded p-2"
                       />
                       <p v-if="newWord.voice" class="text-sm text-green-400">فایل انتخاب شده: {{ newWord.voice.name }}</p>
-                    </div>
+                      </div>
 
-                    <!-- آپلود تصویر -->
-                    <div>
-                      <label for="add-image">تصویر</label>
-                      <input
-                      id="add-image"
-                      type="file"
-                      accept="image/*"
-                      @change="handleImageUpload"
-                      class="mt-1 block dark:bg-gray-800 w-full border rounded p-2"
-                      />
-                      <p v-if="newWord.image" class="text-sm text-green-400">فایل انتخاب شده: {{ newWord.image.name }}</p>
-                    </div>
+                      <!-- آپلود تصویر -->
+                      <div>
+                        <label for="add-image">تصویر</label>
+                        <input
+                        id="add-image"
+                        type="file"
+                        accept="image/*"
+                        @change="handleImageUpload"
+                        class="mt-1 block dark:bg-gray-800 w-full border rounded p-2"
+                        />
+                        <p v-if="newWord.image" class="text-sm text-green-400">فایل انتخاب شده: {{ newWord.image.name }}</p>
+                      </div>
 
                     <!-- انتخاب دسته‌بندی‌ها -->
                     <div class="col-span-2">
@@ -495,6 +488,34 @@ const deleteWord = (id) => {
                                 class="w-full px-4 py-2 rounded-lg border border-gray-700 bg-gray-800/50 text-white focus:outline-none focus:ring-2 focus:ring-[#FF2D20] transition-all duration-200"
                             />
                         </div>
+
+                        <!-- آپلود صوت (Edit Mode) -->
+                        <div>
+                          <label class="block font-medium text-white mb-2" for="edit-voice">فایل صوتی</label>
+                          <input
+                            id="edit-voice"
+                            type="file"
+                            accept="audio/*"
+                            @change="handleVoiceUpload"
+                            class="w-full px-4 py-2 rounded-lg border border-gray-700 bg-gray-800/50 text-white focus:outline-none focus:ring-2 focus:ring-[#FF2D20] transition-all duration-200"
+                          />
+                          <p v-if="editForm.voice" class="text-sm text-green-400">فایل انتخاب شده: {{ editForm.word }}</p>
+                        </div>
+
+                        <!-- آپلود تصویر (Edit Mode) -->
+                        <div>
+                          <label class="block font-medium text-white mb-2" for="edit-image">تصویر</label>
+                          <input
+                            id="edit-image"
+                            type="file"
+                            accept="image/*"
+                            @change="handleImageUpload"
+                            class="w-full px-4 py-2 rounded-lg border border-gray-700 bg-gray-800/50 text-white focus:outline-none focus:ring-2 focus:ring-[#FF2D20] transition-all duration-200"
+                          />
+                          <p v-if="editForm.image" class="text-sm text-green-400">فایل انتخاب شده: {{ editForm.word }}</p>
+                        </div>
+
+
                         <!-- Category Selection -->
                         <div class="md:col-span-2">
                           <label class="block font-medium text-white mb-2">دسته‌بندی‌ها:</label>
@@ -575,8 +596,8 @@ export default {
                 meaning: "",
                 pronunciation: "",
                 description: "",
-                voice: "",
-                image: "",
+                voice: null,
+                image: null,
                 selectedCategories: [],
             },
             showEditModal: false,
@@ -586,8 +607,8 @@ export default {
                 meaning: "",
                 pronunciation: "",
                 description: "",
-                voice: "",
-                image: "",
+                voice: null,
+                image: null,
                 selectedCategories: [],
             },
             showModal: false,
@@ -602,21 +623,53 @@ export default {
             this.showSearchModal = false;
             this.searchTerm = ""; // پاک کردن عبارت جستجو هنگام بستن ماژول
         },
+        handleVoiceUpload(event) {
+          const file = event.target.files[0];
+          if (file) {
+            this.newWord.voice = file;
+            this.editForm.voice = file;
+          }
+        },
+
+        handleImageUpload(event) {
+          const file = event.target.files[0];
+          if (file) {
+            this.newWord.image = file;
+            this.editForm.image = file;
+          }
+        },
         addWord() {
-          axios.post(route("words.store"), {
-            word: this.newWord.word,
-            meaning: this.newWord.meaning,
-            pronunciation: this.newWord.pronunciation,
-            description: this.newWord.description,
-            voice: this.newWord.voice,
-            image: this.newWord.image,
-            categories: this.newWord.selectedCategories, // ارسال دسته‌بندی‌ها
-          }).then((response) => {
-            this.words.push(response.data.word); // کلمه جدید را به لیست اضافه کن
-            this.closeAddModal();
+          const formData = new FormData();
+          formData.append('word', this.newWord.word);
+          formData.append('meaning', this.newWord.meaning);
+          formData.append('pronunciation', this.newWord.pronunciation);
+          formData.append('description', this.newWord.description);
+
+          if (this.newWord.voice) {
+            formData.append('voice', this.newWord.voice);
+          }
+          if (this.newWord.image) {
+            formData.append('image', this.newWord.image);
+          }
+
+          // ارسال دسته‌بندی‌ها به صورت آرایه
+          formData.append('categories', JSON.stringify(this.newWord.selectedCategories));
+
+          axios.post('/words', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          })
+          .then(response => {
+            console.log('کلمه با موفقیت ذخیره شد', response.data);
+            this.showAddModal = false;
             location.reload();
+          })
+          .catch(error => {
+            console.error('خطا در ذخیره‌سازی:', error.response.data);
           });
         },
+
         closeAddModal() {
             this.showAddModal = false;
             this.newWord = {
@@ -624,14 +677,14 @@ export default {
                 meaning: "",
                 pronunciation: "",
                 description: "",
-                voice: "",
-                image: "",
+                voice: null,
+                image: null,
             };
         },
         viewWord(word) {
           this.selectedWord = {
             ...word,
-            categories: word.categories || [] // مقداردهی پیش‌فرض برای جلوگیری از خطا
+            categories: word.categories || []
           };
           this.showModal = true;
         },
@@ -647,8 +700,8 @@ export default {
                 meaning: "",
                 pronunciation: "",
                 description: "",
-                voice: "",
-                image: "",
+                voice: null,
+                image: null,
             };
         },
         editWord(word) {
@@ -661,7 +714,7 @@ export default {
                 description: word.description,
                 voice: word.voice,
                 image: word.image,
-                selectedCategories: word.categories.map(cat => cat.id),
+                selectedCategories: word.categories.map(cat => cat.id) || [],
               };
               this.showEditModal = true;
             this.showEditModal = true;
@@ -677,26 +730,41 @@ export default {
         removeCategory(categoryId) {
           this.editForm.selectedCategories = this.editForm.selectedCategories.filter(id => id !== categoryId);
         },
-          async saveWord() {
-              axios.put(route("words.update", this.editForm.id), {
-                word: this.editForm.word,
-                meaning: this.editForm.meaning,
-                pronunciation: this.editForm.pronunciation,
-                description: this.editForm.description,
-                voice: word.voice,
-                image: word.image,
-                selectedCategories: this.editForm.selectedCategories,
-              }).then((response) => {
-                location.reload();
-                const wordIndex = this.words.findIndex(word => word.id === this.editForm.id);
-                if (wordIndex !== -1) {
-                  this.words[wordIndex] = response.data.word;  // اینجا دیتا به‌روز می‌شود
-                }
-                location.reload();
-                this.closeModal();
-              });
-          },
+        async saveWord() {
+          const formData = new FormData();
+          formData.append('_method', 'PUT');
+          formData.append('word', this.editForm.word);
+          formData.append('meaning', this.editForm.meaning);
+          formData.append('pronunciation', this.editForm.pronunciation);
+          formData.append('description', this.editForm.description);
+          formData.append('selectedCategories', JSON.stringify(this.editForm.selectedCategories));
 
+          if (this.editForm.voice instanceof File) {
+            formData.append('voice', this.editForm.voice);
+          }
+
+          if (this.editForm.image instanceof File) {
+            formData.append('image', this.editForm.image);
+          }
+          console.log([...formData.entries()]);
+
+          try {
+            const response = await axios.post(route("words.update", this.editForm.id), formData)
+            .then(response => {
+
+              const wordIndex = this.words.findIndex(word => word.id === this.editForm.id);
+              if (wordIndex !== -1) {
+                this.words[wordIndex] = response.data.word;
+              }
+
+              this.closeModal();  // بستن مودال
+              console.log("ذخیره‌سازی موفقیت‌آمیز:", response);
+              location.reload();
+            });
+          } catch (error) {
+            console.error('خطا در ذخیره‌سازی:', error.response?.data || error.message);
+          }
+        },
     },
     computed: {
         // فیلتر کلمات بر اساس کلمه یا معنی

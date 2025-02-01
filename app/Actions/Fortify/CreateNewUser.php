@@ -27,7 +27,6 @@ class CreateNewUser implements CreatesNewUsers
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
-//  TODO: fix captcha
             'g-recaptcha-response' => ['required', new Recaptcha],
         ])->validate();
 

@@ -203,7 +203,7 @@
                             <div><span class="text-white/70">معنی:</span> <span
                                     class="text-white">{{ word . meaning }}</span></div>
                             <div><span class="text-white/70">تلفظ:</span> <span
-                                    class="text-white">{{ word . pronansiation }}</span></div>
+                                    class="text-white">{{ word . pronunciation }}</span></div>
                             <div><span class="text-white/70">توضیحات:</span> <span
                                     class="text-white">{{ word . description }}</span></div>
                         </div>
@@ -218,7 +218,7 @@
                             <span class="truncate text-white">{{ word . word }}</span>
                         </div>
                         <div class="truncate pr-2 text-white">{{ word . meaning }}</div>
-                        <div class="truncate pr-2 text-white">{{ word . pronansiation }}</div>
+                        <div class="truncate pr-2 text-white">{{ word . pronunciation }}</div>
                         <div class="line-clamp-2 pr-2 text-white">{{ word . description }}</div>
                     </div>
                 </div>

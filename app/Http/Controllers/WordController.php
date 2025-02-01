@@ -49,7 +49,7 @@ class WordController extends Controller
             'word' => 'required|string|max:255',
             'meaning' => 'required|string|max:1000',
             'pronunciation' => 'required|string|max:1000',
-            'voice' => 'nullable|mimes:mp3,wav',
+            'voice' => 'nullable|mimes:mp3,wav,ogx',
             'image' => 'nullable|mimes:jpg,jpeg,png',
             'description' => 'nullable|string|max:2000',
         ]);
@@ -62,38 +62,51 @@ class WordController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
-    {
-        $validated = $this->validateWord($request);
-
-        if ($request->hasFile('voice')) {
-            $voicePath = $request->file('voice')->store('voices', 'public');
-        } else {
-            $voicePath = null;
-        }
-
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
-        } else {
-            $imagePath = null;
-        }
-
-        $word = Word::create([
-            'word' => $validated['word'],
-            'meaning' => $validated['meaning'],
-            'pronunciation' => $validated['pronunciation'] ?? null,
-            'voice' => $voicePath,
-            'image' => $imagePath,
-            'description' => $validated['description'] ?? null,
-            'user_id' => Auth::id(),
+     public function store(Request $request)
+     {
+       $request->validate([
+          'word' => 'required|string|max:255',
+          'meaning' => 'required|string|max:1000',
+          'pronunciation' => 'nullable|string|max:255',
+          'description' => 'nullable|string|max:2000',
+          'voice' => 'nullable|mimes:mp3,wav,ogx,ogg',
+          'image' => 'nullable|mimes:jpg,jpeg,png',
+          'categories' => 'nullable|string',
         ]);
 
-        if (!empty($request->categories) && is_array($request->categories)) {
-          $word->categories()->sync($request->categories);
+        // ذخیره فایل صوتی در صورت وجود
+        if ($request->hasFile('voice')) {
+          $voicePath = $request->file('voice')->store('voices', 'public');
+        } else {
+          $voicePath = null;
         }
 
-        return response()->json(['message' => 'کلمه با موفقیت ایجاد شد', 'word' => $word], 201);
-    }
+        // ذخیره فایل تصویری در صورت وجود
+        if ($request->hasFile('image')) {
+          $imagePath = $request->file('image')->store('images', 'public');
+        } else {
+          $imagePath = null;
+        }
+
+
+        // ذخیره اطلاعات در دیتابیس
+        $word = Word::create([
+          'word'          => $request->word,
+          'meaning'       => $request->meaning,
+          'pronunciation' => $request->pronunciation,
+          'description'   => $request->description,
+          'voice'         => $voicePath,
+          'image'         => $imagePath,
+          'user_id'       => auth()->id(),
+        ]);
+
+        // ذخیره دسته‌بندی‌ها (اگر رابطه مربوطه برقرار است)
+        if ($request->categories) {
+          $word->categories()->sync(json_decode($request->categories));
+        }
+
+        return response()->json(['word' => $word], 201);
+      }
 
     /**
      * Display the specified resource.
@@ -111,19 +124,20 @@ class WordController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-          'word' => 'required|string|max:255',
-          'meaning' => 'required|string|max:1000',
-          'meaning' => 'required|string|max:1000',
-          'voice' => 'nullable|mimes:mp3,wav',
-          'image' => 'nullable|mimes:jpg,jpeg,png',
-          'description' => 'nullable|string|max:2000',
-        ]);
+      $request->validate([
+        'word' => 'required|string|max:255',
+        'meaning' => 'required|string|max:1000',
+        'pronunciation' => 'nullable|string|max:1000',
+        'voice' => 'nullable|mimes:mp3,wav,ogx,ogg',
+        'image' => 'nullable|mimes:jpg,jpeg,png',
+        'description' => 'nullable|string|max:2000',
+        'selectedCategories' => 'nullable|string',
+      ]);
 
         $word = Word::findOrFail($id);
 
         // Prepare data for updating
-        $data = $request->only(['word', 'meaning', 'description']);
+        $data = $request->only(['word', 'meaning', 'pronunciation', 'description']);
 
         // Handle voice file upload if provided
         if ($request->hasFile('voice')) {
@@ -143,9 +157,11 @@ class WordController extends Controller
           $data['image'] = $request->file('image')->store('images', 'public');
         }
 
-
         $word->update($data);
-        $word->categories()->sync($request->selectedCategories);
+
+        if ($request->selectedCategories) {
+          $word->categories()->sync(json_decode($request->selectedCategories));
+        }
 
         return response()->json(['message' => 'کلمه با موفقیت به‌روزرسانی شد', 'word' => $word], 200);
     }
@@ -159,6 +175,17 @@ class WordController extends Controller
     public function destroy($id)
     {
         $word = Word::findOrFail($id);
+
+        // حذف فایل صوتی در صورت وجود
+        if ($word->voice) {
+          Storage::disk('public')->delete($word->voice);
+        }
+
+        // حذف فایل تصویری در صورت وجود
+        if ($word->image) {
+          Storage::disk('public')->delete($word->image);
+        }
+
         $word->delete();
 
         return response()->json(['message' => 'کلمه با موفقیت حذف شد'], 200);
