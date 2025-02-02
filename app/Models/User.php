@@ -64,7 +64,7 @@ class User extends Authenticatable
         return $this->belongsToMany(Team::class, 'team_user', 'user_id', 'team_id');
     }
 
-    public function currentTeam()
+    public function currentTeam(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Team::class, 'current_team_id');
     }
@@ -74,7 +74,7 @@ class User extends Authenticatable
         return $this->hasmany(Word::class);
     }
 
-    public function wordCountInTeam($teamId)
+    public function wordCountInTeam($teamId): int
     {
         return $this->words()
             ->whereHas('team', function ($query) use ($teamId) {
