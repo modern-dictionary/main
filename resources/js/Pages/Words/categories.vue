@@ -100,38 +100,38 @@ const deleteCategory = (id) => {
                             </h3>
                             <div
                                 v-if="filteredCategories.length > 0"
-                                class="grid grid-cols-2 gap-4 border rounded-xl p-4"
+                                class="grid grid-cols-1 sm:grid-cols-2 gap-4 border rounded-xl p-4"
                             >
                                 <div
                                     v-for="(category, index) in filteredCategories"
                                     :key="category.id"
-                                    class="p-4 rounded border shadow-sm grid grid-cols-2 items-center"
+                                    class="p-4 rounded border shadow-sm flex flex-col sm:grid sm:grid-cols-2 gap-3 items-start sm:items-center"
                                 >
-                                    <div class="flex items-center ">
-                                        <div class="ml-5">
+                                    <div class="flex items-center w-full mb-2 sm:mb-0">
+                                        <div class="ml-5 text-gray-400">
                                             {{ index + 1 }}
                                         </div>
-                                        <div>{{ category.name }}</div>
+                                        <div class="font-medium">{{ category.name }}</div>
                                     </div>
                                     <!-- دکمه‌های عملیات -->
-                                    <div class="flex justify-end ">
+                                    <div class="flex flex-wrap gap-2 w-full sm:justify-end">
                                         <button
                                             @click="viewCategory(category)"
-                                            class="px-4 py-2 rounded bg-blue-200 text-blue-700 ml-2 hover:bg-blue-300"
+                                            class="px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded bg-blue-200 text-blue-700 hover:bg-blue-300 transition-all duration-200 hover:scale-105"
                                         >
                                             مشاهده
                                         </button>
 
                                         <button
                                             @click.stop="editCategory(category)"
-                                            class="px-4 py-2 rounded bg-blue-500 text-white ml-2 hover:bg-blue-600"
+                                            class="px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded bg-blue-500 text-white hover:bg-blue-600 transition-all duration-200 hover:scale-105"
                                         >
                                             ویرایش
                                         </button>
 
                                         <button
                                             @click="deleteCategory(category.id)"
-                                            class="px-4 py-2 rounded bg-red-500 text-white ml-2 hover:bg-red-600"
+                                            class="px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded bg-red-500 text-white hover:bg-red-600 transition-all duration-200 hover:scale-105"
                                         >
                                             حذف
                                         </button>
@@ -149,38 +149,38 @@ const deleteCategory = (id) => {
                     <div class="text-white p-4 md:px-10 xl:px-24 2xl:px-4 py-10">
                         <h1 class="text-xl lg:text-2xl font-bold mb-6">لیست دسته بندی</h1>
 
-                        <div v-if="categories.length > 0" class="grid grid-cols-2 gap-4 border rounded-xl p-4">
+                        <div v-if="categories.length > 0" class="grid grid-cols-1 sm:grid-cols-2 gap-4 border rounded-xl p-4">
                             <div
                                 v-for="(category, index) in categories"
                                 :key="category.id"
-                                class="p-4 xl:p-6 rounded-xl shadow-sm flex justify-between items-center hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 transform translate-y-0 hover:-translate-y-1 text-white border"
+                                class="p-4 xl:p-6 rounded-xl shadow-sm flex flex-col justify-between hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 transform translate-y-0 hover:-translate-y-1 text-white border"
                             >
                                 <!-- نام دسته‌بندی -->
-                                <div class="flex items-center">
+                                <div class="flex items-center mb-4">
                                     <div class="ml-4 text-gray-400">{{ index + 1 }}</div>
                                     <div class="font-medium truncate">{{ category.name }}</div>
                                 </div>
-                                <div><strong>{{ category.words_count }}</strong></div>
+                                <div class="mb-4"><strong>{{ category.words_count }}</strong></div>
 
                                 <!-- دکمه‌های عملیات -->
-                                <div class="flex gap-2">
+                                <div class="flex flex-wrap gap-2">
                                     <button
                                         @click="viewCategory(category)"
-                                        class="px-4 py-2 rounded bg-blue-200 text-blue-700 hover:bg-blue-300 transition-all duration-200 hover:scale-105"
+                                        class="px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded bg-blue-200 text-blue-700 hover:bg-blue-300 transition-all duration-200 hover:scale-105"
                                     >
                                         مشاهده
                                     </button>
 
                                     <button
                                         @click="editCategory(category)"
-                                        class="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600 transition-all duration-200 hover:scale-105"
+                                        class="px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded bg-blue-500 text-white hover:bg-blue-600 transition-all duration-200 hover:scale-105"
                                     >
                                         ویرایش
                                     </button>
 
                                     <button
                                         @click="deleteCategory(category.id)"
-                                        class="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600 transition-all duration-200 hover:scale-105"
+                                        class="px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded bg-red-500 text-white hover:bg-red-600 transition-all duration-200 hover:scale-105"
                                     >
                                         حذف
                                     </button>

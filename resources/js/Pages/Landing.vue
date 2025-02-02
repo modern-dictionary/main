@@ -56,10 +56,10 @@ function handleImageError() {
                             داشبورد
                         </Link>
 
-                        <template v-else>
+                        <template v-else class=" flex items-center space-x-2">
                             <Link
                                 :href="route('login')"
-                                class="rounded-md px-3 py-2 text-white ring-1 ring-white/20 transition-all duration-300 hover:bg-white/10 hover:scale-105 focus:outline-none focus-visible:ring-[#FF2D20] shadow-lg hover:shadow-[#FF2D20]/20"
+                                class="rounded-md mr-5 px-3 py-2 text-white ring-1 ring-white/20 transition-all duration-300 hover:bg-white/10 hover:scale-105 focus:outline-none focus-visible:ring-[#FF2D20] shadow-lg hover:shadow-[#FF2D20]/20"
                             >
                                 ورود
                             </Link>
@@ -157,10 +157,10 @@ function handleImageError() {
                                     <div
                                         v-for="(user, index) in topUsers"
                                         :key="user.name"
-                                        class="hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 duration-300 p-3 sm:p-4 grid grid-cols-4 min-w-[300px] sm:min-w-[600px] items-center hover:bg-gray-700/50 rounded-lg transition-colors text-sm sm:text-base"
+                                        class="w-full hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 duration-300 p-3 sm:p-4 grid grid-cols-4 min-w-[600px] sm:min-w-[600px] items-center hover:bg-gray-700/50 rounded-lg transition-colors text-sm sm:text-base"
                                     >
-                                        <div class=" flex items-center space-x-2 sm:space-x-3 rtl:space-x-reverse">
-                                            <span class="text-gray-500 text-xs sm:text-base">{{ index + 1 }}</span>
+                                        <div class="flex items-center space-x-2 sm:space-x-3 rtl:space-x-reverse">
+                                            <span class=" text-gray-500 text-xs sm:text-base">{{ index + 1 }}</span>
                                             <span class="truncate">{{ user.name }}</span>
                                         </div>
                                         <div class="text-center">{{ user.team_count }}</div>

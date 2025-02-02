@@ -87,7 +87,7 @@ const deleteApiToken = () => {
             <template #form>
                 <!-- نام توکن -->
                 <div class="col-span-6 sm:col-span-4" dir="rtl">
-                    <InputLabel for="name" value="نام" class="text-white" />
+                    <InputLabel for="name" value="نام" class="p-2 text-white" />
                     <TextInput
                         id="name"
                         v-model="createApiTokenForm.name"

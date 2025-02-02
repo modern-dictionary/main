@@ -96,23 +96,32 @@
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 plugins: {
                     legend: {
                         position: "top",
                         labels: {
-                            color: 'white'
+                            color: 'white',
+                            boxWidth: 15,
+                            padding: 10
                         }
                     },
                     title: {
                         display: true,
                         text: "نمودار داده‌ها در بازه‌های زمانی",
-                        color: 'white'
+                        color: 'white',
+                        font: {
+                            size: 14
+                        }
                     },
                 },
                 scales: {
                     x: {
                         ticks: {
-                            color: 'white'
+                            color: 'white',
+                            font: {
+                                size: 10
+                            }
                         },
                         grid: {
                             color: 'rgba(255, 255, 255, 0.1)'
@@ -120,7 +129,10 @@
                     },
                     y: {
                         ticks: {
-                            color: 'white'
+                            color: 'white',
+                            font: {
+                                size: 10
+                            }
                         },
                         grid: {
                             color: 'rgba(255, 255, 255, 0.1)'
@@ -170,7 +182,7 @@
         <div
             class="mb-5 p-5 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 rounded-lg slide-up" style="animation-delay: 0.2s">
             <h2 class="text-lg text-white p-6 font-bold mb-4">نمودار داده‌ها</h2>
-            <div class="w-full max-w-4xl mx-auto">
+            <div class="w-full mx-auto" style="height: 300px">
                 <canvas id="dashboardChart"></canvas>
             </div>
         </div>
@@ -205,7 +217,7 @@
                             <div><span class="text-white/70">تلفظ:</span> <span
                                     class="text-white">{{ word . pronunciation }}</span></div>
                             <div><span class="text-white/70">توضیحات:</span> <span
-                                    class="text-white">{{ word . description }}</span></div>
+                                    class="text-white">{{ word.description.slice(0, 20) + '...' }}</span></div>
                         </div>
                     </div>
 
@@ -219,7 +231,7 @@
                         </div>
                         <div class="truncate pr-2 text-white">{{ word . meaning }}</div>
                         <div class="truncate pr-2 text-white">{{ word . pronunciation }}</div>
-                        <div class="line-clamp-2 pr-2 text-white">{{ word . description }}</div>
+                        <div class="line-clamp-2 pr-2 text-white">{{ word.description.slice(0, 20) + '...' }}</div>
                     </div>
                 </div>
                 <p v-else class="text-white">هیچ کلمه ای یافت نشد</p>
