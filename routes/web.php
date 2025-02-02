@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\WordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\TeamController;
 
 
 Route::get('/', [ReportController::class, 'landingData'])->name('landing');
@@ -29,4 +30,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::get('/categories/{id}/words', [CategoryController::class, 'getCategoryWords']); //get the words of a category
     Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update'); // Update category
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy'); // Delete category
+
+    // Team Management Routes
+    Route::get('/teams', [TeamController::class, 'index'])->name('teams.index');
+    Route::post('/teams/{team}/join-request', [TeamController::class, 'sendJoinRequest'])->name('teams.join-request');
+    //Route::get('/teams/{team}', [WordController::class, 'show'])->name('teams.show'); // Show specific word
 });
