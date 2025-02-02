@@ -16,8 +16,8 @@ class TeamController extends Controller
       ]);
   }
 
-  public function sendJoinRequest(Request $request, Team $team)
-    {
+  public function sendJoinRequest(Request $request, Team $team): \Illuminate\Http\JsonResponse
+  {
         $user = $request->user();
         $owner = $team->owner; // فرض می‌کنیم رابطه owner در مدل Team تعریف شده است
 

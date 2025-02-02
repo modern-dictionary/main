@@ -93,7 +93,7 @@ const logout = () => {
                                             </div>
 
                                             <!-- تنظیمات تیم -->
-                                            <DropdownLink :href="route('teams.show', $page.props.auth.user.current_team)">
+                                            <DropdownLink :href="route('teams.show', $page.props.auth.user.current_team.id)">
                                                 تنظیمات تیم
                                             </DropdownLink>
 

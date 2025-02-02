@@ -27,7 +27,8 @@ class CreateNewUser implements CreatesNewUsers
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
-            // 'g-recaptcha-response' => ['required', new Recaptcha],
+//  TODO: fix captcha
+//            'g-recaptcha-response' => ['required', new Recaptcha],
         ])->validate();
 
         return DB::transaction(function () use ($input) {
@@ -46,10 +47,18 @@ class CreateNewUser implements CreatesNewUsers
      */
     protected function createTeam(User $user): void
     {
-        $user->ownedTeams()->save(Team::forceCreate([
+        $team = Team::forceCreate([
             'user_id' => $user->id,
-            'name' => explode(' ', $user->name, 2)[0]."'s Team",
+            'name' => explode(' ', $user->name, 2)[0] . "'s Team",
             'personal_team' => true,
-        ]));
+        ]);
+
+        // ذخیره تیم در رابطه ownedTeams
+        $user->ownedTeams()->save($team);
+
+        // به‌روزرسانی current_team_id برای کاربر
+        $user->current_team_id = $team->id;
+        $user->save();
     }
+
 }

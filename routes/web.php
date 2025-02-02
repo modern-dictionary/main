@@ -34,5 +34,4 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     // Team Management Routes
     Route::get('/teams', [TeamController::class, 'index'])->name('teams.index');
     Route::post('/teams/{team}/join-request', [TeamController::class, 'sendJoinRequest'])->name('teams.join-request');
-    //Route::get('/teams/{team}', [WordController::class, 'show'])->name('teams.show'); // Show specific word
 });

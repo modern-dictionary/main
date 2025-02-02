@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Laravel\Jetstream\Events\TeamCreated;
 use Laravel\Jetstream\Events\TeamDeleted;
 use Laravel\Jetstream\Events\TeamUpdated;
@@ -49,12 +50,17 @@ class Team extends JetstreamTeam
         ];
     }
 
+    public function words(): HasManyThrough
+    {
+        return $this->hasManyThrough(Word::class, User::class);
+    }
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
     }
 
-    public function owner()
+    public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id'); // فرض بر این است که فیلد user_id مالک تیم را نگه می‌دارد
     }
