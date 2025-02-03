@@ -52,16 +52,19 @@ class Team extends JetstreamTeam
 
     public function words(): HasManyThrough
     {
-        return $this->hasManyThrough(Word::class, User::class);
+        return $this->hasManyThrough(Word::class, User::class, 'id', 'user_id', 'id', 'id')
+            ->whereHas('teams', function ($query) {
+                $query->whereColumn('teams.id', 'team_user.team_id');
+            });
     }
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'team_user', 'team_id', 'user_id');
     }
 
     public function owner(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id'); // فرض بر این است که فیلد user_id مالک تیم را نگه می‌دارد
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
