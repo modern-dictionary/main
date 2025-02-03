@@ -319,7 +319,44 @@ const deleteWord = (id) => {
                 class="bg-white text-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 p-6 rounded shadow-md w-1/2"
                 @click.stop
             >
+
                 <h2 class="text-lg font-bold mb-4">افزودن کلمه جدید</h2>
+
+                <button
+                    v-if="!showAutoInput"
+                    type="button"
+                    @click="showAutoInput = true"
+                    class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                    پر کردن خودکار
+                </button>
+
+                <!-- فیلد ورودی و دکمه ارسال (فقط زمانی که showAutoInput true باشد) -->
+                <div v-else class="flex items-center space-x-2">
+                    <input
+                        v-model="autoFillWord"
+                        type="text"
+                        placeholder="کلمه را به فارسی وارد کنید"
+                        class="px-3 py-2 border rounded dark:bg-gray-800"
+                    />
+                    <button
+                        type="button"
+                        @click="fetchAutoFill"
+                        :disabled="isLoading"
+                        class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center"
+                    >
+                        <span v-if="!isLoading">ارسال</span>
+                            <span v-else>
+                                <svg class="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                                </svg>
+                                     لطفاً صبر کنید...
+                            </span>
+                    </button>
+                </div>
+                <p v-if="autoFillError" class="text-red-500 mb-4 text-sm">{{ autoFillError }}</p>
+
                 <form @submit.prevent="addWord" class="grid grid-cols-2 gap-4">
                     <div>
                         <label for="add-word">کلمه</label>
@@ -362,29 +399,33 @@ const deleteWord = (id) => {
 
                     <!-- آپلود صوت -->
                     <div>
-                      <label for="add-voice">فایل صوتی</label>
-                      <input
-                      id="add-voice"
-                      type="file"
-                      accept="audio/*"
-                      @change="handleVoiceUpload"
-                      class="mt-1 block dark:bg-gray-800 w-full border rounded p-2"
-                      />
-                      <p v-if="newWord.voice" class="text-sm text-green-400">فایل انتخاب شده: {{ newWord.voice.name }}</p>
-                      </div>
+                        <label for="add-voice">فایل صوتی</label>
+                        <input
+                            id="add-voice"
+                            type="file"
+                            accept="audio/*"
+                            @change="handleVoiceUpload"
+                            class="mt-1 block dark:bg-gray-800 w-full border rounded p-2"
+                        />
+                        <p v-if="newWord.voice" class="text-sm text-green-400">
+                            فایل انتخاب شده: {{ newWord.voice.name }}
+                        </p>
+                    </div>
 
-                      <!-- آپلود تصویر -->
-                      <div>
+                    <!-- آپلود تصویر -->
+                    <div>
                         <label for="add-image">تصویر</label>
                         <input
-                        id="add-image"
-                        type="file"
-                        accept="image/*"
-                        @change="handleImageUpload"
-                        class="mt-1 block dark:bg-gray-800 w-full border rounded p-2"
+                            id="add-image"
+                            type="file"
+                            accept="image/*"
+                            @change="handleImageUpload"
+                            class="mt-1 block dark:bg-gray-800 w-full border rounded p-2"
                         />
-                        <p v-if="newWord.image" class="text-sm text-green-400">فایل انتخاب شده: {{ newWord.image.name }}</p>
-                      </div>
+                        <p v-if="newWord.image" class="text-sm text-green-400">
+                            فایل انتخاب شده: {{ newWord.image.name }}
+                        </p>
+                    </div>
 
                     <!-- انتخاب دسته‌بندی‌ها -->
                     <div class="col-span-2">
@@ -402,25 +443,28 @@ const deleteWord = (id) => {
                     </div>
 
                     <div class="flex flex-wrap gap-2 mt-3">
-                      <span
-                      v-for="categoryId in newWord.selectedCategories"
-                      :key="categoryId"
-                      class="bg-gray-600 text-white text-xs px-3 py-1 rounded-full flex items-center"
-                      >
-                      {{ getCategoryName(categoryId) }}
-                      <button type="button" @click="removeCategory(categoryId)" class="ml-2 text-red-400">
+                <span
+                    v-for="categoryId in newWord.selectedCategories"
+                    :key="categoryId"
+                    class="bg-gray-600 text-white text-xs px-3 py-1 rounded-full flex items-center"
+                >
+                    {{ getCategoryName(categoryId) }}
+                    <button type="button" @click="removeCategory(categoryId)" class="ml-2 text-red-400">
                         ×
-                      </button>
-                    </span>
-                  </div>
+                    </button>
+                </span>
+                    </div>
 
-                    <div class="col-span-2 flex justify-start">
+                    <!-- form buttons -->
+                    <div class="col-span-2 flex justify-start mt-3">
+                        <!-- دکمه ذخیره -->
                         <button
                             type="submit"
                             class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 ml-5"
                         >
                             ذخیره
                         </button>
+                        <!-- دکمه لغو -->
                         <button
                             type="button"
                             @click="closeAddModal"
@@ -432,6 +476,7 @@ const deleteWord = (id) => {
                 </form>
             </div>
         </div>
+
 
         <!-- Edit Modal -->
         <div
@@ -613,6 +658,10 @@ export default {
             },
             showModal: false,
             selectedWord: {},
+            showAutoInput: false,
+            autoFillWord: '',
+            isLoading: false,
+            autoFillError: '',
         };
     },
     methods: {
@@ -669,7 +718,35 @@ export default {
             console.error('خطا در ذخیره‌سازی:', error.response.data);
           });
         },
-
+        fetchAutoFill() {
+            if (!this.autoFillWord.trim()) {
+                alert('لطفاً کلمه را وارد کنید');
+                return;
+            }
+            this.isLoading = true;
+            // به عنوان مثال از مسیر API import-word استفاده می‌کنیم
+            axios
+                .get('/api/import-word/' + encodeURIComponent(this.autoFillWord))
+                .then(response => {
+                    // فرض می‌کنیم پاسخ API شامل data با ساختار:
+                    // { word, translation, pronunciation, description, image, voice }
+                    const data = response.data.data;
+                    // پر کردن فیلدهای فرم بر اساس داده‌های دریافتی
+                    this.newWord.word = data.word;
+                    this.newWord.meaning = data.translation;
+                    this.newWord.pronunciation = data.pronunciation;
+                    this.newWord.description = data.description;
+                    this.showAutoInput = false;
+                    this.autoFillWord = '';
+                })
+                .catch(error => {
+                    console.error('خطا در دریافت اطلاعات از API:', error);
+                    this.autoFillError = 'کلمه مورد نظر یافت نشد';
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                });
+        },
         closeAddModal() {
             this.showAddModal = false;
             this.newWord = {
