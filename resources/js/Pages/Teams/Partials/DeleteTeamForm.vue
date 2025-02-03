@@ -27,21 +27,21 @@ const deleteTeam = () => {
 <template>
     <ActionSection>
         <template #title>
-            Delete Team
+            حذف تیم
         </template>
 
         <template #description>
-            Permanently delete this team.
+            بخش حذف کردن تیم
         </template>
 
         <template #content>
             <div class="max-w-xl text-sm text-gray-600 dark:text-gray-400">
-                Once a team is deleted, all of its resources and data will be permanently deleted. Before deleting this team, please download any data or information regarding this team that you wish to retain.
+                پس از حذف یک تیم، تمام منابع و داده های آن برای همیشه حذف می شوند. قبل از حذف این تیم، لطفاً هر گونه داده یا اطلاعات مربوط به این تیم را که می‌خواهید حفظ کنید، دانلود کنید.
             </div>
 
             <div class="mt-5">
                 <DangerButton @click="confirmTeamDeletion">
-                    Delete Team
+                    حذف تیم
                 </DangerButton>
             </div>
 

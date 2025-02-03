@@ -43,18 +43,16 @@ const message = ref('');
                                         v-else-if="isMember(team)"
                                         @click="leaveTeam(team.id, currentUser.id)"
                                         class="bg-red-500 w-40 text-center text-white px-4 py-2 rounded hover:bg-red-600"
-                                        :disabled="loading"
                                     >
-                                        {{ loading ? 'در حال پردازش...' : 'خارج شدن' }}
+                                        خارج شدن
                                     </button>
 
                                     <button
                                         v-else
                                         @click="addMemberToTeam(team.id, currentUser.email)"
                                         class="bg-blue-500 w-40 text-center text-white px-4 py-2 rounded hover:bg-blue-600"
-                                        :disabled="loading"
                                     >
-                                        {{ loading ? 'در حال ارسال...' : ' عضو شدن ' }}
+                                         عضو شدن
                                     </button>
 
                                     <p v-if="message" class="mt-2 text-green-400">{{ message }}</p>
@@ -69,7 +67,16 @@ const message = ref('');
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
+
+    data() {
+        return {
+            loading: false,
+            message: '',
+        };
+    },
     methods: {
         isOwner(team) {
             return team.owner.id === this.currentUser.id;
@@ -77,48 +84,21 @@ export default {
         isMember(team) {
             return team.users.some(user => user.id === this.currentUser.id);
         },
-        async addMemberToTeam(teamId, userEmail, role = 'member') {
-            this.loading = true;
-            this.message = '';
-
+        async addMemberToTeam(teamId) {
             try {
-                const response = await axios.post(`/teams/${teamId}/members`, {
-                    email: userEmail,
-                    role: role,
-                });
-                this.message = response.data.message || 'کاربر با موفقیت اضافه شد.';
+                const response = await axios.post(`/teams/${teamId}/join-request`);
+                location.reload();
             } catch (error) {
-                console.error('خطا در اضافه کردن عضو:', error);
-
-                if (error.response && error.response.data.message) {
-                    this.message = error.response.data.message;
-                } else {
-                    this.message = 'خطایی رخ داده است. لطفا دوباره امتحان کنید.';
-                }
-            } finally {
-                this.loading = false;
+                console.error('خطا در ارسال درخواست عضویت:', error);
             }
         },
         async leaveTeam(teamId, userId) {
-            this.loading = true;
-            this.message = '';
-
             try {
-                const response = await axios.delete(`/teams/${teamId}/members/${userId}`);
-                this.message = response.data.message;
-
-                // بروزرسانی لیست تیم‌ها بدون نیاز به رفرش صفحه
-                this.teams = this.teams.filter(team => team.id !== teamId);
+                const response = await axios.delete(`/teams/${teamId}/leave-team`);
+                location.reload();
             } catch (error) {
                 console.error('خطا در خروج از تیم:', error);
 
-                if (error.response && error.response.data.message) {
-                    this.message = error.response.data.message;
-                } else {
-                    this.message = 'خطایی رخ داده است. لطفا دوباره امتحان کنید.';
-                }
-            } finally {
-                this.loading = false;
             }
         },
 

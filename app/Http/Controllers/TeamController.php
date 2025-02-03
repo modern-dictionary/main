@@ -38,9 +38,9 @@ class TeamController extends Controller
 
 
 
-    public function sendJoinRequest(Team $team)
-  {
-      $team->users()->attach(auth()->id());
+    public function sendJoinRequest(Team $team): \Illuminate\Http\JsonResponse
+    {
+        $team->users()->syncWithoutDetaching([auth()->id()]);
       return response()->json(['message' => 'درخواست عضویت با موفقیت ارسال شد.']);
   }
 

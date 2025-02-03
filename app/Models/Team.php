@@ -60,7 +60,7 @@ class Team extends JetstreamTeam
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'team_user', 'team_id', 'user_id');
     }
 
     public function owner(): BelongsTo
