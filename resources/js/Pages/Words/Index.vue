@@ -331,25 +331,25 @@
                             class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />
                     </div>
 
-                    <div>
-                        <label for="add-voice" class="text-sm">فایل صوتی</label>
-                        <input id="add-voice" type="file" accept="audio/*" @change="handleVoiceUpload"
-                               class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />
-                        <p v-if="newWord.voice" class="text-xs text-green-400 mt-1">
-                            فایل انتخاب شده: {{ newWord.voice.name }}
-                        </p>
-                        <div v-if="uploadProgress.voice >= 0" :class="{'bg-green-500': uploadProgress.voice === 100, 'bg-blue-500': uploadProgress.voice < 100}" class="h-1 rounded mt-1" :style="{width: uploadProgress.voice + '%'}"></div>
-                    </div>
+<!--                    <div>-->
+<!--                        <label for="add-voice" class="text-sm">فایل صوتی</label>-->
+<!--                        <input id="add-voice" type="file" accept="audio/*" @change="handleVoiceUpload"-->
+<!--                               class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />-->
+<!--                        <p v-if="newWord.voice" class="text-xs text-green-400 mt-1">-->
+<!--                            فایل انتخاب شده: {{ newWord.voice.name }}-->
+<!--                        </p>-->
+<!--                        <div v-if="uploadProgress.voice >= 0" :class="{'bg-green-500': uploadProgress.voice === 100, 'bg-blue-500': uploadProgress.voice < 100}" class="h-1 rounded mt-1" :style="{width: uploadProgress.voice + '%'}"></div>-->
+<!--                    </div>-->
 
-                    <div>
-                        <label for="add-image" class="text-sm">تصویر</label>
-                        <input id="add-image" type="file" accept="image/*" @change="handleImageUpload"
-                               class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />
-                        <p v-if="newWord.image" class="text-xs text-green-400 mt-1">
-                            فایل انتخاب شده: {{ newWord.image.name }}
-                        </p>
-                        <div v-if="uploadProgress.image >= 0" :class="{'bg-green-500': uploadProgress.image === 100, 'bg-blue-500': uploadProgress.image < 100}" class="h-1 rounded mt-1" :style="{width: uploadProgress.image + '%'}"></div>
-                    </div>
+<!--                    <div>-->
+<!--                        <label for="add-image" class="text-sm">تصویر</label>-->
+<!--                        <input id="add-image" type="file" accept="image/*" @change="handleImageUpload"-->
+<!--                               class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />-->
+<!--                        <p v-if="newWord.image" class="text-xs text-green-400 mt-1">-->
+<!--                            فایل انتخاب شده: {{ newWord.image.name }}-->
+<!--                        </p>-->
+<!--                        <div v-if="uploadProgress.image >= 0" :class="{'bg-green-500': uploadProgress.image === 100, 'bg-blue-500': uploadProgress.image < 100}" class="h-1 rounded mt-1" :style="{width: uploadProgress.image + '%'}"></div>-->
+<!--                    </div>-->
 
                     <!-- انتخاب دسته‌بندی‌ها -->
                     <div class="col-span-2">
