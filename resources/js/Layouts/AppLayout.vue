@@ -40,7 +40,7 @@ const logout = () => {
                     <div class="flex justify-between h-16">
                         <div class="flex items-center">
                             <!-- لوگو -->
-                            <div class="shrink-0 flex items-center">
+                            <div class="shrink-0 mb-4 flex items-center">
                                 <Link :href="route('landing')">
                                     <ApplicationMark class="block h-9 w-auto" />
                                 </Link>
