@@ -126,7 +126,7 @@ const submit = () => {
                         <div class="flex items-center">
                             <label class="flex items-center">
                                 <Checkbox v-model:checked="form.remember" name="remember" class="bg-gray-700/50 border-gray-700" />
-                                <span class=" me-2 text-sm text-white/70 hover:text-white/90">مرا به خاطر بسپار</span>
+                                <span class="ml-4 me-2 text-sm text-white/70 hover:text-white/90">مرا به خاطر بسپار</span>
                             </label>
                         </div>
 
