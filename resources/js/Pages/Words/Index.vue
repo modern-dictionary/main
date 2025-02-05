@@ -339,6 +339,7 @@
                         <p v-if="newWord.voice" class="text-xs text-green-400 mt-1">
                             فایل انتخاب شده: {{ newWord.voice.name }}
                         </p>
+                        <div v-if="uploadProgress.voice >= 0" :class="{'bg-green-500': uploadProgress.voice === 100, 'bg-blue-500': uploadProgress.voice < 100}" class="h-1 rounded mt-1" :style="{width: uploadProgress.voice + '%'}"></div>
                     </div>
 
                     <!-- آپلود تصویر -->
@@ -349,6 +350,7 @@
                         <p v-if="newWord.image" class="text-xs text-green-400 mt-1">
                             فایل انتخاب شده: {{ newWord.image.name }}
                         </p>
+                        <div v-if="uploadProgress.image >= 0" :class="{'bg-green-500': uploadProgress.image === 100, 'bg-blue-500': uploadProgress.image < 100}" class="h-1 rounded mt-1" :style="{width: uploadProgress.image + '%'}"></div>
                     </div>
 
                     <!-- انتخاب دسته‌بندی‌ها -->
@@ -433,6 +435,7 @@
                             <input type="file" accept="audio/*" @change="handleVoiceUpload"
                                 class="w-full px-3 py-1.5 text-sm rounded-lg border border-gray-700 bg-gray-800/50 text-white focus:outline-none focus:ring-2 focus:ring-[#FF2D20] transition-all duration-200" />
                             <p v-if="editForm.voice" class="text-xs text-green-400 mt-0.5">فایل انتخاب شده: {{ editForm.word }}</p>
+                            <div v-if="uploadProgress.voice >= 0" :class="{'bg-green-500': uploadProgress.voice === 100, 'bg-blue-500': uploadProgress.voice < 100}" class="h-1 rounded mt-1" :style="{width: uploadProgress.voice + '%'}"></div>
                         </div>
 
                         <div>
@@ -520,6 +523,10 @@
                     image: null,
                     selectedCategories: [],
                 },
+                uploadProgress: {
+                    voice: 0,
+                    image: 0
+                },
                 showModal: false,
                 selectedWord: {},
                 showAutoInput: false,
@@ -529,6 +536,16 @@
             };
         },
         methods: {
+            simulateUpload(type) {
+                this.uploadProgress[type] = 0;
+                const interval = setInterval(() => {
+                    if (this.uploadProgress[type] < 100) {
+                        this.uploadProgress[type] += 10;
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 200);
+            },
             openSearchModal() {
                 this.showSearchModal = true;
             },
@@ -541,6 +558,7 @@
                 if (file) {
                     this.newWord.voice = file;
                     this.editForm.voice = file;
+                    this.simulateUpload('voice');
                 }
             },
 
@@ -549,6 +567,7 @@
                 if (file) {
                     this.newWord.image = file;
                     this.editForm.image = file;
+                    this.simulateUpload('image');
                 }
             },
             addWord() {
