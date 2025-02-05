@@ -77,7 +77,7 @@ const submit = () => {
             </div>
 
             <!-- Form Container -->
-            <div class="flex flex-col gap-6 overflow-hidden rounded-lg bg-gradient-to-br from-gray-800/50 to-gray-700/50 p-6 shadow-lg ring-1 ring-white/10 transition duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 backdrop-blur-sm mt-6">
+            <div class="flex flex-col gap-6 w-1/3 overflow-hidden rounded-lg bg-gradient-to-br from-gray-800/50 to-gray-700/50 p-6 shadow-lg ring-1 ring-white/10 transition duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 backdrop-blur-sm mt-6">
                 <form @submit.prevent="submit" dir="rtl" class="space-y-1">
                     <div>
                         <InputLabel for="name" value="نام" class="text-white/90 text-lg" />
@@ -85,9 +85,10 @@ const submit = () => {
                             id="name"
                             v-model="form.name"
                             type="text"
-                            class="mt-2 block w-full bg-gray-700/50 border-gray-700 text-white/90 focus:border-[#FF2D20] focus:ring-[#FF2D20] focus:ring-offset-0 transition-all duration-300 hover:shadow-xl hover:shadow-[#FF2D20]/10"
+                            class="mt-2 block w-full bg-gray-700/50 border-gray-700 text-white/90 focus:border-[#FF2D20] focus:ring-[#FF2D20] focus:ring-offset-0 transition-all duration-300 hover:shadow-xl hover:shadow-[#FF2D20]/10 mb-4"
                             required
                             autofocus
+                            dir="ltr"
                             autocomplete="name"
                         />
                         <InputError class="mt-2" :message="form.errors.name" />
@@ -99,8 +100,9 @@ const submit = () => {
                             id="email"
                             v-model="form.email"
                             type="email"
-                            class="mt-2 block w-full bg-gray-700/50 border-gray-700 text-white/90 focus:border-[#FF2D20] focus:ring-[#FF2D20] focus:ring-offset-0 transition-all duration-300 hover:shadow-xl hover:shadow-[#FF2D20]/10"
+                            class="mt-2 block w-full bg-gray-700/50 border-gray-700 text-white/90 focus:border-[#FF2D20] focus:ring-[#FF2D20] focus:ring-offset-0 transition-all duration-300 hover:shadow-xl hover:shadow-[#FF2D20]/10 mb-4"
                             required
+                            dir="ltr"
                             autocomplete="username"
                         />
                         <InputError class="mt-2" :message="form.errors.email" />
@@ -112,8 +114,9 @@ const submit = () => {
                             id="password"
                             v-model="form.password"
                             type="password"
-                            class="mt-2 block w-full bg-gray-700/50 border-gray-700 text-white/90 focus:border-[#FF2D20] focus:ring-[#FF2D20] focus:ring-offset-0 transition-all duration-300 hover:shadow-xl hover:shadow-[#FF2D20]/10"
+                            class="mt-2 block w-full bg-gray-700/50 border-gray-700 text-white/90 focus:border-[#FF2D20] focus:ring-[#FF2D20] focus:ring-offset-0 transition-all duration-300 hover:shadow-xl hover:shadow-[#FF2D20]/10 mb-4"
                             required
+                            dir="ltr"
                             autocomplete="new-password"
                         />
                         <InputError class="mt-2" :message="form.errors.password" />
@@ -125,8 +128,9 @@ const submit = () => {
                             id="password_confirmation"
                             v-model="form.password_confirmation"
                             type="password"
-                            class="mt-2 block w-full bg-gray-700/50 border-gray-700 text-white/90 focus:border-[#FF2D20] focus:ring-[#FF2D20] focus:ring-offset-0 transition-all duration-300 hover:shadow-xl hover:shadow-[#FF2D20]/10"
+                            class="mt-2 block w-full bg-gray-700/50 border-gray-700 text-white/90 focus:border-[#FF2D20] focus:ring-[#FF2D20] focus:ring-offset-0 transition-all duration-300 hover:shadow-xl hover:shadow-[#FF2D20]/10 mb-4"
                             required
+                            dir="ltr"
                             autocomplete="new-password"
                         />
                         <InputError class="mt-2" :message="form.errors.password_confirmation" />

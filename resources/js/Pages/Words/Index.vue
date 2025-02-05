@@ -568,10 +568,7 @@
                 // ارسال دسته‌بندی‌ها به صورت آرایه
                 formData.append('categories', JSON.stringify(this.newWord.selectedCategories));
 
-                const notification = document.createElement('div');
-                notification.className = 'fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg bg-green-500 text-white transform transition-all duration-500';
-                notification.innerHTML = '<div class="flex items-center"><span class="mr-2">✓</span>کلمه با موفقیت اضافه شد</div>';
-                document.body.appendChild(notification);
+
 
                 axios.post('/words', formData, {
                     headers: {
@@ -579,6 +576,10 @@
                     },
                 })
                 .then(response => {
+                    const notification = document.createElement('div');
+                    notification.className = 'fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg bg-green-500 text-white transform transition-all duration-500';
+                    notification.innerHTML = '<div class="flex items-center"><span class="mr-2">✓</span>کلمه با موفقیت اضافه شد</div>';
+                    document.body.appendChild(notification);
                     setTimeout(() => {
                         location.reload();
                     }, 2000);
@@ -696,13 +697,14 @@
                 }
                 console.log([...formData.entries()]);
 
-                const notification = document.createElement('div');
-                notification.className = 'fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg bg-green-500 text-white transform transition-all duration-500';
-                notification.innerHTML = '<div class="flex items-center"><span class="mr-2">✓</span>کلمه با موفقیت ویرایش شد</div>';
-                document.body.appendChild(notification);
+
 
                 try {
                     const response = await axios.post(route("words.update", this.editForm.id), formData);
+                    const notification = document.createElement('div');
+                    notification.className = 'fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg bg-green-500 text-white transform transition-all duration-500';
+                    notification.innerHTML = '<div class="flex items-center"><span class="mr-2">✓</span>کلمه با موفقیت ویرایش شد</div>';
+                    document.body.appendChild(notification);
                     setTimeout(() => {
                         location.reload();
                     }, 2000);

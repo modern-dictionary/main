@@ -8,6 +8,8 @@ use App\Http\Controllers\WordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\S3Controller;
+
 
 
 Route::get('/', [ReportController::class, 'landingData'])->name('landing');
@@ -41,3 +43,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
         ->name('dashboard.chart-data');
 
 });
+
+// cloud storage links
+Route::get('/userinterface', [S3Controller::class, 'showUserInterface'])->name('user.interface');
+Route::post('/upload-file', [S3Controller::class, 'uploadFile'])->name('upload.file');
+Route::post('/show-objects', [S3Controller::class, 'showObjects'])->name('show.objects');
+Route::post('/retrieve-file', [S3Controller::class, 'retrieveFile'])->name('retrieve.file');
+Route::post('/delete-file', [S3Controller::class, 'deleteFile'])->name('delete.file');
+Route::post('/download-file', [S3Controller::class, 'downloadFile'])->name('download.file');

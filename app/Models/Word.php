@@ -15,6 +15,8 @@ class Word extends Model
         'meaning',
         'pronunciation',
         'description',
+        'voice',
+        'image',
         'user_id',
     ];
 

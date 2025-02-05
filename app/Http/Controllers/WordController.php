@@ -74,19 +74,15 @@ class WordController extends Controller
           'categories' => 'nullable|string',
         ]);
 
-        // ذخیره فایل صوتی در صورت وجود
-        if ($request->hasFile('voice')) {
-          $voicePath = $request->file('voice')->store('voices', 'public');
-        } else {
-          $voicePath = null;
-        }
+         // ذخیره فایل صوتی در S3
+         $voicePath = $request->hasFile('voice')
+             ? $request->file('voice')->store('voices', 's3')
+             : null;
 
-        // ذخیره فایل تصویری در صورت وجود
-        if ($request->hasFile('image')) {
-          $imagePath = $request->file('image')->store('images', 'public');
-        } else {
-          $imagePath = null;
-        }
+         // ذخیره فایل تصویری در S3
+         $imagePath = $request->hasFile('image')
+             ? $request->file('image')->store('images', 's3')
+             : null;
 
 
         // ذخیره اطلاعات در دیتابیس
@@ -139,22 +135,18 @@ class WordController extends Controller
         // Prepare data for updating
         $data = $request->only(['word', 'meaning', 'pronunciation', 'description']);
 
-        // Handle voice file upload if provided
         if ($request->hasFile('voice')) {
-          // Delete old voice file if exists
-          if ($word->voice) {
-            Storage::disk('public')->delete($word->voice);
-          }
-          $data['voice'] = $request->file('voice')->store('voices', 'public');
+            if ($word->voice) {
+                Storage::disk('s3')->delete($word->voice);
+            }
+            $data['voice'] = $request->file('voice')->store('voices', 's3');
         }
 
-        // Handle image file upload if provided
         if ($request->hasFile('image')) {
-          // Delete old image file if exists
-          if ($word->image) {
-            Storage::disk('public')->delete($word->image);
-          }
-          $data['image'] = $request->file('image')->store('images', 'public');
+            if ($word->image) {
+                Storage::disk('s3')->delete($word->image);
+            }
+            $data['image'] = $request->file('image')->store('images', 's3');
         }
 
         $word->update($data);
@@ -176,14 +168,12 @@ class WordController extends Controller
     {
         $word = Word::findOrFail($id);
 
-        // حذف فایل صوتی در صورت وجود
         if ($word->voice) {
-          Storage::disk('public')->delete($word->voice);
+            Storage::disk('s3')->delete($word->voice);
         }
 
-        // حذف فایل تصویری در صورت وجود
         if ($word->image) {
-          Storage::disk('public')->delete($word->image);
+            Storage::disk('s3')->delete($word->image);
         }
 
         $word->delete();
