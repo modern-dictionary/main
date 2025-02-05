@@ -94,6 +94,7 @@ const submit = () => {
                                 class="mt-2 block w-full bg-gray-700/50 border-gray-700 text-white/90 focus:border-[#FF2D20] focus:ring-[#FF2D20] focus:ring-offset-0 transition-all duration-300 hover:shadow-xl hover:shadow-[#FF2D20]/10"
                                 required
                                 autofocus
+                                dir="ltr"
                                 autocomplete="username"
                             />
                             <InputError class="mt-2" :message="form.errors.email" />
@@ -107,6 +108,7 @@ const submit = () => {
                                 type="password"
                                 class="mt-2 block w-full bg-gray-700/50 border-gray-700 text-white/90 focus:border-[#FF2D20] focus:ring-[#FF2D20] focus:ring-offset-0 transition-all duration-300 hover:shadow-xl hover:shadow-[#FF2D20]/10"
                                 required
+                                dir="ltr"
                                 autocomplete="current-password"
                             />
                             <InputError class="mt-2" :message="form.errors.password" />

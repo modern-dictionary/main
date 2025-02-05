@@ -585,6 +585,7 @@
                     }, 2000);
                 })
                 .catch(error => {
+                    console.error('Error in addWord:', error.response ? error.response.data : error);
                     notification.className = 'fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg bg-red-500 text-white transform transition-all duration-500';
                     notification.innerHTML = '<div class="flex items-center"><span class="mr-2">✕</span>خطا در ذخیره‌سازی کلمه</div>';
                     console.error('خطا در ذخیره‌سازی:', error.response.data);

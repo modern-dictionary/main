@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Word;
 use App\Models\Category;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -62,47 +63,64 @@ class WordController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-     public function store(Request $request)
-     {
-       $request->validate([
-          'word' => 'required|string|max:255',
-          'meaning' => 'required|string|max:1000',
-          'pronunciation' => 'nullable|string|max:255',
-          'description' => 'nullable|string|max:2000',
-          'voice' => 'nullable|mimes:mp3,wav,ogx,ogg',
-          'image' => 'nullable|mimes:jpg,jpeg,png',
-          'categories' => 'nullable|string',
-        ]);
+    public function store(Request $request)
+    {
+        // ثبت اطلاعات اولیه درخواست در لاگ
+        Log::info('Store Word Request Data:', $request->all());
 
-         // ذخیره فایل صوتی در S3
-         $voicePath = $request->hasFile('voice')
-             ? $request->file('voice')->store('voices', 's3')
-             : null;
+        try {
+            // اعتبارسنجی اولیه
+            $validated = $request->validate([
+                'word'          => 'required|string|max:255',
+                'meaning'       => 'required|string|max:1000',
+                'pronunciation' => 'nullable|string|max:255',
+                'description'   => 'nullable|string|max:2000',
+                'voice'         => 'nullable|mimes:mp3,wav,ogx,ogg',
+                'image'         => 'nullable|mimes:jpg,jpeg,png',
+                'categories'    => 'nullable|string',
+            ]);
 
-         // ذخیره فایل تصویری در S3
-         $imagePath = $request->hasFile('image')
-             ? $request->file('image')->store('images', 's3')
-             : null;
+            // بررسی و ثبت اطلاعات فایل صوتی
+            if ($request->hasFile('voice')) {
+                $voiceFile = $request->file('voice');
+                Log::info('Voice file received', ['file' => $voiceFile->getClientOriginalName()]);
+                $voicePath = $voiceFile->store('voices', 's3');
+                Log::info('Voice file stored on S3', ['path' => $voicePath]);
+            } else {
+                Log::info('No voice file provided');
+                $voicePath = null;
+            }
 
+            // بررسی و ثبت اطلاعات فایل تصویری
+            if ($request->hasFile('image')) {
+                $imageFile = $request->file('image');
+                Log::info('Image file received', ['file' => $imageFile->getClientOriginalName()]);
+                $imagePath = $imageFile->store('images', 's3');
+                Log::info('Image file stored on S3', ['path' => $imagePath]);
+            } else {
+                Log::info('No image file provided');
+                $imagePath = null;
+            }
 
-        // ذخیره اطلاعات در دیتابیس
-        $word = Word::create([
-          'word'          => $request->word,
-          'meaning'       => $request->meaning,
-          'pronunciation' => $request->pronunciation,
-          'description'   => $request->description,
-          'voice'         => $voicePath,
-          'image'         => $imagePath,
-          'user_id'       => auth()->id(),
-        ]);
+            // ایجاد رکورد در دیتابیس
+            $word = Word::create([
+                'word'          => $validated['word'],
+                'meaning'       => $validated['meaning'],
+                'pronunciation' => $validated['pronunciation'] ?? null,
+                'description'   => $validated['description'] ?? null,
+                'voice'         => $voicePath,
+                'image'         => $imagePath,
+                'user_id'       => auth()->id(),
+            ]);
 
-        // ذخیره دسته‌بندی‌ها (اگر رابطه مربوطه برقرار است)
-        if ($request->categories) {
-          $word->categories()->sync(json_decode($request->categories));
+            Log::info('Word record created successfully', ['word_id' => $word->id]);
+            return response()->json(['message' => 'Word created successfully', 'word' => $word], 201);
+        } catch (\Exception $e) {
+            // ثبت خطا در لاگ
+            Log::error('Error in WordController@store', ['error' => $e->getMessage()]);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-
-        return response()->json(['word' => $word], 201);
-      }
+    }
 
     /**
      * Display the specified resource.
