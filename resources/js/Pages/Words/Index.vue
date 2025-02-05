@@ -236,20 +236,20 @@
                         </div>
                     </div>
 
-<!--                    <div v-if="selectedWord.voice" class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">-->
-<!--                        <strong class="text-white text-lg sm:col-span-1">وویس:</strong>-->
-<!--                        <audio controls class="sm:col-span-5">-->
-<!--                            <source :src="`https://modern-dictionary.storage.c2.liara.space/voices/${word.voice}`"  type="audio/mp3" />-->
-<!--                            Your browser does not support the audio element.-->
-<!--                        </audio>-->
-<!--                    </div>-->
+                    <div v-if="selectedWord.voice" class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">
+                        <strong class="text-white text-lg sm:col-span-1">وویس:</strong>
+                        <audio controls class="sm:col-span-5  p-2 ">
+                            <source :src="`/storage/${selectedWord.voice}`" type="audio/mp3" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
 
-<!--                    &lt;!&ndash; Image &ndash;&gt;-->
-<!--                    <div v-if="selectedWord.image" class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">-->
-<!--                        <strong class="text-white text-lg sm:col-span-1">تصویر:</strong>-->
-<!--                        <img :src="`https://modern-dictionary.storage.c2.liara.space/images/${word.image}`"  alt="Word Image"-->
-<!--                            class="sm:col-span-5 rounded-lg shadow-md" />-->
-<!--                    </div>-->
+                    <!-- Image -->
+                    <div v-if="selectedWord.image" class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">
+                        <strong class="text-white text-lg sm:col-span-1">تصویر:</strong>
+                        <img :src="`/storage/${selectedWord.image}`" alt="Word Image"
+                            class="sm:col-span-5 rounded-lg shadow-md" />
+                    </div>
 
                     <!-- Categories -->
                     <div class="flex flex-wrap gap-2 mt-3">
@@ -537,6 +537,16 @@
             };
         },
         methods: {
+            simulateUpload(type) {
+                this.uploadProgress[type] = 0;
+                const interval = setInterval(() => {
+                    if (this.uploadProgress[type] < 100) {
+                        this.uploadProgress[type] += 10;
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 200);
+            },
             openSearchModal() {
                 this.showSearchModal = true;
             },

@@ -285,8 +285,8 @@
                             <span class="ml-2 text-white/70">{{ index + 1 }}.</span>
                             <span class="truncate text-white">{{ user . name }}</span>
                         </div>
-                        <div class="truncate pr-2 text-white">{{ user . email }}</div>
-                        <div class="truncate pr-2 text-white">{{ user . formatted_created_at }}</div>
+                        <div class="truncate text-white">{{ user . email }}</div>
+                        <div class="truncate text-white">{{ user . formatted_created_at }}</div>
                     </div>
                 </div>
             </div>

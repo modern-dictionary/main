@@ -51,7 +51,7 @@ function handleImageError() {
                         <Link
                             v-if="$page.props.auth.user"
                             :href="route('dashboard')"
-                            class="mr-4 border border-gray-700 rounded-md px-3 py-2 text-white ring-1 ring-transparent transition-all duration-300 hover:bg-white/10 hover:scale-105 focus:outline-none focus-visible:ring-[#FF2D20] shadow-lg hover:shadow-[#FF2D20]/20"
+                            class=" mr-4 border border-gray-700 rounded-md px-3 py-2 text-white ring-1 ring-transparent transition-all duration-300 hover:bg-white/10 hover:scale-105 focus:outline-none focus-visible:ring-[#FF2D20] shadow-lg hover:shadow-[#FF2D20]/20"
                         >
                             داشبورد
                         </Link>

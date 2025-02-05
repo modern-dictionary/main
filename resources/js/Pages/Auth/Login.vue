@@ -25,16 +25,21 @@ const recaptchaLoaded = ref(false);
 
 onMounted(() => {
     const script = document.createElement('script');
-    script.src = 'https://www.google.com/recaptcha/api.js?render=explicit';
+    script.src = 'https://www.recaptcha.net/recaptcha/api.js?render=explicit';
     script.async = true;
     script.defer = true;
     script.onload = () => {
         recaptchaLoaded.value = true;
         window.grecaptcha.ready(() => {
             window.grecaptcha.render('recaptcha-container', {
-                sitekey: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
+                sitekey: '6LcMdc0qAAAAAGWLWkBN1S9AV9MfIQBKRdhtK7Ss',
+                theme: 'dark',
                 callback: (response) => {
                     form['g-recaptcha-response'] = response;
+                },
+                'expired-callback': () => {
+                    form['g-recaptcha-response'] = '';
+                    grecaptcha.reset();
                 }
             });
         });

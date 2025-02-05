@@ -18,6 +18,8 @@ class Word extends Model
         'voice',
         'image',
         'user_id',
+        'image',
+        'voice',
     ];
 
     public function user(): belongsTo
