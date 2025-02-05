@@ -4,19 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Word;
 use App\Models\Category;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-
 class WordController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Inertia\Response
-     */
     public function index()
     {
         $words = Word::all();
@@ -27,22 +22,15 @@ class WordController extends Controller
 
     public function userWords()
     {
-      $words = Auth::user()->words()->with('categories')->get();
-      $categories = Category::all();
+        $words = Auth::user()->words()->with('categories')->get();
+        $categories = Category::all();
 
-      return Inertia::render('Words/Index', [
-          'words' => $words,
-          'categories' => $categories,
+        return Inertia::render('Words/Index', [
+            'words' => $words,
+            'categories' => $categories,
         ]);
     }
 
-
-    /**
-     * validates the word.
-     *
-     * @param Request $request
-     * @return array
-     */
     private function validateWord(Request $request): array
     {
         return $request->validate([
@@ -55,135 +43,89 @@ class WordController extends Controller
         ]);
     }
 
-    //TODO: add error handling
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-     public function store(Request $request)
-     {
-       $request->validate([
-          'word' => 'required|string|max:255',
-          'meaning' => 'required|string|max:1000',
-          'pronunciation' => 'nullable|string|max:255',
-          'description' => 'nullable|string|max:2000',
-          'voice' => 'nullable|mimes:mp3,wav,ogx,ogg',
-          'image' => 'nullable|mimes:jpg,jpeg,png',
-          'categories' => 'nullable|string',
-        ]);
+    public function store(Request $request)
+    {
+        Log::info('Store Word Request Data:', $request->all());
 
-        // ذخیره فایل صوتی در صورت وجود
-        if ($request->hasFile('voice')) {
-          $voicePath = $request->file('voice')->store('voices', 'public');
-        } else {
-          $voicePath = null;
+        try {
+            $validated = $request->validate([
+                'word'          => 'required|string|max:255',
+                'meaning'       => 'required|string|max:1000',
+                'pronunciation' => 'nullable|string|max:255',
+                'description'   => 'nullable|string|max:2000',
+                'voice'         => 'nullable|mimes:mp3,wav,ogx,ogg',
+                'image'         => 'nullable|mimes:jpg,jpeg,png',
+                'categories'    => 'nullable|string',
+            ]);
+
+            $voicePath = $request->hasFile('voice') ? $request->file('voice')->store('voices', 'liara') : null;
+            $imagePath = $request->hasFile('image') ? $request->file('image')->store('images', 'liara') : null;
+
+            $word = Word::create([
+                'word'          => $validated['word'],
+                'meaning'       => $validated['meaning'],
+                'pronunciation' => $validated['pronunciation'] ?? null,
+                'description'   => $validated['description'] ?? null,
+                'voice'         => $voicePath,
+                'image'         => $imagePath,
+                'user_id'       => auth()->id(),
+            ]);
+
+            return response()->json(['message' => 'Word created successfully', 'word' => $word], 201);
+        } catch (\Exception $e) {
+            Log::error('Error in WordController@store', ['error' => $e->getMessage()]);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
 
-        // ذخیره فایل تصویری در صورت وجود
-        if ($request->hasFile('image')) {
-          $imagePath = $request->file('image')->store('images', 'public');
-        } else {
-          $imagePath = null;
-        }
-
-
-        // ذخیره اطلاعات در دیتابیس
-        $word = Word::create([
-          'word'          => $request->word,
-          'meaning'       => $request->meaning,
-          'pronunciation' => $request->pronunciation,
-          'description'   => $request->description,
-          'voice'         => $voicePath,
-          'image'         => $imagePath,
-          'user_id'       => auth()->id(),
-        ]);
-
-        // ذخیره دسته‌بندی‌ها (اگر رابطه مربوطه برقرار است)
-        if ($request->categories) {
-          $word->categories()->sync(json_decode($request->categories));
-        }
-
-        return response()->json(['word' => $word], 201);
-      }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Inertia\Response
-     */
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function update(Request $request, $id)
     {
-      $request->validate([
-        'word' => 'required|string|max:255',
-        'meaning' => 'required|string|max:1000',
-        'pronunciation' => 'nullable|string|max:1000',
-        'voice' => 'nullable|mimes:mp3,wav,ogx,ogg',
-        'image' => 'nullable|mimes:jpg,jpeg,png',
-        'description' => 'nullable|string|max:2000',
-        'selectedCategories' => 'nullable|string',
-      ]);
+        $request->validate([
+            'word' => 'required|string|max:255',
+            'meaning' => 'required|string|max:1000',
+            'pronunciation' => 'nullable|string|max:1000',
+            'voice' => 'nullable|mimes:mp3,wav,ogx,ogg',
+            'image' => 'nullable|mimes:jpg,jpeg,png',
+            'description' => 'nullable|string|max:2000',
+            'selectedCategories' => 'nullable|string',
+        ]);
 
         $word = Word::findOrFail($id);
-
-        // Prepare data for updating
         $data = $request->only(['word', 'meaning', 'pronunciation', 'description']);
 
-        // Handle voice file upload if provided
         if ($request->hasFile('voice')) {
-          // Delete old voice file if exists
-          if ($word->voice) {
-            Storage::disk('public')->delete($word->voice);
-          }
-          $data['voice'] = $request->file('voice')->store('voices', 'public');
+            if ($word->voice) {
+                Storage::disk('liara')->delete($word->voice);
+            }
+            $data['voice'] = $request->file('voice')->store('voices', 'liara');
         }
 
-        // Handle image file upload if provided
         if ($request->hasFile('image')) {
-          // Delete old image file if exists
-          if ($word->image) {
-            Storage::disk('public')->delete($word->image);
-          }
-          $data['image'] = $request->file('image')->store('images', 'public');
+            if ($word->image) {
+                Storage::disk('liara')->delete($word->image);
+            }
+            $data['image'] = $request->file('image')->store('images', 'liara');
         }
 
         $word->update($data);
 
         if ($request->selectedCategories) {
-          $word->categories()->sync(json_decode($request->selectedCategories));
+            $word->categories()->sync(json_decode($request->selectedCategories));
         }
 
         return response()->json(['message' => 'کلمه با موفقیت به‌روزرسانی شد', 'word' => $word], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function destroy($id)
     {
         $word = Word::findOrFail($id);
 
-        // حذف فایل صوتی در صورت وجود
         if ($word->voice) {
-          Storage::disk('public')->delete($word->voice);
+            Storage::disk('liara')->delete($word->voice);
         }
 
-        // حذف فایل تصویری در صورت وجود
         if ($word->image) {
-          Storage::disk('public')->delete($word->image);
+            Storage::disk('liara')->delete($word->image);
         }
 
         $word->delete();

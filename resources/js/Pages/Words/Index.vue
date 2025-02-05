@@ -136,7 +136,7 @@
                                 <div class="flex items-center w-full">
                                     <div class="ml-4 xl:ml-12 text-gray-400">{{ index + 1 }}</div>
                                     <div class="ml-4 xl:ml-12">
-                                        <img :src="`/storage/${word.image}`" alt="Word Image"
+                                        <img :src="`https://modern-dictionary.storage.c2.liara.space/${word.image}`"  alt="Word Image"
                                             class="w-12 h-12 object-cover rounded-full">
                                     </div>
                                     <div class="font-medium truncate">{{ word . word }}</div>
@@ -331,22 +331,20 @@
                             class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />
                     </div>
 
-                    <!-- آپلود صوت -->
                     <div>
                         <label for="add-voice" class="text-sm">فایل صوتی</label>
                         <input id="add-voice" type="file" accept="audio/*" @change="handleVoiceUpload"
-                            class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />
+                               class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />
                         <p v-if="newWord.voice" class="text-xs text-green-400 mt-1">
                             فایل انتخاب شده: {{ newWord.voice.name }}
                         </p>
                         <div v-if="uploadProgress.voice >= 0" :class="{'bg-green-500': uploadProgress.voice === 100, 'bg-blue-500': uploadProgress.voice < 100}" class="h-1 rounded mt-1" :style="{width: uploadProgress.voice + '%'}"></div>
                     </div>
 
-                    <!-- آپلود تصویر -->
                     <div>
                         <label for="add-image" class="text-sm">تصویر</label>
                         <input id="add-image" type="file" accept="image/*" @change="handleImageUpload"
-                            class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />
+                               class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />
                         <p v-if="newWord.image" class="text-xs text-green-400 mt-1">
                             فایل انتخاب شده: {{ newWord.image.name }}
                         </p>
@@ -436,6 +434,7 @@
                                 class="w-full px-3 py-1.5 text-sm rounded-lg border border-gray-700 bg-gray-800/50 text-white focus:outline-none focus:ring-2 focus:ring-[#FF2D20] transition-all duration-200" />
                             <p v-if="editForm.voice" class="text-xs text-green-400 mt-0.5">فایل انتخاب شده: {{ editForm.word }}</p>
                             <div v-if="uploadProgress.voice >= 0" :class="{'bg-green-500': uploadProgress.voice === 100, 'bg-blue-500': uploadProgress.voice < 100}" class="h-1 rounded mt-1" :style="{width: uploadProgress.voice + '%'}"></div>
+
                         </div>
 
                         <div>
@@ -443,6 +442,8 @@
                             <input type="file" accept="image/*" @change="handleImageUpload"
                                 class="w-full px-3 py-1.5 text-sm rounded-lg border border-gray-700 bg-gray-800/50 text-white focus:outline-none focus:ring-2 focus:ring-[#FF2D20] transition-all duration-200" />
                             <p v-if="editForm.image" class="text-xs text-green-400 mt-0.5">فایل انتخاب شده: {{ editForm.word }}</p>
+                            <div v-if="uploadProgress.image >= 0" :class="{'bg-green-500': uploadProgress.image === 100, 'bg-blue-500': uploadProgress.image < 100}" class="h-1 rounded mt-1" :style="{width: uploadProgress.image + '%'}"></div>
+
                         </div>
 
                         <!-- Categories -->
@@ -570,6 +571,16 @@
                     this.simulateUpload('image');
                 }
             },
+            simulateUpload(type) {
+                this.uploadProgress[type] = 0;
+                const interval = setInterval(() => {
+                    if (this.uploadProgress[type] < 100) {
+                        this.uploadProgress[type] += 10;
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 200);
+            },
             addWord() {
                 const formData = new FormData();
                 formData.append('word', this.newWord.word);
@@ -587,10 +598,7 @@
                 // ارسال دسته‌بندی‌ها به صورت آرایه
                 formData.append('categories', JSON.stringify(this.newWord.selectedCategories));
 
-                const notification = document.createElement('div');
-                notification.className = 'fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg bg-green-500 text-white transform transition-all duration-500';
-                notification.innerHTML = '<div class="flex items-center"><span class="mr-2">✓</span>کلمه با موفقیت اضافه شد</div>';
-                document.body.appendChild(notification);
+
 
                 axios.post('/words', formData, {
                     headers: {
@@ -598,11 +606,16 @@
                     },
                 })
                 .then(response => {
+                    const notification = document.createElement('div');
+                    notification.className = 'fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg bg-green-500 text-white transform transition-all duration-500';
+                    notification.innerHTML = '<div class="flex items-center"><span class="mr-2">✓</span>کلمه با موفقیت اضافه شد</div>';
+                    document.body.appendChild(notification);
                     setTimeout(() => {
                         location.reload();
                     }, 2000);
                 })
                 .catch(error => {
+                    console.error('Error in addWord:', error.response ? error.response.data : error);
                     notification.className = 'fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg bg-red-500 text-white transform transition-all duration-500';
                     notification.innerHTML = '<div class="flex items-center"><span class="mr-2">✕</span>خطا در ذخیره‌سازی کلمه</div>';
                     console.error('خطا در ذخیره‌سازی:', error.response.data);
@@ -646,6 +659,10 @@
                     description: "",
                     voice: null,
                     image: null,
+                };
+                this.uploadProgress = {
+                    voice: 0,
+                    image: 0,
                 };
             },
             viewWord(word) {
@@ -715,13 +732,14 @@
                 }
                 console.log([...formData.entries()]);
 
-                const notification = document.createElement('div');
-                notification.className = 'fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg bg-green-500 text-white transform transition-all duration-500';
-                notification.innerHTML = '<div class="flex items-center"><span class="mr-2">✓</span>کلمه با موفقیت ویرایش شد</div>';
-                document.body.appendChild(notification);
+
 
                 try {
                     const response = await axios.post(route("words.update", this.editForm.id), formData);
+                    const notification = document.createElement('div');
+                    notification.className = 'fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg bg-green-500 text-white transform transition-all duration-500';
+                    notification.innerHTML = '<div class="flex items-center"><span class="mr-2">✓</span>کلمه با موفقیت ویرایش شد</div>';
+                    document.body.appendChild(notification);
                     setTimeout(() => {
                         location.reload();
                     }, 2000);
