@@ -136,7 +136,7 @@
                                 <div class="flex items-center w-full">
                                     <div class="ml-4 xl:ml-12 text-gray-400">{{ index + 1 }}</div>
                                     <div class="ml-4 xl:ml-12">
-                                        <img :src="`/storage/${word.image}`" alt="Word Image"
+                                        <img :src="`https://storage.c2.liara.space/${word.image}`" alt="Word Image"
                                             class="w-12 h-12 object-cover rounded-full">
                                     </div>
                                     <div class="font-medium truncate">{{ word . word }}</div>
@@ -239,7 +239,7 @@
                     <div v-if="selectedWord.voice" class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">
                         <strong class="text-white text-lg sm:col-span-1">وویس:</strong>
                         <audio controls class="sm:col-span-5">
-                            <source :src="`/storage/${selectedWord.voice}`" type="audio/mp3" />
+                            <source :src="`https://storage.c2.liara.space/${word.voice}`" type="audio/mp3" />
                             Your browser does not support the audio element.
                         </audio>
                     </div>
@@ -247,7 +247,7 @@
                     <!-- Image -->
                     <div v-if="selectedWord.image" class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">
                         <strong class="text-white text-lg sm:col-span-1">تصویر:</strong>
-                        <img :src="`/storage/${selectedWord.image}`" alt="Word Image"
+                        <img :src="`https://storage.c2.liara.space/${word.image}`" alt="Word Image"
                             class="sm:col-span-5 rounded-lg shadow-md" />
                     </div>
 
@@ -331,24 +331,24 @@
                             class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />
                     </div>
 
-                    <!-- آپلود صوت -->
                     <div>
                         <label for="add-voice" class="text-sm">فایل صوتی</label>
                         <input id="add-voice" type="file" accept="audio/*" @change="handleVoiceUpload"
-                            class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />
+                               class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />
                         <p v-if="newWord.voice" class="text-xs text-green-400 mt-1">
                             فایل انتخاب شده: {{ newWord.voice.name }}
                         </p>
+                        <div v-if="uploadProgress.voice >= 0" :class="{'bg-green-500': uploadProgress.voice === 100, 'bg-blue-500': uploadProgress.voice < 100}" class="h-1 rounded mt-1" :style="{width: uploadProgress.voice + '%'}"></div>
                     </div>
 
-                    <!-- آپلود تصویر -->
                     <div>
                         <label for="add-image" class="text-sm">تصویر</label>
                         <input id="add-image" type="file" accept="image/*" @change="handleImageUpload"
-                            class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />
+                               class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />
                         <p v-if="newWord.image" class="text-xs text-green-400 mt-1">
                             فایل انتخاب شده: {{ newWord.image.name }}
                         </p>
+                        <div v-if="uploadProgress.image >= 0" :class="{'bg-green-500': uploadProgress.image === 100, 'bg-blue-500': uploadProgress.image < 100}" class="h-1 rounded mt-1" :style="{width: uploadProgress.image + '%'}"></div>
                     </div>
 
                     <!-- انتخاب دسته‌بندی‌ها -->
@@ -433,6 +433,8 @@
                             <input type="file" accept="audio/*" @change="handleVoiceUpload"
                                 class="w-full px-3 py-1.5 text-sm rounded-lg border border-gray-700 bg-gray-800/50 text-white focus:outline-none focus:ring-2 focus:ring-[#FF2D20] transition-all duration-200" />
                             <p v-if="editForm.voice" class="text-xs text-green-400 mt-0.5">فایل انتخاب شده: {{ editForm.word }}</p>
+                            <div v-if="uploadProgress.voice >= 0" :class="{'bg-green-500': uploadProgress.voice === 100, 'bg-blue-500': uploadProgress.voice < 100}" class="h-1 rounded mt-1" :style="{width: uploadProgress.voice + '%'}"></div>
+
                         </div>
 
                         <div>
@@ -440,6 +442,8 @@
                             <input type="file" accept="image/*" @change="handleImageUpload"
                                 class="w-full px-3 py-1.5 text-sm rounded-lg border border-gray-700 bg-gray-800/50 text-white focus:outline-none focus:ring-2 focus:ring-[#FF2D20] transition-all duration-200" />
                             <p v-if="editForm.image" class="text-xs text-green-400 mt-0.5">فایل انتخاب شده: {{ editForm.word }}</p>
+                            <div v-if="uploadProgress.image >= 0" :class="{'bg-green-500': uploadProgress.image === 100, 'bg-blue-500': uploadProgress.image < 100}" class="h-1 rounded mt-1" :style="{width: uploadProgress.image + '%'}"></div>
+
                         </div>
 
                         <!-- Categories -->
@@ -520,6 +524,10 @@
                     image: null,
                     selectedCategories: [],
                 },
+                uploadProgress: {
+                    voice: 0,
+                    image: 0
+                },
                 showModal: false,
                 selectedWord: {},
                 showAutoInput: false,
@@ -541,6 +549,7 @@
                 if (file) {
                     this.newWord.voice = file;
                     this.editForm.voice = file;
+                    this.simulateUpload('voice');
                 }
             },
 
@@ -549,7 +558,18 @@
                 if (file) {
                     this.newWord.image = file;
                     this.editForm.image = file;
+                    this.simulateUpload('image');
                 }
+            },
+            simulateUpload(type) {
+                this.uploadProgress[type] = 0;
+                const interval = setInterval(() => {
+                    if (this.uploadProgress[type] < 100) {
+                        this.uploadProgress[type] += 10;
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 200);
             },
             addWord() {
                 const formData = new FormData();
@@ -629,6 +649,10 @@
                     description: "",
                     voice: null,
                     image: null,
+                };
+                this.uploadProgress = {
+                    voice: 0,
+                    image: 0,
                 };
             },
             viewWord(word) {
