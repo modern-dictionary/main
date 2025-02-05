@@ -136,7 +136,7 @@
                                 <div class="flex items-center w-full">
                                     <div class="ml-4 xl:ml-12 text-gray-400">{{ index + 1 }}</div>
                                     <div class="ml-4 xl:ml-12">
-                                        <img :src="`https://storage.c2.liara.space/images/${word.image}`" alt="Word Image"
+                                        <img :src="`https://modern-dictionary.storage.c2.liara.space/${word.image}`"  alt="Word Image"
                                             class="w-12 h-12 object-cover rounded-full">
                                     </div>
                                     <div class="font-medium truncate">{{ word . word }}</div>
@@ -239,7 +239,7 @@
                     <div v-if="selectedWord.voice" class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">
                         <strong class="text-white text-lg sm:col-span-1">وویس:</strong>
                         <audio controls class="sm:col-span-5">
-                            <source :src="`https://storage.c2.liara.space/voices/${word.voice}`" type="audio/mp3" />
+                            <source :src="`https://modern-dictionary.storage.c2.liara.space/voices/${word.voice}`"  type="audio/mp3" />
                             Your browser does not support the audio element.
                         </audio>
                     </div>
@@ -247,7 +247,7 @@
                     <!-- Image -->
                     <div v-if="selectedWord.image" class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">
                         <strong class="text-white text-lg sm:col-span-1">تصویر:</strong>
-                        <img :src="`https://storage.c2.liara.space/images/${word.image}`" alt="Word Image"
+                        <img :src="`https://modern-dictionary.storage.c2.liara.space/images/${word.image}`"  alt="Word Image"
                             class="sm:col-span-5 rounded-lg shadow-md" />
                     </div>
 
