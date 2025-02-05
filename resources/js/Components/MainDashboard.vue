@@ -1,13 +1,14 @@
 <script setup>
     import {
-        onMounted
+        onMounted,
+        watch
     } from "vue";
     import {
         Chart,
         registerables
     } from "chart.js";
 
-    defineProps({
+    const props = defineProps({
         chartData: {
             type: Object,
             required: true,
@@ -24,36 +25,16 @@
         },
     });
 
-    const testData = {
-        "1_week": {
-            users: 10,
-            words: 15,
-            teams: 5
-        },
-        "1_month": {
-            users: 20,
-            words: 30,
-            teams: 10
-        },
-        "6_months": {
-            users: 50,
-            words: 60,
-            teams: 25
-        },
-        "1_year": {
-            users: 100,
-            words: 120,
-            teams: 50
-        },
-    };
-
     Chart.register(...registerables);
 
-    // Chart instance variable
     let chartInstance = null;
 
-    // Function to create the chart
     const createChart = () => {
+        if (!props.chartData || Object.keys(props.chartData).length === 0) {
+            console.log('No chart data available');
+            return;
+        }
+
         const canvas = document.getElementById("dashboardChart");
         if (!canvas) {
             console.error("Canvas element not found");
@@ -61,33 +42,54 @@
         }
         const ctx = canvas.getContext("2d");
 
-        // Destroy existing chart if it exists
         if (chartInstance) {
             chartInstance.destroy();
         }
 
-        // Create a new chart
+        // Sort dates and prepare data
+        const sortedDates = Object.keys(props.chartData).sort();
+        const datasets = {
+            users: [],
+            words: [],
+            teams: []
+        };
+
+        sortedDates.forEach(date => {
+            datasets.users.push(props.chartData[date].users);
+            datasets.words.push(props.chartData[date].words);
+            datasets.teams.push(props.chartData[date].teams);
+        });
+
+        // Format dates for display
+        const formattedDates = sortedDates.map(date => {
+            return new Date(date).toLocaleDateString('fa-IR', {
+                month: 'short',
+                day: 'numeric'
+            });
+        });
+
         chartInstance = new Chart(ctx, {
             type: "line",
             data: {
-                labels: Object.keys(testData), // Time intervals as labels
-                datasets: [{
-                        label: " کاربران",
-                        data: Object.values(testData).map((item) => item.users),
+                labels: formattedDates,
+                datasets: [
+                    {
+                        label: "کاربران",
+                        data: datasets.users,
                         borderColor: "rgba(75, 192, 192, 1)",
                         backgroundColor: "rgba(75, 192, 192, 0.2)",
                         fill: true,
                     },
                     {
                         label: "کلمات",
-                        data: Object.values(testData).map((item) => item.words),
+                        data: datasets.words,
                         borderColor: "rgba(153, 102, 255, 1)",
                         backgroundColor: "rgba(153, 102, 255, 0.2)",
                         fill: true,
                     },
                     {
                         label: "تیم‌ها",
-                        data: Object.values(testData).map((item) => item.teams),
+                        data: datasets.teams,
                         borderColor: "rgba(255, 159, 64, 1)",
                         backgroundColor: "rgba(255, 159, 64, 0.2)",
                         fill: true,
@@ -108,7 +110,7 @@
                     },
                     title: {
                         display: true,
-                        text: "نمودار داده‌ها در بازه‌های زمانی",
+                        text: "نمودار داده‌ها در ۳۰ روز گذشته",
                         color: 'white',
                         font: {
                             size: 14
@@ -136,16 +138,25 @@
                         },
                         grid: {
                             color: 'rgba(255, 255, 255, 0.1)'
-                        }
+                        },
+                        beginAtZero: true
                     }
                 }
             },
         });
     };
 
-    // Initialize chart on component mount
+    // Watch for changes in chartData
+    watch(() => props.chartData, (newValue) => {
+        if (Object.keys(newValue).length > 0) {
+            createChart();
+        }
+    }, { deep: true });
+
     onMounted(() => {
-        createChart();
+        if (Object.keys(props.chartData).length > 0) {
+            createChart();
+        }
     });
 </script>
 

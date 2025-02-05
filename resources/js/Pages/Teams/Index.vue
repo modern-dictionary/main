@@ -24,16 +24,32 @@ const message = ref('');
                     <div class="mb-5 p-5 lg:p-8 bg-gradient-to-br border-gray-700 rounded-lg slide-up">
                         <h1 class="text-2xl font-bold mb-4">لیست تیم‌ها</h1>
                         <div class="space-y-4">
-                            <div v-for="team in teams" :key="team.id" class="p-4 border shadow rounded-md grid grid-cols-5 gap-4">
-                                <h2 class="text-xl font-semibold">{{ team.name }}</h2>
-                                <div class="text-lg text-gray-400">تعداد اعضا: {{1+ team.users_count }}</div>
-                                <div class="text-lg text-gray-400">مالک تیم: {{ team.owner.name }}</div>
-                                <div class="text-lg text-gray-400">تعداد کلمات: {{ team.words_count }}</div>
+                            <div v-for="team in teams" :key="team.id"
+                                class="p-4 border border-gray-700 shadow rounded-md grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
 
-                                <div>
+                                <!-- Team Name -->
+                                <h2 class="text-lg sm:text-xl font-semibold col-span-1 sm:col-span-2 lg:col-span-1">
+                                    {{ team.name }}
+                                </h2>
+
+                                <!-- Team Stats -->
+                                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 col-span-1 sm:col-span-2 lg:col-span-3 gap-2 sm:gap-4">
+                                    <div class="text-sm sm:text-base text-gray-400">
+                                        تعداد اعضا: {{1+ team.users_count }}
+                                    </div>
+                                    <div class="text-sm sm:text-base text-gray-400">
+                                        مالک تیم: {{ team.owner.name }}
+                                    </div>
+                                    <div class="text-sm sm:text-base text-gray-400">
+                                        تعداد کلمات: {{ team.words_count }}
+                                    </div>
+                                </div>
+
+                                <!-- Action Buttons -->
+                                <div class="col-span-1 flex items-center justify-start lg:justify-end">
                                     <button
                                         v-if="isOwner(team)"
-                                        class="bg-gray-400 w-40 text-center text-white px-4 py-2 rounded cursor-not-allowed"
+                                        class="bg-gray-400 w-full sm:w-40 text-center text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded text-sm sm:text-base cursor-not-allowed"
                                         disabled
                                     >
                                         مالک تیم
@@ -42,7 +58,7 @@ const message = ref('');
                                     <button
                                         v-else-if="isMember(team)"
                                         @click="leaveTeam(team.id, currentUser.id)"
-                                        class="bg-red-500 w-40 text-center text-white px-4 py-2 rounded hover:bg-red-600"
+                                        class="bg-red-500 w-full sm:w-40 text-center text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded text-sm sm:text-base hover:bg-red-600"
                                     >
                                         خارج شدن
                                     </button>
@@ -50,13 +66,15 @@ const message = ref('');
                                     <button
                                         v-else
                                         @click="addMemberToTeam(team.id, currentUser.email)"
-                                        class="bg-blue-500 w-40 text-center text-white px-4 py-2 rounded hover:bg-blue-600"
+                                        class="bg-blue-500 w-full sm:w-40 text-center text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded text-sm sm:text-base hover:bg-blue-600"
                                     >
-                                         عضو شدن
+                                        عضو شدن
                                     </button>
-
-                                    <p v-if="message" class="mt-2 text-green-400">{{ message }}</p>
                                 </div>
+
+                                <p v-if="message" class="mt-2 text-green-400 col-span-1 sm:col-span-2 lg:col-span-5">
+                                    {{ message }}
+                                </p>
                             </div>
                         </div>
                     </div>

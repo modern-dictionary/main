@@ -64,9 +64,9 @@ const submit = () => {
         <div class="relative min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
 
 
-            <div class="flex flex-col gap-6 overflow-hidden rounded-lg bg-gradient-to-br from-gray-800/50 to-gray-700/50 p-6 shadow-lg ring-1 ring-white/10 transition duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 backdrop-blur-sm">
+            <div class=" mt-4 flex flex-col gap-6 overflow-hidden rounded-lg bg-gradient-to-br from-gray-800/50 to-gray-700/50 p-6 shadow-lg ring-1 ring-white/10 transition duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 backdrop-blur-sm">
                         <svg
-                            class="h-12 w-auto text-white lg:h-16 lg:text-[#FF2D20] transition-all duration-300 hover:scale-110"
+                            class="  h-12 w-auto text-white lg:h-16 lg:text-[#FF2D20] transition-all duration-300 hover:scale-110"
                             viewBox="0 0 62 65"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
@@ -78,14 +78,14 @@ const submit = () => {
                         </svg>
                     </div>
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4">
+            <div class="w-full sm:max-w-md mt-2 px-6 py-4">
                 <div class="flex flex-col gap-6 overflow-hidden rounded-lg bg-gradient-to-br from-gray-800/50 to-gray-700/50 p-6 shadow-lg ring-1 ring-white/10 transition duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 backdrop-blur-sm">
                     <div v-if="status" class="mb-4 font-medium text-sm text-green-400">
                         {{ status }}
                     </div>
 
-                    <form @submit.prevent="submit" class="space-y-6">
-                        <div>
+                    <form @submit.prevent="submit" class="space-y-4">
+                        <div dir="rtl">
                             <InputLabel for="email" value="ایمیل" class="text-white/90 text-lg" />
                             <TextInput
                                 id="email"
@@ -99,7 +99,7 @@ const submit = () => {
                             <InputError class="mt-2" :message="form.errors.email" />
                         </div>
 
-                        <div>
+                        <div dir="rtl">
                             <InputLabel for="password" value="رمز عبور" class="text-white/90 text-lg" />
                             <TextInput
                                 id="password"
@@ -126,7 +126,7 @@ const submit = () => {
                         <div class="flex items-center">
                             <label class="flex items-center">
                                 <Checkbox v-model:checked="form.remember" name="remember" class="bg-gray-700/50 border-gray-700" />
-                                <span class="p-4 me-2 text-sm text-white/70 hover:text-white/90">مرا به خاطر بسپار</span>
+                                <span class=" me-2 text-sm text-white/70 hover:text-white/90">مرا به خاطر بسپار</span>
                             </label>
                         </div>
 
@@ -148,6 +148,17 @@ const submit = () => {
                             </PrimaryButton>
                         </div>
                     </form>
+                    <div class=" text-center border-t border-gray-700 pt-6">
+                        <Link
+                            :href="route('register')"
+                            class="inline-flex items-center justify-center px-6 py-3 bg-gray-700/50 text-white/90 rounded-lg hover:bg-gray-600/50 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[#FF2D20]/10"
+                        >
+                            <span>حساب کاربری ندارید؟ ثبت نام کنید</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="ml-2  h-5 w-5 mr-2 rtl:rotate-180" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>

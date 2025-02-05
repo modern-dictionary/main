@@ -36,9 +36,9 @@ const logout = () => {
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
             <nav class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
                 <!-- منوی اصلی -->
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
-                        <div class="flex">
+                        <div class="flex items-center">
                             <!-- لوگو -->
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('landing')">
@@ -47,25 +47,21 @@ const logout = () => {
                             </div>
 
                             <!-- لینک‌های منو -->
-                            <div class="space-x-8 sm:-my-px sm:ms-10 flex">
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    داشبورد
-                                </NavLink>
-                            </div>
-                            <div class="space-x-8 sm:-my-px sm:ms-10 flex">
-                                <NavLink :href="route('words.index')" :active="route().current('words.index')">
-                                    کلمات
-                                </NavLink>
-                            </div>
-                            <div class="space-x-8 sm:-my-px sm:ms-10 flex">
-                                <NavLink :href="route('categories.index')" :active="route().current('categories.index')">
-                                    دسته‌بندی
-                                </NavLink>
-                            </div>
-                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink :href="route('teams.index')" :active="route().current('teams.index')">
-                                    تیم ها
-                                </NavLink>
+                            <div class="flex items-center sm:items-stretch overflow-x-auto overflow-y-hidden sm:overflow-x-visible max-w-[calc(100vw-12rem)] sm:max-w-none ms-4">
+                                <div class="flex gap-2 sm:gap-8">
+                                    <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                                        داشبورد
+                                    </NavLink>
+                                    <NavLink :href="route('words.index')" :active="route().current('words.index')">
+                                        کلمات
+                                    </NavLink>
+                                    <NavLink :href="route('categories.index')" :active="route().current('categories.index')">
+                                        دسته‌بندی
+                                    </NavLink>
+                                    <NavLink :href="route('teams.index')" :active="route().current('teams.index')">
+                                        تیم ها
+                                    </NavLink>
+                                </div>
                             </div>
                         </div>
 

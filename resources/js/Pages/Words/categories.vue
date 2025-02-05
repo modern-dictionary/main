@@ -149,11 +149,11 @@ const deleteCategory = (id) => {
                     <div class="text-white p-4 md:px-10 xl:px-24 2xl:px-4 py-10">
                         <h1 class="text-xl lg:text-2xl font-bold mb-6">لیست دسته بندی</h1>
 
-                        <div v-if="categories.length > 0" class="grid grid-cols-1 sm:grid-cols-2 gap-4 border rounded-xl p-4">
+                        <div v-if="categories.length > 0" class="grid grid-cols-1 sm:grid-cols-2 gap-4 border-gray-700 rounded-xl p-4">
                             <div
                                 v-for="(category, index) in categories"
                                 :key="category.id"
-                                class="p-4 xl:p-6 rounded-xl shadow-sm flex flex-col justify-between hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 transform translate-y-0 hover:-translate-y-1 text-white border"
+                                class="p-4 xl:p-6 rounded-xl shadow-sm flex flex-col justify-between hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 transform translate-y-0 hover:-translate-y-1 text-white border border-gray-700"
                             >
                                 <!-- نام دسته‌بندی -->
                                 <div class="flex items-center mb-4">

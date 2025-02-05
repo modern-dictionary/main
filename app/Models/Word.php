@@ -10,7 +10,13 @@ class Word extends Model
 {
     protected $table = 'words';
     protected $primarykey = 'id';
-    protected $fillable = ['word', 'meaning', 'pronunciation', 'voice', 'image', 'description', 'user_id'];
+    protected $fillable = [
+        'word',
+        'meaning',
+        'pronunciation',
+        'description',
+        'user_id',
+    ];
 
     public function user(): belongsTo
     {

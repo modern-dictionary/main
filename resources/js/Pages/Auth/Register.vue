@@ -61,6 +61,7 @@ const submit = () => {
         />
 
         <div class="relative min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
+            <!-- Logo Container -->
             <div class="flex flex-col gap-6 overflow-hidden rounded-lg bg-gradient-to-br from-gray-800/50 to-gray-700/50 p-6 shadow-lg ring-1 ring-white/10 transition duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 backdrop-blur-sm">
                 <svg
                     class="h-12 w-auto text-white lg:h-16 lg:text-[#FF2D20] transition-all duration-300 hover:scale-110"
@@ -74,98 +75,96 @@ const submit = () => {
                     />
                 </svg>
             </div>
-            <div class="relative min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
-                <div class=" m-5 flex flex-col gap-6 overflow-hidden rounded-lg bg-gradient-to-br from-gray-800/50 to-gray-700/50 p-6 shadow-lg ring-1 ring-white/10 transition duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 backdrop-blur-sm">
-                    <div class="flex flex-col gap-6 overflow-hidden rounded-lg bg-gradient-to-br from-gray-800/50 to-gray-700/50 p-6 shadow-lg ring-1 ring-white/10 transition duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 backdrop-blur-sm">
-                        <form @submit.prevent="submit" dir="rtl" class="space-y-6">
-                            <div>
-                                <InputLabel for="name" value="نام" class="text-white/90 text-lg" />
-                                <TextInput
-                                    id="name"
-                                    v-model="form.name"
-                                    type="text"
-                                    class="mt-2 block w-full bg-gray-700/50 border-gray-700 text-white/90 focus:border-[#FF2D20] focus:ring-[#FF2D20] focus:ring-offset-0 transition-all duration-300 hover:shadow-xl hover:shadow-[#FF2D20]/10"
-                                    required
-                                    autofocus
-                                    autocomplete="name"
-                                />
-                                <InputError class="mt-2" :message="form.errors.name" />
-                            </div>
 
-                            <div>
-                                <InputLabel for="email" value="ایمیل" class="text-white/90 text-lg" />
-                                <TextInput
-                                    id="email"
-                                    v-model="form.email"
-                                    type="email"
-                                    class="mt-2 block w-full bg-gray-700/50 border-gray-700 text-white/90 focus:border-[#FF2D20] focus:ring-[#FF2D20] focus:ring-offset-0 transition-all duration-300 hover:shadow-xl hover:shadow-[#FF2D20]/10"
-                                    required
-                                    autocomplete="username"
-                                />
-                                <InputError class="mt-2" :message="form.errors.email" />
-                            </div>
-
-                            <div>
-                                <InputLabel for="password" value="رمز عبور" class="text-white/90 text-lg" />
-                                <TextInput
-                                    id="password"
-                                    v-model="form.password"
-                                    type="password"
-                                    class="mt-2 block w-full bg-gray-700/50 border-gray-700 text-white/90 focus:border-[#FF2D20] focus:ring-[#FF2D20] focus:ring-offset-0 transition-all duration-300 hover:shadow-xl hover:shadow-[#FF2D20]/10"
-                                    required
-                                    autocomplete="new-password"
-                                />
-                                <InputError class="mt-2" :message="form.errors.password" />
-                            </div>
-
-                            <div>
-                                <InputLabel for="password_confirmation" value="تایید رمز عبور" class="text-white/90 text-lg" />
-                                <TextInput
-                                    id="password_confirmation"
-                                    v-model="form.password_confirmation"
-                                    type="password"
-                                    class="mt-2 block w-full bg-gray-700/50 border-gray-700 text-white/90 focus:border-[#FF2D20] focus:ring-[#FF2D20] focus:ring-offset-0 transition-all duration-300 hover:shadow-xl hover:shadow-[#FF2D20]/10"
-                                    required
-                                    autocomplete="new-password"
-                                />
-                                <InputError class="mt-2" :message="form.errors.password_confirmation" />
-                            </div>
-
-                            <div>
-                                <div
-                                    id="recaptcha-container"
-                                    class="flex justify-center min-h-[78px]"
-                                ></div>
-                                <p v-if="!recaptchaLoaded" class="text-sm text-gray-400 text-center">
-                                    در حال بارگذاری ریکپچا...
-                                </p>
-                                <InputError class="mt-2" :message="form.errors['g-recaptcha-response']" />
-                            </div>
-
-                            <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature">
-                                <InputLabel for="terms">
-                                    <div class="flex items-center">
-                                        <Checkbox id="terms" v-model:checked="form.terms" name="terms" required class="bg-gray-700/50 border-gray-700" />
-                                        <div class="me-2 text-white/70">
-                                            من با <a target="_blank" :href="route('terms.show')" class="underline text-white/70 hover:text-white/90">شرایط خدمات</a> و <a target="_blank" :href="route('policy.show')" class="underline text-white/70 hover:text-white/90">سیاست حفظ حریم خصوصی</a> موافقم
-                                        </div>
-                                    </div>
-                                    <InputError class="mt-2" :message="form.errors.terms" />
-                                </InputLabel>
-                            </div>
-
-                            <div class="flex items-center justify-end">
-                                <Link :href="route('login')" class="p-4 text-sm text-white/70 hover:text-white/90 rounded-md transition-all duration-300 hover:scale-105">
-                                    قبلاً ثبت نام کرده‌اید؟
-                                </Link>
-
-                                <PrimaryButton class="me-4 bg-[#FF2D20] hover:bg-[#FF2D20]/90 hover:scale-105 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                                    ثبت نام
-                                </PrimaryButton>
-                            </div>
-                        </form>
+            <!-- Form Container -->
+            <div class="flex flex-col gap-6 overflow-hidden rounded-lg bg-gradient-to-br from-gray-800/50 to-gray-700/50 p-6 shadow-lg ring-1 ring-white/10 transition duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 backdrop-blur-sm mt-6">
+                <form @submit.prevent="submit" dir="rtl" class="space-y-1">
+                    <div>
+                        <InputLabel for="name" value="نام" class="text-white/90 text-lg" />
+                        <TextInput
+                            id="name"
+                            v-model="form.name"
+                            type="text"
+                            class="mt-2 block w-full bg-gray-700/50 border-gray-700 text-white/90 focus:border-[#FF2D20] focus:ring-[#FF2D20] focus:ring-offset-0 transition-all duration-300 hover:shadow-xl hover:shadow-[#FF2D20]/10"
+                            required
+                            autofocus
+                            autocomplete="name"
+                        />
+                        <InputError class="mt-2" :message="form.errors.name" />
                     </div>
-                </div>
+
+                    <div>
+                        <InputLabel for="email" value="ایمیل" class="text-white/90 text-lg" />
+                        <TextInput
+                            id="email"
+                            v-model="form.email"
+                            type="email"
+                            class="mt-2 block w-full bg-gray-700/50 border-gray-700 text-white/90 focus:border-[#FF2D20] focus:ring-[#FF2D20] focus:ring-offset-0 transition-all duration-300 hover:shadow-xl hover:shadow-[#FF2D20]/10"
+                            required
+                            autocomplete="username"
+                        />
+                        <InputError class="mt-2" :message="form.errors.email" />
+                    </div>
+
+                    <div>
+                        <InputLabel for="password" value="رمز عبور" class="text-white/90 text-lg" />
+                        <TextInput
+                            id="password"
+                            v-model="form.password"
+                            type="password"
+                            class="mt-2 block w-full bg-gray-700/50 border-gray-700 text-white/90 focus:border-[#FF2D20] focus:ring-[#FF2D20] focus:ring-offset-0 transition-all duration-300 hover:shadow-xl hover:shadow-[#FF2D20]/10"
+                            required
+                            autocomplete="new-password"
+                        />
+                        <InputError class="mt-2" :message="form.errors.password" />
+                    </div>
+
+                    <div>
+                        <InputLabel for="password_confirmation" value="تایید رمز عبور" class="text-white/90 text-lg" />
+                        <TextInput
+                            id="password_confirmation"
+                            v-model="form.password_confirmation"
+                            type="password"
+                            class="mt-2 block w-full bg-gray-700/50 border-gray-700 text-white/90 focus:border-[#FF2D20] focus:ring-[#FF2D20] focus:ring-offset-0 transition-all duration-300 hover:shadow-xl hover:shadow-[#FF2D20]/10"
+                            required
+                            autocomplete="new-password"
+                        />
+                        <InputError class="mt-2" :message="form.errors.password_confirmation" />
+                    </div>
+
+                    <div>
+                        <div
+                            id="recaptcha-container"
+                            class="mt-6 flex justify-center min-h-[78px]"
+                        ></div>
+                        <p v-if="!recaptchaLoaded" class="text-sm text-gray-400 text-center">
+                            در حال بارگذاری ریکپچا...
+                        </p>
+                        <InputError class="mt-2" :message="form.errors['g-recaptcha-response']" />
+                    </div>
+
+                    <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature">
+                        <InputLabel for="terms">
+                            <div class="flex items-center">
+                                <Checkbox id="terms" v-model:checked="form.terms" name="terms" required class="bg-gray-700/50 border-gray-700" />
+                                <div class="me-2 text-white/70">
+                                    من با <a target="_blank" :href="route('terms.show')" class="underline text-white/70 hover:text-white/90">شرایط خدمات</a> و <a target="_blank" :href="route('policy.show')" class="underline text-white/70 hover:text-white/90">سیاست حفظ حریم خصوصی</a> موافقم
+                                </div>
+                            </div>
+                            <InputError class="mt-2" :message="form.errors.terms" />
+                        </InputLabel>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <Link :href="route('login')" class="p-4 text-sm text-white/70 hover:text-white/90 rounded-md transition-all duration-300 hover:scale-105">
+                            قبلاً ثبت نام کرده‌اید؟
+                        </Link>
+
+                        <PrimaryButton class=" bg-[#FF2D20] hover:bg-[#FF2D20]/90 hover:scale-105 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                            ثبت نام
+                        </PrimaryButton>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

@@ -22,12 +22,29 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import MainDashboard from '@/Components/MainDashboard.vue';
+
+const chartData = ref({});
+
+const fetchChartData = async () => {
+    try {
+        const response = await axios.get('/dashboard/chart-data');
+        console.log('Chart data:', response.data); // For debugging
+        chartData.value = response.data;
+    } catch (error) {
+        console.error('Error fetching chart data:', error);
+    }
+};
+
+onMounted(() => {
+    fetchChartData();
+});
 
 defineProps({
     words: Array,
     users: Array,
-    chartData: Object,
 });
 </script>
