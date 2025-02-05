@@ -236,20 +236,20 @@
                         </div>
                     </div>
 
-                    <div v-if="selectedWord.voice" class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">
-                        <strong class="text-white text-lg sm:col-span-1">وویس:</strong>
-                        <audio controls class="sm:col-span-5">
-                            <source :src="`https://modern-dictionary.storage.c2.liara.space/voices/${word.voice}`"  type="audio/mp3" />
-                            Your browser does not support the audio element.
-                        </audio>
-                    </div>
+<!--                    <div v-if="selectedWord.voice" class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">-->
+<!--                        <strong class="text-white text-lg sm:col-span-1">وویس:</strong>-->
+<!--                        <audio controls class="sm:col-span-5">-->
+<!--                            <source :src="`https://modern-dictionary.storage.c2.liara.space/voices/${word.voice}`"  type="audio/mp3" />-->
+<!--                            Your browser does not support the audio element.-->
+<!--                        </audio>-->
+<!--                    </div>-->
 
-                    <!-- Image -->
-                    <div v-if="selectedWord.image" class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">
-                        <strong class="text-white text-lg sm:col-span-1">تصویر:</strong>
-                        <img :src="`https://modern-dictionary.storage.c2.liara.space/images/${word.image}`"  alt="Word Image"
-                            class="sm:col-span-5 rounded-lg shadow-md" />
-                    </div>
+<!--                    &lt;!&ndash; Image &ndash;&gt;-->
+<!--                    <div v-if="selectedWord.image" class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">-->
+<!--                        <strong class="text-white text-lg sm:col-span-1">تصویر:</strong>-->
+<!--                        <img :src="`https://modern-dictionary.storage.c2.liara.space/images/${word.image}`"  alt="Word Image"-->
+<!--                            class="sm:col-span-5 rounded-lg shadow-md" />-->
+<!--                    </div>-->
 
                     <!-- Categories -->
                     <div class="flex flex-wrap gap-2 mt-3">
@@ -331,25 +331,25 @@
                             class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />
                     </div>
 
-<!--                    <div>-->
-<!--                        <label for="add-voice" class="text-sm">فایل صوتی</label>-->
-<!--                        <input id="add-voice" type="file" accept="audio/*" @change="handleVoiceUpload"-->
-<!--                               class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />-->
-<!--                        <p v-if="newWord.voice" class="text-xs text-green-400 mt-1">-->
-<!--                            فایل انتخاب شده: {{ newWord.voice.name }}-->
-<!--                        </p>-->
-<!--                        <div v-if="uploadProgress.voice >= 0" :class="{'bg-green-500': uploadProgress.voice === 100, 'bg-blue-500': uploadProgress.voice < 100}" class="h-1 rounded mt-1" :style="{width: uploadProgress.voice + '%'}"></div>-->
-<!--                    </div>-->
+                    <div>
+                        <label for="add-voice" class="text-sm">فایل صوتی</label>
+                        <input id="add-voice" type="file" accept="audio/*" @change="handleVoiceUpload"
+                               class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />
+                        <p v-if="newWord.voice" class="text-xs text-green-400 mt-1">
+                            فایل انتخاب شده: {{ newWord.voice.name }}
+                        </p>
+                        <div v-if="uploadProgress.voice >= 0" :class="{'bg-green-500': uploadProgress.voice === 100, 'bg-blue-500': uploadProgress.voice < 100}" class="h-1 rounded mt-1" :style="{width: uploadProgress.voice + '%'}"></div>
+                    </div>
 
-<!--                    <div>-->
-<!--                        <label for="add-image" class="text-sm">تصویر</label>-->
-<!--                        <input id="add-image" type="file" accept="image/*" @change="handleImageUpload"-->
-<!--                               class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />-->
-<!--                        <p v-if="newWord.image" class="text-xs text-green-400 mt-1">-->
-<!--                            فایل انتخاب شده: {{ newWord.image.name }}-->
-<!--                        </p>-->
-<!--                        <div v-if="uploadProgress.image >= 0" :class="{'bg-green-500': uploadProgress.image === 100, 'bg-blue-500': uploadProgress.image < 100}" class="h-1 rounded mt-1" :style="{width: uploadProgress.image + '%'}"></div>-->
-<!--                    </div>-->
+                    <div>
+                        <label for="add-image" class="text-sm">تصویر</label>
+                        <input id="add-image" type="file" accept="image/*" @change="handleImageUpload"
+                               class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />
+                        <p v-if="newWord.image" class="text-xs text-green-400 mt-1">
+                            فایل انتخاب شده: {{ newWord.image.name }}
+                        </p>
+                        <div v-if="uploadProgress.image >= 0" :class="{'bg-green-500': uploadProgress.image === 100, 'bg-blue-500': uploadProgress.image < 100}" class="h-1 rounded mt-1" :style="{width: uploadProgress.image + '%'}"></div>
+                    </div>
 
                     <!-- انتخاب دسته‌بندی‌ها -->
                     <div class="col-span-2">
