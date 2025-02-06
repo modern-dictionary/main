@@ -25,6 +25,12 @@ class WordController extends Controller
         $words = Auth::user()->words()->with('categories')->get();
         $categories = Category::all();
 
+        $words->transform(function ($word) {
+            $word->image_url = $word->image ? Storage::disk('liara')->url($word->image) : null;
+            $word->voice_url = $word->voice ? Storage::disk('liara')->url($word->voice) : null;
+            return $word;
+        });
+
         return Inertia::render('Words/Index', [
             'words' => $words,
             'categories' => $categories,

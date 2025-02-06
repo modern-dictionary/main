@@ -136,7 +136,7 @@
                                 <div class="flex items-center w-full">
                                     <div class="ml-4 xl:ml-12 text-gray-400">{{ index + 1 }}</div>
                                     <div class="ml-4 xl:ml-12">
-                                        <img :src="`https://modern-dictionary.storage.c2.liara.space/${word.image}`"  alt="Word Image"
+                                        <img :src="word.image_url"  alt="Word Image"
                                             class="w-12 h-12 object-cover rounded-full">
                                     </div>
                                     <div class="font-medium truncate">{{ word . word }}</div>
@@ -236,18 +236,18 @@
                         </div>
                     </div>
 
-                    <div v-if="selectedWord.voice" class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">
+                    <div v-if="selectedWord.voice_url" class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">
                         <strong class="text-white text-lg sm:col-span-1">وویس:</strong>
                         <audio controls class="sm:col-span-5  p-2 ">
-                            <source :src="`/storage/${selectedWord.voice}`" type="audio/mp3" />
+                            <source :src="selectedWord.voice_url" type="audio/mp3" />
                             Your browser does not support the audio element.
                         </audio>
                     </div>
 
                     <!-- Image -->
-                    <div v-if="selectedWord.image" class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">
+                    <div v-if="selectedWord.image_url" class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">
                         <strong class="text-white text-lg sm:col-span-1">تصویر:</strong>
-                        <img :src="`/storage/${selectedWord.image}`" alt="Word Image"
+                        <img :src="selectedWord.image_url" alt="Word Image"
                             class="sm:col-span-5 rounded-lg shadow-md" />
                     </div>
 
@@ -537,16 +537,6 @@
             };
         },
         methods: {
-            simulateUpload(type) {
-                this.uploadProgress[type] = 0;
-                const interval = setInterval(() => {
-                    if (this.uploadProgress[type] < 100) {
-                        this.uploadProgress[type] += 10;
-                    } else {
-                        clearInterval(interval);
-                    }
-                }, 200);
-            },
             openSearchModal() {
                 this.showSearchModal = true;
             },
