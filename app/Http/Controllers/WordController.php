@@ -115,7 +115,11 @@ class WordController extends Controller
         $word->update($data);
 
         if ($request->selectedCategories) {
-            $word->categories()->sync(json_decode($request->selectedCategories));
+            $categories = json_decode($request->selectedCategories, true);
+            if (!is_array($categories)) {
+                return response()->json(['error' => 'فرمت دسته‌بندی‌ها اشتباه است'], 400);
+            }
+            $word->categories()->sync($categories);
         }
 
         return response()->json(['message' => 'کلمه با موفقیت به‌روزرسانی شد', 'word' => $word], 200);

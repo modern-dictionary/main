@@ -1,16 +1,9 @@
 <script setup>
     import {
         Head,
-        Link,
-        useForm
+
     } from "@inertiajs/vue3";
-    import AuthenticationCard from "@/Components/AuthenticationCard.vue";
     import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue";
-    import Checkbox from "@/Components/Checkbox.vue";
-    import InputError from "@/Components/InputError.vue";
-    import InputLabel from "@/Components/InputLabel.vue";
-    import PrimaryButton from "@/Components/PrimaryButton.vue";
-    import TextInput from "@/Components/TextInput.vue";
     import AppLayout from "@/Layouts/AppLayout.vue";
     import axios from "axios";
 
@@ -37,7 +30,7 @@
 
 <template>
 
-    <Head title="words" />
+    <Head title="words" ><title>words</title></Head>
 
     <AppLayout title="کلمات">
 
@@ -64,7 +57,7 @@
             </div>
         </template>
 
-        <template #logo>
+        <template>
             <AuthenticationCardLogo />
         </template>
         <!-- Search Module -->
@@ -166,7 +159,7 @@
                                     {{ word . meaning }}
                                 </div>
                                 <div class="flex justify-start gap-3 xl:gap-2 w-full ml-auto">
-                                    <span v-for="(category, i) in (word.categories ? word.categories.slice(0, 2) : [])"
+                                    <span v-for="category in (word.categories ? word.categories.slice(0, 3) : [])"
                                         :key="category.id"
                                         class="bg-gray-600 text-white text-xs px-3 py-1 rounded-xl">
                                         {{ category . name }}
@@ -562,14 +555,14 @@
                 this.showSearchModal = false;
                 this.searchTerm = ""; // پاک کردن عبارت جستجو هنگام بستن ماژول
             },
-            handleVoiceUpload(event) {
-                const file = event.target.files[0];
-                if (file) {
-                    this.newWord.voice = file;
-                    this.editForm.voice = file;
-                    this.simulateUpload('voice');
-                }
-            },
+            // handleVoiceUpload(event) {
+            //     const file = event.target.files[0];
+            //     if (file) {
+            //         this.newWord.voice = file;
+            //         this.editForm.voice = file;
+            //         this.simulateUpload('voice');
+            //     }
+            // },
 
             handleImageUpload(event) {
                 const file = event.target.files[0];
@@ -669,6 +662,7 @@
                     notification.className = 'fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg bg-green-500 text-white transform transition-all duration-500';
                     notification.innerHTML = '<div class="flex items-center"><span class="mr-2">✓</span>کلمه با موفقیت اضافه شد</div>';
                     document.body.appendChild(notification);
+                    console.log(response)
                     setTimeout(() => {
                         location.reload();
                     }, 2000);
@@ -783,8 +777,10 @@
                 formData.append('description', this.editForm.description);
                 formData.append('selectedCategories', JSON.stringify(this.editForm.selectedCategories));
 
-                if (this.editForm.voice) {
+                if (this.editForm.voice instanceof File) {
                     formData.append('voice', this.editForm.voice);
+                } else {
+                    console.error('Voice is not a valid file:', this.editForm.voice);
                 }
 
                 if (this.editForm.image instanceof File) {
@@ -803,6 +799,7 @@
                     setTimeout(() => {
                         location.reload();
                     }, 2000);
+                    console.log(response);
                 } catch (error) {
                     const notification = document.createElement('div');
                     notification.className = 'fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg bg-red-500 text-white transform transition-all duration-500';
