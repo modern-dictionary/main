@@ -36,10 +36,20 @@ class DashboardController extends Controller
             ],
         ];
 
+        $users = User::withCount('words')
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get()
+            ->map(function ($user) {
+                $user->formatted_created_at = $user->created_at->format('d/m/Y');
+                return $user;
+            })
+            ->toArray(); // تبدیل به آرایه
+
         return Inertia::render('Dashboard', [
             'chartData' => $chartData,
-            'words' => Word::latest()->take(5)->get(),
-            'users' => User::latest()->take(5)->get(),
+            'words' => Word::latest()->take(5)->get()->toArray(),
+            'users' => $users, // ارسال مقدار اصلاح‌شده
         ]);
     }
 

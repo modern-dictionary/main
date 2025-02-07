@@ -228,7 +228,7 @@
                             <div><span class="text-white/70">تلفظ:</span> <span
                                     class="text-white">{{ word . pronunciation }}</span></div>
                             <div><span class="text-white/70">توضیحات:</span> <span
-                                    class="text-white">{{ word.description.slice(0, 20) + '...' }}</span></div>
+                                    class="text-white">{{ word.description ? word.description.slice(0, 20) + '...' : '' }}</span></div>
                         </div>
                     </div>
 
@@ -242,7 +242,7 @@
                         </div>
                         <div class="truncate pr-2 text-white">{{ word . meaning }}</div>
                         <div class="truncate pr-2 text-white">{{ word . pronunciation }}</div>
-                        <div class="line-clamp-2 pr-2 text-white">{{ word.description.slice(0, 20) + '...' }}</div>
+                        <div class="line-clamp-2 pr-2 text-white">{{ word.description ? word.description.slice(0, 20) + '...' : '' }}</div>
                     </div>
                 </div>
                 <p v-else class="text-white">هیچ کلمه ای یافت نشد</p>
@@ -285,8 +285,8 @@
                             <span class="ml-2 text-white/70">{{ index + 1 }}.</span>
                             <span class="truncate text-white">{{ user . name }}</span>
                         </div>
-                        <div class="truncate text-white">{{ user . email }}</div>
-                        <div class="truncate text-white">{{ user . formatted_created_at }}</div>
+                        <div class="truncate text-white text-right">{{ user . email }}</div>
+                        <div class="truncate text-white text-center">{{ user . formatted_created_at }}</div>
                     </div>
                 </div>
             </div>
