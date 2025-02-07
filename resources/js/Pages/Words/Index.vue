@@ -331,15 +331,22 @@
                             class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />
                     </div>
 
-                    <div>
-                        <label for="add-voice" class="text-sm">فایل صوتی</label>
-                        <input id="add-voice" type="file" accept="audio/*" @change="handleVoiceUpload"
-                               class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />
-                        <p v-if="newWord.voice" class="text-xs text-green-400 mt-1">
-                            فایل انتخاب شده: {{ newWord.voice.name }}
-                        </p>
-                        <div v-if="uploadProgress.voice >= 0" :class="{'bg-green-500': uploadProgress.voice === 100, 'bg-blue-500': uploadProgress.voice < 100}" class="h-1 rounded mt-1" :style="{width: uploadProgress.voice + '%'}"></div>
+                    <div class="">
+                        <label class="text-sm">فایل صوتی</label>
+                        <div class="flex items-center gap-3">
+                            <button type="button" @click="toggleRecording" class="px-3 py-1.5 rounded-full text-white transition-all duration-300 shadow-lg flex items-center justify-center" :class="isRecording ? 'bg-red-500 animate-pulse' : 'bg-blue-500 hover:bg-blue-600'">
+                                <svg v-if="!isRecording" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                                    <rect x="9" y="5" width="6" height="14" rx="3" />
+                                </svg>
+                                <svg v-else xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                                    <circle cx="12" cy="12" r="6" />
+                                </svg>
+                            </button>
+                            <audio v-if="newWord.voice" :src="audioUrl" controls class="w-full rounded-lg shadow-md"></audio>
+                        </div>
                     </div>
+
+
 
                     <div>
                         <label for="add-image" class="text-sm">تصویر</label>
@@ -428,13 +435,20 @@
                         </div>
 
                         <!-- File Inputs -->
+
                         <div>
                             <label class="block font-medium text-white text-sm mb-1">فایل صوتی</label>
-                            <input type="file" accept="audio/*" @change="handleVoiceUpload"
-                                class="w-full px-3 py-1.5 text-sm rounded-lg border border-gray-700 bg-gray-800/50 text-white focus:outline-none focus:ring-2 focus:ring-[#FF2D20] transition-all duration-200" />
-                            <p v-if="editForm.voice" class="text-xs text-green-400 mt-0.5">فایل انتخاب شده: {{ editForm.word }}</p>
-                            <div v-if="uploadProgress.voice >= 0" :class="{'bg-green-500': uploadProgress.voice === 100, 'bg-blue-500': uploadProgress.voice < 100}" class="h-1 rounded mt-1" :style="{width: uploadProgress.voice + '%'}"></div>
-
+                            <div class="flex items-center space-x-2">
+                                <button type="button" @click="toggleRecording" class="p-2 bg-blue-500 text-white rounded-full">
+                                    <span v-if="!isRecording">🎤 ضبط</span>
+                                    <span v-else>⏹ توقف</span>
+                                </button>
+                                <audio v-if="editForm.voice" :src="audioUrl" controls class="ml-2"></audio>
+                            </div>
+                            <div v-if="uploadProgress.voice >= 0"
+                                 :class="{'bg-green-500': uploadProgress.voice === 100, 'bg-blue-500': uploadProgress.voice < 100}"
+                                 class="h-1 rounded mt-1"
+                                 :style="{width: uploadProgress.voice + '%'}"></div>
                         </div>
 
                         <div>
@@ -534,6 +548,10 @@
                 autoFillWord: '',
                 isLoading: false,
                 autoFillError: '',
+                isRecording: false,
+                mediaRecorder: null,
+                audioChunks: [],
+                audioUrl: null,
             };
         },
         methods: {
@@ -571,7 +589,58 @@
                     }
                 }, 200);
             },
-            addWord() {
+            toggleRecording() {
+                if (!this.isRecording) {
+                    this.startRecording();
+                } else {
+                    this.stopRecording();
+                }
+            },
+            startRecording() {
+                navigator.mediaDevices.getUserMedia({ audio: true })
+                    .then(stream => {
+                        let options = { mimeType: "audio/webm" };
+                        if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                            options = { mimeType: "audio/ogg" };
+                        }
+                        this.mediaRecorder = new MediaRecorder(stream);
+                        this.audioChunks = [];
+
+                        this.mediaRecorder.ondataavailable = event => {
+                            this.audioChunks.push(event.data);
+                        };
+
+                        this.mediaRecorder.onstop = () => {
+                            const audioBlob = new Blob(this.audioChunks, { type: options.mimeType });
+                            const extension = options.mimeType.split('/')[1]; // مثلاً webm یا ogg
+                            const file = new File([audioBlob], `recorded_audio.${extension}`, { type: options.mimeType });
+                            console.log("Created File:", file);
+                            this.newWord.voice = file;
+                            this.audioUrl = URL.createObjectURL(audioBlob);
+                        };
+
+                        this.mediaRecorder.start();
+                        this.isRecording = true;
+                    })
+                    .catch(error => console.error('خطا در دسترسی به میکروفون:', error));
+            },
+            stopRecording() {
+                this.mediaRecorder.stop();
+                this.isRecording = false;
+
+                this.mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(this.audioChunks, { type: 'audio/wav' });
+                    const audioFile = new File([audioBlob], "recorded_audio.wav", { type: "audio/wav" });
+
+                    this.audioUrl = URL.createObjectURL(audioBlob);
+
+                    this.newWord.voice = audioFile;
+                    this.editForm.voice = audioFile;
+                    console.log("Voice file ready:", this.newWord.voice);
+                };
+            },
+            addWord(event) {
+                if (event) event.preventDefault();
                 const formData = new FormData();
                 formData.append('word', this.newWord.word);
                 formData.append('meaning', this.newWord.meaning);
@@ -606,6 +675,7 @@
                 })
                 .catch(error => {
                     console.error('Error in addWord:', error.response ? error.response.data : error);
+                    const notification = document.createElement('div');
                     notification.className = 'fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg bg-red-500 text-white transform transition-all duration-500';
                     notification.innerHTML = '<div class="flex items-center"><span class="mr-2">✕</span>خطا در ذخیره‌سازی کلمه</div>';
                     console.error('خطا در ذخیره‌سازی:', error.response.data);
@@ -713,7 +783,7 @@
                 formData.append('description', this.editForm.description);
                 formData.append('selectedCategories', JSON.stringify(this.editForm.selectedCategories));
 
-                if (this.editForm.voice instanceof File) {
+                if (this.editForm.voice) {
                     formData.append('voice', this.editForm.voice);
                 }
 
@@ -734,6 +804,7 @@
                         location.reload();
                     }, 2000);
                 } catch (error) {
+                    const notification = document.createElement('div');
                     notification.className = 'fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg bg-red-500 text-white transform transition-all duration-500';
                     notification.innerHTML = '<div class="flex items-center"><span class="mr-2">✕</span>خطا در ویرایش کلمه</div>';
                     console.error('خطا در ذخیره‌سازی:', error.response?.data || error.message);

@@ -51,7 +51,6 @@ class WordController extends Controller
 
     public function store(Request $request)
     {
-        Log::info('Store Word Request Data:', $request->all());
 
         try {
             $validated = $request->validate([
@@ -59,7 +58,7 @@ class WordController extends Controller
                 'meaning'       => 'required|string|max:1000',
                 'pronunciation' => 'nullable|string|max:255',
                 'description'   => 'nullable|string|max:2000',
-                'voice'         => 'nullable|mimes:mp3,wav,ogx,ogg',
+                'voice'         => 'nullable|mimetypes:audio/wav,audio/x-wav,audio/mpeg,audio/ogg,audio/webm,video/webm',
                 'image'         => 'nullable|mimes:jpg,jpeg,png',
                 'categories'    => 'nullable|string',
             ]);
@@ -87,12 +86,12 @@ class WordController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'word' => 'required|string|max:255',
-            'meaning' => 'required|string|max:1000',
-            'pronunciation' => 'nullable|string|max:1000',
-            'voice' => 'nullable|mimes:mp3,wav,ogx,ogg',
-            'image' => 'nullable|mimes:jpg,jpeg,png',
-            'description' => 'nullable|string|max:2000',
+            'word'               => 'required|string|max:255',
+            'meaning'            => 'required|string|max:1000',
+            'pronunciation'      => 'nullable|string|max:1000',
+            'voice'              => 'nullable|mimetypes:audio/wav,audio/x-wav,audio/mpeg,audio/ogg,audio/webm,video/webm',
+            'image'              => 'nullable|mimes:jpg,jpeg,png',
+            'description'        => 'nullable|string|max:2000',
             'selectedCategories' => 'nullable|string',
         ]);
 
