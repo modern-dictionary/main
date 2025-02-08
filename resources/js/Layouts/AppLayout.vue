@@ -29,12 +29,12 @@ const logout = () => {
 
 <template>
     <div dir="rtl">
-        <Head :title="title" />
+        <Head :title="title" ><title>dashboard</title></Head>
 
         <Banner />
 
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            <nav class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+        <div class="min-h-screen bg-gray-50-100 dark:bg-gray-900">
+            <nav class="bg-gray-100 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
                 <!-- منوی اصلی -->
                 <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
@@ -66,6 +66,21 @@ const logout = () => {
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ms-6">
+
+                            <!-- دکمه تغییر تم -->
+                            <div>
+                                <button @click="toggleTheme" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700">
+                                    <svg v-if="isDarkMode" class="w-6 h-6 text-gray-800 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <circle cx="12" cy="12" r="4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></circle>
+                                        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                              d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+                                    </svg>
+                                    <svg v-else class="w-6 h-6 text-gray-800 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+                                    </svg>
+                                </button>
+                            </div>
                             <div class="ms-3 relative">
                                 <!-- منوی تیم‌ها -->
                                 <Dropdown v-if="$page.props.jetstream.hasTeamFeatures" align="right" width="60">
@@ -109,7 +124,7 @@ const logout = () => {
                                                     <form @submit.prevent="switchToTeam(team)">
                                                         <DropdownLink as="button">
                                                             <div class="flex items-center">
-                                                                <svg v-if="team.id == $page.props.auth.user.current_team_id" class="me-2 size-5 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                                <svg v-if="team.id === $page.props.auth.user.current_team_id" class="me-2 size-5 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                                 </svg>
 
@@ -298,3 +313,35 @@ const logout = () => {
         </div>
     </div>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            isDarkMode: false
+        };
+    },
+    mounted() {
+        this.isDarkMode = localStorage.getItem('theme') === 'dark';
+        this.applyTheme();
+    },
+    methods: {
+        applyTheme() {
+            if (this.isDarkMode) {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light'); // حذف کلاس لایت
+            } else {
+                document.documentElement.classList.add('light');
+                document.documentElement.classList.remove('dark'); // حذف کلاس دارک
+            }
+        },
+        toggleTheme() {
+            this.isDarkMode = !this.isDarkMode;
+            localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
+            this.applyTheme();
+            console.log(localStorage.getItem('theme'));
+
+        }
+    }
+};
+</script>
