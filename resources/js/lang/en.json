@@ -1,0 +1,15 @@
+{
+    "dashboard": "Dashboard",
+    "words": "Words",
+    "categories": "Categories",
+    "teams": "Teams",
+    "language": "ENGLISH",
+    "team_management": "Team Management",
+    "team_settings": "Team Settings",
+    "create_team": "Create New Team",
+    "switch_team": "Switch Team",
+    "account_management": "Account Management",
+    "profile": "Profile",
+    "api_tokens": "API Tokens",
+    "logout": "Logout"
+}

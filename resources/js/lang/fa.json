@@ -1,0 +1,15 @@
+{
+    "dashboard": "داشبورد",
+    "words": "کلمات",
+    "categories": "دسته‌بندی",
+    "teams": "تیم‌ها",
+    "language": "فارسی",
+    "team_management": "مدیریت تیم",
+    "team_settings": "تنظیمات تیم",
+    "create_team": "ایجاد تیم جدید",
+    "switch_team": "تغییر تیم",
+    "account_management": "مدیریت حساب کاربری",
+    "profile": "پروفایل",
+    "api_tokens": "توکن‌های API",
+    "logout": "خروج"
+}

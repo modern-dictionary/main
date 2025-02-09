@@ -1,0 +1,15 @@
+{
+    "dashboard": "لوحة التحكم",
+    "words": "الكلمات",
+    "categories": "التصنيفات",
+    "teams": "الفرق",
+    "language": "العربية",
+    "team_management": "إدارة الفريق",
+    "team_settings": "إعدادات الفريق",
+    "create_team": "إنشاء فريق جديد",
+    "switch_team": "تغيير الفريق",
+    "account_management": "إدارة الحساب",
+    "profile": "الملف الشخصي",
+    "api_tokens": "رموز API",
+    "logout": "تسجيل الخروج"
+}
