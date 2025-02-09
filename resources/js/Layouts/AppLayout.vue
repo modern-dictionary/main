@@ -7,12 +7,29 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import { useI18n } from 'vue-i18n';
+
 
 defineProps({
     title: String,
 });
 
 const showingNavigationDropdown = ref(false);
+
+const languages = [
+    { label: 'فارسی', code: 'fa' },
+    { label: 'English', code: 'en' },
+    { label: 'العربية', code: 'ar' }
+];
+
+const { locale } = useI18n();
+
+const setLanguage = (lang) => {
+    locale.value = lang;
+    localStorage.setItem('locale', lang);
+    // location.reload();
+    console.log(lang);
+};
 
 const switchToTeam = (team) => {
     router.put(route('current-team.update'), {
@@ -28,13 +45,13 @@ const logout = () => {
 </script>
 
 <template>
-    <div dir="rtl">
-        <Head :title="title" />
+    <div :dir="locale === 'en' ? 'ltr' : 'rtl'">
+        <Head :title="title" ><title>dashboard</title></Head>
 
         <Banner />
 
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            <nav class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+        <div class="min-h-screen bg-gray-50-100 dark:bg-gray-900">
+            <nav class="bg-gray-100 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
                 <!-- منوی اصلی -->
                 <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
@@ -50,22 +67,67 @@ const logout = () => {
                             <div class="flex items-center sm:items-stretch overflow-x-auto overflow-y-hidden sm:overflow-x-visible max-w-[calc(100vw-12rem)] sm:max-w-none ms-4">
                                 <div class="flex gap-2 sm:gap-8">
                                     <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                        داشبورد
+                                        {{ $t('dashboard') }}
                                     </NavLink>
                                     <NavLink :href="route('words.index')" :active="route().current('words.index')">
-                                        کلمات
+                                        {{ $t('words') }}
                                     </NavLink>
                                     <NavLink :href="route('categories.index')" :active="route().current('categories.index')">
-                                        دسته‌بندی
+                                        {{ $t('categories') }}
                                     </NavLink>
                                     <NavLink :href="route('teams.index')" :active="route().current('teams.index')">
-                                        تیم ها
+                                        {{ $t('teams') }}
                                     </NavLink>
                                 </div>
                             </div>
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ms-6">
+
+                            <!-- دکمه تغییر تم -->
+                            <div>
+                                <button @click="toggleTheme" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700">
+                                    <svg v-if="isDarkMode" class="w-6 h-6 text-gray-800 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <circle cx="12" cy="12" r="4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></circle>
+                                        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                              d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+                                    </svg>
+                                    <svg v-else class="w-6 h-6 text-gray-800 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div class="relative ms-6">
+                                <Dropdown align="right" width="48">
+                                    <template #trigger>
+                                        <button
+                                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md
+                                        text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300
+                                        focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-700 active:bg-gray-50 dark:active:bg-gray-700
+                                        transition ease-in-out duration-150"
+                                        >
+                                            {{ $t('language') }}
+
+                                            <svg class="ms-2 -me-0.5 size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                            </svg>
+                                        </button>
+                                    </template>
+
+                                    <template #content>
+                                        <DropdownLink
+                                            v-for="lang in languages"
+                                            :key="lang.code"
+                                            as="button"
+                                            @click="setLanguage(lang.code)">
+                                            {{ lang.label.toUpperCase() }}
+                                        </DropdownLink>
+                                    </template>
+                                </Dropdown>
+                            </div>
+
                             <div class="ms-3 relative">
                                 <!-- منوی تیم‌ها -->
                                 <Dropdown v-if="$page.props.jetstream.hasTeamFeatures" align="right" width="60">
@@ -85,16 +147,16 @@ const logout = () => {
                                         <div class="w-60">
                                             <!-- مدیریت تیم -->
                                             <div class="block px-4 py-2 text-xs text-gray-400">
-                                                مدیریت تیم
+                                                {{ $t('team_management') }}
                                             </div>
 
                                             <!-- تنظیمات تیم -->
                                             <DropdownLink :href="route('teams.show', $page.props.auth.user.current_team.id)">
-                                                تنظیمات تیم
+                                                {{ $t('team_settings') }}
                                             </DropdownLink>
 
                                             <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('teams.create')">
-                                                ایجاد تیم جدید
+                                                {{ $t('create_team') }}
                                             </DropdownLink>
 
                                             <!-- تغییر تیم -->
@@ -102,14 +164,14 @@ const logout = () => {
                                                 <div class="border-t border-gray-200 dark:border-gray-600" />
 
                                                 <div class="block px-4 py-2 text-xs text-gray-400">
-                                                    تغییر تیم
+                                                    {{ $t('switch_team') }}
                                                 </div>
 
                                                 <template v-for="team in $page.props.auth.user.all_teams" :key="team.id">
                                                     <form @submit.prevent="switchToTeam(team)">
                                                         <DropdownLink as="button">
                                                             <div class="flex items-center">
-                                                                <svg v-if="team.id == $page.props.auth.user.current_team_id" class="me-2 size-5 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                                <svg v-if="team.id === $page.props.auth.user.current_team_id" class="me-2 size-5 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                                 </svg>
 
@@ -146,15 +208,15 @@ const logout = () => {
                                     <template #content>
                                         <!-- مدیریت حساب کاربری -->
                                         <div class="block px-4 py-2 text-xs text-gray-400">
-                                            مدیریت حساب کاربری
+                                            {{ $t('account_management') }}
                                         </div>
 
                                         <DropdownLink :href="route('profile.show')">
-                                            پروفایل
+                                            {{ $t('profile') }}
                                         </DropdownLink>
 
                                         <DropdownLink v-if="$page.props.jetstream.hasApiFeatures" :href="route('api-tokens.index')">
-                                            توکن‌های API
+                                            {{ $t('api_tokens') }}
                                         </DropdownLink>
 
                                         <div class="border-t border-gray-200 dark:border-gray-600" />
@@ -162,7 +224,7 @@ const logout = () => {
                                         <!-- خروج -->
                                         <form @submit.prevent="logout">
                                             <DropdownLink as="button">
-                                                خروج
+                                                {{ $t('logout') }}
                                             </DropdownLink>
                                         </form>
                                     </template>
@@ -203,7 +265,7 @@ const logout = () => {
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            داشبورد
+                            {{ $t('dashboard') }}
                         </ResponsiveNavLink>
                     </div>
 
@@ -226,17 +288,17 @@ const logout = () => {
 
                         <div class="mt-3 space-y-1">
                             <ResponsiveNavLink :href="route('profile.show')" :active="route().current('profile.show')">
-                                پروفایل
+                                {{ $t('profile') }}
                             </ResponsiveNavLink>
 
                             <ResponsiveNavLink v-if="$page.props.jetstream.hasApiFeatures" :href="route('api-tokens.index')" :active="route().current('api-tokens.index')">
-                                توکن‌های API
+                                {{ $t('api_tokens') }}
                             </ResponsiveNavLink>
 
                             <!-- خروج -->
                             <form method="POST" @submit.prevent="logout">
                                 <ResponsiveNavLink as="button">
-                                    خروج
+                                    {{ $t('logout') }}
                                 </ResponsiveNavLink>
                             </form>
 
@@ -245,16 +307,16 @@ const logout = () => {
                                 <div class="border-t border-gray-200 dark:border-gray-600" />
 
                                 <div class="block px-4 py-2 text-xs text-gray-400">
-                                    مدیریت تیم
+                                    {{ $t('team_management') }}
                                 </div>
 
                                 <!-- تنظیمات تیم -->
                                 <ResponsiveNavLink :href="route('teams.show', $page.props.auth.user.current_team)" :active="route().current('teams.show')">
-                                    تنظیمات تیم
+                                    {{ $t('team_settings') }}
                                 </ResponsiveNavLink>
 
                                 <ResponsiveNavLink v-if="$page.props.jetstream.canCreateTeams" :href="route('teams.create')" :active="route().current('teams.create')">
-                                    ایجاد تیم جدید
+                                    {{ $t('create_team') }}
                                 </ResponsiveNavLink>
 
                                 <!-- تغییر تیم -->
@@ -262,7 +324,7 @@ const logout = () => {
                                     <div class="border-t border-gray-200 dark:border-gray-600" />
 
                                     <div class="block px-4 py-2 text-xs text-gray-400">
-                                        تغییر تیم
+                                        {{ $t('switch_team') }}
                                     </div>
 
                                     <template v-for="team in $page.props.auth.user.all_teams" :key="team.id">
@@ -298,3 +360,35 @@ const logout = () => {
         </div>
     </div>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            isDarkMode: false
+        };
+    },
+    mounted() {
+        this.isDarkMode = localStorage.getItem('theme') === 'dark';
+        this.applyTheme();
+    },
+    methods: {
+        applyTheme() {
+            if (this.isDarkMode) {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light'); // حذف کلاس لایت
+            } else {
+                document.documentElement.classList.add('light');
+                document.documentElement.classList.remove('dark'); // حذف کلاس دارک
+            }
+        },
+        toggleTheme() {
+            this.isDarkMode = !this.isDarkMode;
+            localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
+            this.applyTheme();
+            console.log(localStorage.getItem('theme'));
+
+        },
+    }
+};
+</script>

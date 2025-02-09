@@ -9,3 +9,12 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/import-word/{word}', [WordImportController::class, 'importWord']);
+
+Route::post('/set-locale', function (Illuminate\Http\Request $request) {
+    $locale = $request->input('locale');
+    if (in_array($locale, ['en', 'fa', 'ar'])) {
+        session(['locale' => $locale]);
+        app()->setLocale($locale);
+    }
+    return response()->json(['message' => 'Language changed to ' . app()->getLocale()]);
+});

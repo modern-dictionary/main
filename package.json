@@ -21,6 +21,7 @@
         "vue": "^3.3.13"
     },
     "dependencies": {
-        "chart.js": "^4.4.7"
+        "chart.js": "^4.4.7",
+        "vue-i18n": "^11.1.0"
     }
 }
