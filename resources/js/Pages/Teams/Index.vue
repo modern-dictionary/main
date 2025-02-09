@@ -15,12 +15,12 @@ const message = ref('');
 <template>
     <AppLayout title="Dashboard">
         <template #header>
-            <h2 class="font-semibold text-xl text-white leading-tight rounded-lg">داشبورد</h2>
+            <h2 class="font-semibold text-xl dark:text-white text-black leading-tight rounded-lg">تیم ها</h2>
         </template>
 
         <div class="py-12">
-            <div class="max-w-7xl mx-auto text-white sm:px-6 lg:px-8">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl rounded-lg transition-all duration-300" dir="rtl">
+            <div class="max-w-7xl mx-auto dark:text-white text-black sm:px-6 lg:px-8">
+                <div class="bg-gray-200 dark:bg-gray-800 overflow-hidden shadow-xl rounded-lg transition-all duration-300" dir="rtl">
                     <div class="mb-5 p-5 lg:p-8 bg-gradient-to-br border-gray-700 rounded-lg slide-up">
                         <h1 class="text-2xl font-bold mb-4">لیست تیم‌ها</h1>
                         <div class="space-y-4">
@@ -49,7 +49,7 @@ const message = ref('');
                                 <div class="col-span-1 flex items-center justify-start lg:justify-end">
                                     <button
                                         v-if="isOwner(team)"
-                                        class="bg-gray-400 w-full sm:w-40 text-center text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded text-sm sm:text-base cursor-not-allowed"
+                                        class="bg-gray-400 w-full sm:w-40 text-center dark:text-white text-black px-3 py-1.5 sm:px-4 sm:py-2 rounded text-sm sm:text-base cursor-not-allowed"
                                         disabled
                                     >
                                         مالک تیم
@@ -58,7 +58,7 @@ const message = ref('');
                                     <button
                                         v-else-if="isMember(team)"
                                         @click="leaveTeam(team.id, currentUser.id)"
-                                        class="bg-red-500 w-full sm:w-40 text-center text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded text-sm sm:text-base hover:bg-red-600"
+                                        class="bg-red-500 w-full sm:w-40 text-center dark:text-white text-black px-3 py-1.5 sm:px-4 sm:py-2 rounded text-sm sm:text-base hover:bg-red-600"
                                     >
                                         خارج شدن
                                     </button>
@@ -66,7 +66,7 @@ const message = ref('');
                                     <button
                                         v-else
                                         @click="addMemberToTeam(team.id, currentUser.email)"
-                                        class="bg-blue-500 w-full sm:w-40 text-center text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded text-sm sm:text-base hover:bg-blue-600"
+                                        class="bg-blue-500 w-full sm:w-40 text-center dark:text-white text-black px-3 py-1.5 sm:px-4 sm:py-2 rounded text-sm sm:text-base hover:bg-blue-600"
                                     >
                                         عضو شدن
                                     </button>

@@ -67,4 +67,9 @@ class Team extends JetstreamTeam
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Category::class, 'team_category', 'team_id','category_id');
+    }
 }

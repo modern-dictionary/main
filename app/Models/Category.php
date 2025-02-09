@@ -15,4 +15,9 @@ class Category extends Model
     {
         return $this->belongsToMany(Word::class, 'word_category', 'category_id', 'word_id');
     }
+
+    public function teams(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Word::class, 'team_category', 'category_id', 'team_id');
+    }
 }

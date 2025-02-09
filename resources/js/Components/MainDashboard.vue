@@ -195,6 +195,7 @@ const { locale } = useI18n();
 
         <div
             class="mb-5 p-5 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 rounded-lg slide-up" style="animation-delay: 0.2s">
+
             <h2 class="text-lg text-white p-6 font-bold mb-4">{{ $t('data_chart') }}</h2>
             <div class="w-full mx-auto" style="height: 300px">
                 <canvas id="dashboardChart"></canvas>
@@ -202,7 +203,7 @@ const { locale } = useI18n();
         </div>
 
         <div
-            class="mb-5 p-5 bg-gradient-to-br from-gray-800/50 to-gray-700/50 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 lg:p-8 rounded-lg">
+            class="mb-5 p-5 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800/50 dark:to-gray-700/50 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 lg:p-8 rounded-lg">
             <!-- Words Section -->
             <div
                 class="mb-5 p-5 text-white hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 rounded-lg slide-up" style="animation-delay: 0.3s">
@@ -222,8 +223,8 @@ const { locale } = useI18n();
                         class="mb-5 p-5 rounded-lg shadow-sm md:hidden flex flex-col gap-2 transition duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 hover:bg-gray-700/50 slide-up"
                         :style="{ animationDelay: `${0.4 + (index * 0.1)}s` }">
                         <div class="flex items-center font-medium">
-                            <span class="ml-2 text-white/70">{{ index + 1 }}.</span>
-                            <span class="text-white">{{ word . word }}</span>
+                            <span class="ml-2 dark:text-white text-black/70">{{ index + 1 }}.</span>
+                            <span class="dark:text-white text-black">{{ word . word }}</span>
                         </div>
                         <div class="mb-2 p-2 grid gap-1 text-sm">
                             <div><span class="text-white/70">{{ $t('meaning') }}:</span> <span
@@ -240,14 +241,15 @@ const { locale } = useI18n();
                         class="mb-5 p-5 hidden md:grid md:grid-cols-4 rounded-lg shadow-sm items-start gap-4 transition duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 hover:bg-gray-700/50 slide-up"
                         :style="{ animationDelay: `${0.4 + (index * 0.1)}s` }">
                         <div class="flex items-center">
-                            <span class="ml-2 text-white/70">{{ index + 1 }}.</span>
-                            <span class="truncate text-white">{{ word . word }}</span>
+                            <span class="ml-2 dark:text-white text-black/70">{{ index + 1 }}.</span>
+                            <span class="truncate dark:text-white text-black">{{ word . word }}</span>
                         </div>
-                        <div class="truncate pr-2 text-white">{{ word . meaning }}</div>
-                        <div class="truncate pr-2 text-white">{{ word . pronunciation }}</div>
-                        <div class="line-clamp-2 pr-2 text-white">{{ word.description ? word.description.slice(0, 20) + '...' : '' }}</div>
+                        <div class="truncate pr-2 dark:text-white text-black">{{ word . meaning }}</div>
+                        <div class="truncate pr-2 dark:text-white text-black">{{ word . pronunciation }}</div>
+                        <div class="line-clamp-2 pr-2 dark:text-white text-black">{{ word.description ? word.description.slice(0, 20) + '...' : '' }}</div>
                     </div>
                 </div>
+
                 <p v-else class="text-white">{{ $t('no_words_found') }}</p>
             </div>
 
@@ -269,8 +271,8 @@ const { locale } = useI18n();
                         class="mb-5 p-5 rounded-lg shadow-sm md:hidden flex flex-col gap-2 transition duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 hover:bg-gray-700/50 slide-up"
                         :style="{ animationDelay: `${0.4 + (index * 0.1)}s` }">
                         <div class="flex items-center font-medium">
-                            <span class="ml-2 text-white/70">{{ index + 1 }}.</span>
-                            <span class="text-white">{{ user . name }}</span>
+                            <span class="ml-2 dark:text-white text-black/70">{{ index + 1 }}.</span>
+                            <span class="dark:text-white text-black">{{ user . name }}</span>
                         </div>
                         <div class="grid gap-1 text-sm">
                             <div><span class="text-white/70">{{ $t('email') }}:</span> <span
@@ -285,11 +287,11 @@ const { locale } = useI18n();
                         class="mb-5 p-5 hidden md:grid md:grid-cols-3 rounded-lg shadow-sm items-start gap-4 transition duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 hover:bg-gray-700/50 slide-up"
                         :style="{ animationDelay: `${0.4 + (index * 0.1)}s` }">
                         <div class="flex items-center">
-                            <span class="ml-2 text-white/70">{{ index + 1 }}.</span>
-                            <span class="truncate text-white">{{ user . name }}</span>
+                            <span class="ml-2 dark:text-white text-black/70">{{ index + 1 }}.</span>
+                            <span class="truncate dark:text-white text-black">{{ user . name }}</span>
                         </div>
-                        <div class="truncate text-white text-right">{{ user . email }}</div>
-                        <div class="truncate text-white text-center">{{ user . formatted_created_at }}</div>
+                        <div class="truncate dark:text-white text-black text-right">{{ user . email }}</div>
+                        <div class="truncate dark:text-white text-black text-center">{{ user . formatted_created_at }}</div>
                     </div>
                 </div>
             </div>
