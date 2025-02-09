@@ -1,4 +1,8 @@
 <script setup>
+import {useI18n} from "vue-i18n";
+
+const { locale } = useI18n();
+
     import {
         onMounted,
         watch
@@ -178,21 +182,21 @@
 </style>
 
 <template>
-    <div dir="rtl">
+    <div :dir="locale === 'en' ? 'ltr' : 'rtl'">
         <div
             class="mb-5 p-5 lg:p-8 bg-gradient-to-br border-gray-700 transition duration-300 rounded-lg slide-up">
-            <h1 class="mt-8 text-2xl font-medium dark:text-white text-black">
-                به دیکشنری مدرن خوش آمدید!
+            <h1 class="mt-8 text-2xl font-medium text-white">
+                {{ $t('welcome') }}
             </h1>
-            <p class="mt-6 dark:text-white text-black leading-relaxed">
-                دیکشنری مدرن ما به عنوان یک ابزار جامع و کاربرپسند، به شما این امکان را می‌دهد که به راحتی و سرعت به
-                معانی، مترادف‌ها و ترجمه‌های دقیق کلمات دسترسی پیدا کنید.
+            <p class="mt-6 text-white leading-relaxed">
+                {{ $t('dashboard_description') }}
             </p>
         </div>
 
         <div
             class="mb-5 p-5 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 rounded-lg slide-up" style="animation-delay: 0.2s">
-            <h2 class="text-lg dark:text-white text-black p-6 font-bold mb-4">نمودار داده‌ها</h2>
+
+            <h2 class="text-lg text-white p-6 font-bold mb-4">{{ $t('data_chart') }}</h2>
             <div class="w-full mx-auto" style="height: 300px">
                 <canvas id="dashboardChart"></canvas>
             </div>
@@ -202,15 +206,15 @@
             class="mb-5 p-5 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800/50 dark:to-gray-700/50 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 lg:p-8 rounded-lg">
             <!-- Words Section -->
             <div
-                class="mb-5 p-5 dark:text-white text-black hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 rounded-lg slide-up" style="animation-delay: 0.3s">
-                <h1 class="text-xl font-bold mb-6">کلمات جدید</h1>
+                class="mb-5 p-5 text-white hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 rounded-lg slide-up" style="animation-delay: 0.3s">
+                <h1 class="text-xl font-bold mb-6">{{ $t('new_words') }}</h1>
 
                 <!-- Desktop Headers -->
                 <div class="mb-2 p-2 hidden md:grid md:grid-cols-4 pb-2">
-                    <div class="pr-4 lg:pr-8"><strong>کلمه</strong></div>
-                    <div class="pr-4"><strong>معنی</strong></div>
-                    <div class="pr-4"><strong>تلفظ</strong></div>
-                    <div class="pr-4"><strong>توضیحات</strong></div>
+                    <div class="pr-4 lg:pr-8"><strong>{{ $t('new_words') }}</strong></div>
+                    <div class="pr-4"><strong>{{ $t('meaning') }}</strong></div>
+                    <div class="pr-4"><strong>{{ $t('pronunciation') }}</strong></div>
+                    <div class="pr-4"><strong>{{ $t('description') }}</strong></div>
                 </div>
 
                 <div v-if="words.length > 0" class="mb-2 p-2 space-y-2 border border-gray-700 rounded">
@@ -223,12 +227,12 @@
                             <span class="dark:text-white text-black">{{ word . word }}</span>
                         </div>
                         <div class="mb-2 p-2 grid gap-1 text-sm">
-                            <div><span class="dark:text-white text-black/70">معنی:</span> <span
-                                    class="dark:text-white text-black">{{ word . meaning }}</span></div>
-                            <div><span class="dark:text-white text-black/70">تلفظ:</span> <span
-                                    class="dark:text-white text-black">{{ word . pronunciation }}</span></div>
-                            <div><span class="dark:text-white text-black-white/70">توضیحات:</span> <span
-                                    class="dark:text-white text-black">{{ word.description ? word.description.slice(0, 20) + '...' : '' }}</span></div>
+                            <div><span class="text-white/70">{{ $t('meaning') }}:</span> <span
+                                    class="text-white">{{ word . meaning }}</span></div>
+                            <div><span class="text-white/70">{{ $t('pronunciation') }}:</span> <span
+                                    class="text-white">{{ word . pronunciation }}</span></div>
+                            <div><span class="text-white/70">{{ $t('description') }}:</span> <span
+                                    class="text-white">{{ word.description ? word.description.slice(0, 20) + '...' : '' }}</span></div>
                         </div>
                     </div>
 
@@ -245,19 +249,20 @@
                         <div class="line-clamp-2 pr-2 dark:text-white text-black">{{ word.description ? word.description.slice(0, 20) + '...' : '' }}</div>
                     </div>
                 </div>
-                <p v-else class="dark:text-white text-black">هیچ کلمه ای یافت نشد</p>
+
+                <p v-else class="text-white">{{ $t('no_words_found') }}</p>
             </div>
 
             <!-- Users Section -->
             <div
-                class="mb-5 p-5 dark:text-white text-black hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 rounded-lg slide-up" style="animation-delay: 0.3s">
-                <h1 class="text-xl font-bold mb-6">اعضای جدید</h1>
+                class="mb-5 p-5 text-white hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 rounded-lg slide-up" style="animation-delay: 0.3s">
+                <h1 class="text-xl font-bold mb-6">{{ $t('new_members') }}</h1>
 
                 <!-- Desktop Headers -->
                 <div class="mb-2 p-2 hidden md:grid md:grid-cols-3 pb-2">
-                    <div class="pr-4 lg:pr-8"><strong>اسم</strong></div>
-                    <div class="pr-4"><strong>ایمیل</strong></div>
-                    <div class="pr-4"><strong>تاریخ عضویت</strong></div>
+                    <div class="pr-4 lg:pr-8"><strong>{{ $t('name') }}</strong></div>
+                    <div class="pr-4"><strong>{{ $t('email') }}</strong></div>
+                    <div class="pr-4"><strong>{{ $t('membership_date') }}</strong></div>
                 </div>
 
                 <div v-if="users.length > 0" class="mb-5 p-5 space-y-2 border border-gray-700 rounded">
@@ -270,10 +275,10 @@
                             <span class="dark:text-white text-black">{{ user . name }}</span>
                         </div>
                         <div class="grid gap-1 text-sm">
-                            <div><span class="dark:text-white text-black/70">ایمیل:</span> <span
-                                    class="dark:text-white text-black">{{ user . email }}</span></div>
-                            <div><span class="dark:text-white text-black/70">تاریخ عضویت:</span> <span
-                                    class="dark:text-white text-black">{{ user . formatted_created_at }}</span></div>
+                            <div><span class="text-white/70">{{ $t('email') }}:</span> <span
+                                    class="text-white">{{ user . email }}</span></div>
+                            <div><span class="text-white/70">{{ $t('membership_date') }}:</span> <span
+                                    class="text-white">{{ user . formatted_created_at }}</span></div>
                         </div>
                     </div>
 

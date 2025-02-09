@@ -11,5 +11,18 @@
     "account_management": "Account Management",
     "profile": "Profile",
     "api_tokens": "API Tokens",
-    "logout": "Logout"
+    "logout": "Logout",
+    "welcome": "Welcome to the Modern Dictionary!",
+    "dashboard_description": "Our modern dictionary serves as a comprehensive and user-friendly tool, allowing you to quickly and easily access definitions, synonyms, and accurate translations of words.",
+    "data_chart": "Data Chart",
+    "new_words": "New Words",
+    "word": "Word",
+    "meaning": "Meaning",
+    "pronunciation": "Pronunciation",
+    "description": "Description",
+    "no_words_found": "No words found",
+    "new_members": "New Members",
+    "name": "Name",
+    "email": "Email",
+    "membership_date": "Membership Date"
 }
