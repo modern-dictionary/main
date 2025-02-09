@@ -65,7 +65,7 @@ const logout = () => {
 
                             <!-- لینک‌های منو -->
                             <div class="flex items-center sm:items-stretch overflow-x-auto overflow-y-hidden sm:overflow-x-visible max-w-[calc(100vw-12rem)] sm:max-w-none ms-4">
-                                <div class="flex gap-2 sm:gap-8">
+                                <div class="flex gap-2 sm:gap-8 ">
                                     <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                         {{ $t('dashboard') }}
                                     </NavLink>
