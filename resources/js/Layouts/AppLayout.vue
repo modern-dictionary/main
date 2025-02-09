@@ -51,7 +51,7 @@ const logout = () => {
         <Banner />
 
         <div class="min-h-screen bg-gray-50-100 dark:bg-gray-900">
-            <nav class="bg-gray-100 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+            <nav class="bg-gray-200 dark:bg-gray-800 border-b border-gray-300 dark:border-gray-700">
                 <!-- منوی اصلی -->
                 <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
@@ -63,8 +63,7 @@ const logout = () => {
                                 </Link>
                             </div>
 
-                            <!-- لینک‌های منو -->
-                            <div class="flex items-center sm:items-stretch overflow-x-auto overflow-y-hidden sm:overflow-x-visible max-w-[calc(100vw-12rem)] sm:max-w-none ms-4">
+                            <div class="hidden sm:flex items-center sm:items-stretch overflow-x-auto sm:overflow-x-visible ms-4 text-black dark:text-white">
                                 <div class="flex gap-2 sm:gap-8 ">
                                     <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                         {{ $t('dashboard') }}
@@ -267,6 +266,15 @@ const logout = () => {
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             {{ $t('dashboard') }}
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('words.index')" :active="route().current('words.index')">
+                            {{ $t('words') }}
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('categories.index')" :active="route().current('categories.index')">
+                            {{ $t('categories') }}
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('teams.index')" :active="route().current('teams.index')">
+                            {{ $t('teams') }}
+                        </ResponsiveNavLink>
                     </div>
 
                     <!-- تنظیمات موبایل -->
@@ -347,7 +355,7 @@ const logout = () => {
             </nav>
 
             <!-- سرصفحه -->
-            <header v-if="$slots.header" class="bg-white dark:bg-gray-800 shadow">
+            <header v-if="$slots.header" class="bg-gray-200 dark:bg-gray-800 shadow">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     <slot name="header" />
                 </div>

@@ -100,23 +100,23 @@ const displayableRole = (role) => {
             <!-- افزودن عضو تیم -->
             <FormSection @submitted="addTeamMember" class="p-5 rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50">
                 <template #title>
-                    <span class="text-white">افزودن عضو تیم</span>
+                    <span class="dark:text-white text-black">افزودن عضو تیم</span>
                 </template>
 
                 <template #description>
-                    <span class="text-white">افزودن یک عضو جدید به تیم شما، به آنها اجازه همکاری با شما را می‌دهد.</span>
+                    <span class="dark:text-white text-black">افزودن یک عضو جدید به تیم شما، به آنها اجازه همکاری با شما را می‌دهد.</span>
                 </template>
 
                 <template #form>
                     <div class="col-span-6" dir="rtl">
-                        <div class="max-w-xl text-sm text-white">
+                        <div class="max-w-xl text-sm dark:text-white text-black">
                             لطفاً آدرس ایمیل شخصی که می‌خواهید به این تیم اضافه کنید را وارد نمایید.
                         </div>
                     </div>
 
                     <!-- ایمیل عضو -->
                     <div class="col-span-6 sm:col-span-4" dir="rtl">
-                        <InputLabel for="email" value="ایمیل" class="text-white" />
+                        <InputLabel for="email" value="ایمیل" class="dark:text-white text-black" />
                         <TextInput
                             id="email"
                             v-model="addTeamMemberForm.email"
@@ -128,7 +128,7 @@ const displayableRole = (role) => {
 
                     <!-- نقش -->
                     <div v-if="availableRoles.length > 0" class="col-span-6 lg:col-span-4" dir="rtl">
-                        <InputLabel for="roles" value="نقش" class="text-white" />
+                        <InputLabel for="roles" value="نقش" class="dark:text-white text-black" />
                         <InputError :message="addTeamMemberForm.errors.role" class="mt-2" />
 
                         <div class="relative z-0 mt-1 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer">
@@ -143,7 +143,7 @@ const displayableRole = (role) => {
                                 <div :class="{'opacity-50': addTeamMemberForm.role && addTeamMemberForm.role != role.key}">
                                     <!-- نام نقش -->
                                     <div class="flex items-center">
-                                        <div class="rounded text-sm text-white" :class="{'font-semibold': addTeamMemberForm.role == role.key}">
+                                        <div class="rounded text-sm dark:text-white text-black" :class="{'font-semibold': addTeamMemberForm.role == role.key}">
                                             {{ role.name }}
                                         </div>
 
@@ -153,7 +153,7 @@ const displayableRole = (role) => {
                                     </div>
 
                                     <!-- توضیحات نقش -->
-                                    <div class="mt-2 text-xs text-white text-start">
+                                    <div class="mt-2 text-xs dark:text-white text-black text-start">
                                         {{ role.description }}
                                     </div>
                                 </div>
@@ -163,7 +163,7 @@ const displayableRole = (role) => {
                 </template>
 
                 <template #actions>
-                    <ActionMessage :on="addTeamMemberForm.recentlySuccessful" class="me-3 text-white">
+                    <ActionMessage :on="addTeamMemberForm.recentlySuccessful" class="me-3 dark:text-white text-black">
                         اضافه شد.
                     </ActionMessage>
 
@@ -184,11 +184,11 @@ const displayableRole = (role) => {
             <!-- دعوت‌نامه‌های اعضای تیم -->
             <ActionSection class="mb-5 p-5 mt-10 sm:mt-0 rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 slide-up">
                 <template #title>
-                    <span class="text-white">دعوت‌نامه‌های در انتظار تیم</span>
+                    <span class="dark:text-white text-black">دعوت‌نامه‌های در انتظار تیم</span>
                 </template>
 
                 <template #description>
-                    <span class="text-white">
+                    <span class="dark:text-white text-black">
                         این افراد به تیم شما دعوت شده‌اند و ایمیل دعوت‌نامه برای آنها ارسال شده است. آنها می‌توانند با پذیرش دعوت‌نامه به تیم بپیوندند.
                     </span>
                 </template>
@@ -199,7 +199,7 @@ const displayableRole = (role) => {
                         <div v-for="invitation in team.team_invitations"
                             :key="invitation.id"
                             class="flex items-center justify-between p-4 rounded-lg hover:ring-white/20 hover:shadow-xl transition duration-300 hover:bg-gray-700/50">
-                            <div class="text-white">
+                            <div class="dark:text-white text-black">
                                 {{ invitation.email }}
                             </div>
 
@@ -236,7 +236,7 @@ const displayableRole = (role) => {
                     <div class="space-y-6" dir="rtl">
                         <div v-for="user in team.users" :key="user.id" class="flex items-center justify-between">
                             <div class="flex items-center">
-                                <div class="me-4 dark:text-white">
+                                <div class="me-4 dark:dark:text-white text-black">
                                     {{ user.name }}
                                 </div>
                                 <img class="size-8 rounded-full object-cover" :src="user.profile_photo_url" :alt="user.name">

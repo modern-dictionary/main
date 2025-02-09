@@ -199,7 +199,7 @@
         </div>
 
         <div
-            class="mb-5 p-5 bg-gradient-to-br from-gray-800/50 to-gray-700/50 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 lg:p-8 rounded-lg">
+            class="mb-5 p-5 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800/50 dark:to-gray-700/50 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 lg:p-8 rounded-lg">
             <!-- Words Section -->
             <div
                 class="mb-5 p-5 dark:text-white text-black hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 rounded-lg slide-up" style="animation-delay: 0.3s">

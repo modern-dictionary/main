@@ -15,12 +15,12 @@ const message = ref('');
 <template>
     <AppLayout title="Dashboard">
         <template #header>
-            <h2 class="font-semibold text-xl dark:text-white text-black leading-tight rounded-lg">داشبورد</h2>
+            <h2 class="font-semibold text-xl dark:text-white text-black leading-tight rounded-lg">تیم ها</h2>
         </template>
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto dark:text-white text-black sm:px-6 lg:px-8">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl rounded-lg transition-all duration-300" dir="rtl">
+                <div class="bg-gray-200 dark:bg-gray-800 overflow-hidden shadow-xl rounded-lg transition-all duration-300" dir="rtl">
                     <div class="mb-5 p-5 lg:p-8 bg-gradient-to-br border-gray-700 rounded-lg slide-up">
                         <h1 class="text-2xl font-bold mb-4">لیست تیم‌ها</h1>
                         <div class="space-y-4">

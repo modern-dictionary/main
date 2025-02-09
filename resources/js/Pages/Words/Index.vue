@@ -44,7 +44,7 @@
                 <!-- Search Bar -->
                 <div class="relative w-full lg:w-96 xl:w-[500px] mx-auto lg:mx-0 lg:justify-self-center">
                     <input v-model="searchTerm" @focus="openSearchModal" type="text" placeholder="جستجوی کلمه یا معنی..."
-                        class="w-full border rounded-xl p-2 sm:p-3 lg:p-4 dark:dark:text-white text-black text-black focus:outline-none dark:bg-gray-800/50 focus:ring-2 focus:ring-[#FF2D20] hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 placeholder-gray-400 text-sm sm:text-base lg:text-medium" />
+                        class="w-full border rounded-xl p-2 sm:p-3 lg:p-4 dark:dark:text-white text-black focus:outline-none dark:bg-gray-800/50 focus:ring-2 focus:ring-[#FF2D20] hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 placeholder-gray-400 text-sm sm:text-base lg:text-medium" />
                 </div>
 
                 <!-- New Word Button -->
@@ -63,7 +63,7 @@
         <!-- Search Module -->
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="bg-gray-200 dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
                     <!-- Search Module -->
                     <div v-if="showSearchModal"
                         class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50"

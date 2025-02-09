@@ -21,21 +21,21 @@ const createTeam = () => {
 <template>
     <FormSection @submitted="createTeam" class="p-5 rounded-lg hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 slide-up">
         <template #title>
-            <span class="text-white">جزئیات تیم</span>
+            <span class="dark:text-white text-black">جزئیات تیم</span>
         </template>
 
         <template #description>
-            <span class="text-white">یک تیم جدید برای همکاری با دیگران در پروژه‌ها ایجاد کنید.</span>
+            <span class="dark:text-white text-black">یک تیم جدید برای همکاری با دیگران در پروژه‌ها ایجاد کنید.</span>
         </template>
 
         <template #form>
             <div class="col-span-6" dir="rtl">
-                <InputLabel value="مالک تیم" class="text-white" />
+                <InputLabel value="مالک تیم" class="dark:text-white text-black" />
 
                 <div class="flex items-center mt-2">
                     <div class="me-4 leading-tight">
-                        <div class="text-white">{{ $page.props.auth.user.name }}</div>
-                        <div class="text-sm text-white">
+                        <div class="dark:text-white text-black">{{ $page.props.auth.user.name }}</div>
+                        <div class="text-sm dark:text-white text-black">
                             {{ $page.props.auth.user.email }}
                         </div>
                     </div>
@@ -44,7 +44,7 @@ const createTeam = () => {
             </div>
 
             <div class="col-span-6 sm:col-span-4" dir="rtl">
-                <InputLabel for="name" value="نام تیم" class="text-white" />
+                <InputLabel for="name" value="نام تیم" class="dark:text-white text-black" />
                 <TextInput
                     id="name"
                     v-model="form.name"
