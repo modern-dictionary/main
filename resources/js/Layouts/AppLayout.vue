@@ -117,7 +117,7 @@ const logout = () => {
 
                                     <template #content>
                                         <div class="block px-4 py-2 text-xs text-gray-400">
-                                            {{ $t('team_management') }}
+                                            {{ $t('lang') }}
                                         </div>
                                         <DropdownLink
                                             v-for="lang in languages"
