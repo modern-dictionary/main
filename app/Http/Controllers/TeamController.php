@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Team;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
@@ -10,7 +11,7 @@ class TeamController extends Controller
 {
     public function index()
     {
-        $teams = Team::with(['owner', 'users'])
+        $teams = Team::with(['owner', 'users', 'categories'])
             ->withCount('users')
             ->get()
             ->map(function ($team) {
@@ -28,11 +29,14 @@ class TeamController extends Controller
                 return $team;
             });
 
+        $categories = Category::all();
+
         $currentUser = auth()->user();
 
         return Inertia::render('Teams/Index', [
             'teams' => $teams,
             'currentUser' => $currentUser,
+            'categories' => $categories,
         ]);
     }
 

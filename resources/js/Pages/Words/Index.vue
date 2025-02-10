@@ -38,12 +38,12 @@
             <div class="flex flex-col gap-4 sm:gap-6 md:grid md:grid-cols-2 lg:grid-cols-3 items-center">
                 <!-- Title -->
                 <h2 class="font-semibold text-xl dark:dark:text-white text-black leading-tight rounded-lg">
-                    کلمات
+                    {{ $t('word') }}
                 </h2>
 
                 <!-- Search Bar -->
                 <div class="relative w-full lg:w-96 xl:w-[500px] mx-auto lg:mx-0 lg:justify-self-center">
-                    <input v-model="searchTerm" @focus="openSearchModal" type="text" placeholder="جستجوی کلمه یا معنی..."
+                    <input v-model="searchTerm" @focus="openSearchModal" type="text" :placeholder="$t('search_word_or_meaning')"
                         class="w-full border rounded-xl p-2 sm:p-3 lg:p-4 dark:dark:text-white text-black focus:outline-none dark:bg-gray-800/50 focus:ring-2 focus:ring-[#FF2D20] hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 placeholder-gray-400 text-sm sm:text-base lg:text-medium" />
                 </div>
 
@@ -51,7 +51,7 @@
                 <div class="lg:justify-self-end w-full lg:w-auto">
                     <button @click="showAddModal = true"
                         class="w-full lg:w-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-3 lg:py-4 bg-green-700 from-[#FF2D20] to-red-600 dark:text-white text-black rounded-xl hover:ring-white/20 duration-300 hover:bg-gray-700/50 focus:outline-none focus:ring-2 focus:ring-[#FF2D20] text-sm sm:text-base lg:text-medium font-medium transform translate-y-0 hover:-translate-y-1">
-                        افزودن کلمه جدید
+                        {{ $t('add_new_word') }}
                     </button>
                 </div>
             </div>
@@ -72,14 +72,14 @@
                             @click.stop>
                             <!-- search bar in module -->
                             <div class="mb-4 flex">
-                                <input v-model="searchTerm" type="text" placeholder="جستجوی کلمه یا معنی..."
+                                <input v-model="searchTerm" type="text" :placeholder="$t('search_word_or_meaning')"
                                     class="lg:w-1/2 w-full border justify-center dark:bg-gray-800 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
                             </div>
 
                             <!-- Search results -->
                             <div>
                                 <h3 class="text-md font-bold mb-2">
-                                    نتایج جستجو:
+                                    {{ $t('search_results') }}
                                 </h3>
                                 <div v-if="filteredWords.length > 0" class="list-disc pl-5">
                                     <div v-for="(word, index) in filteredWords" :key="word.id"
@@ -96,23 +96,23 @@
                                         <div class="flex justify-end ">
                                             <button @click="viewWord(word)"
                                                 class="px-4 py-2 rounded bg-blue-200 text-blue-700 ml-2 hover:bg-blue-300">
-                                                مشاهده
+                                                {{ $t('view') }}
                                             </button>
 
                                             <button @click.stop="editWord(word)"
                                                 class="px-4 py-2 rounded bg-blue-500 dark:text-white text-black ml-2 hover:bg-blue-600">
-                                                ویرایش
+                                                {{ $t('edit') }}
                                             </button>
 
                                             <button @click="deleteWord(word.id)"
                                                 class="px-4 py-2 rounded bg-red-500 dark:text-white text-black ml-2 hover:bg-red-600">
-                                                حذف
+                                                {{ $t('delete') }}
                                             </button>
                                         </div>
                                     </div>
                                 </div>
                                 <p v-else class="text-gray-500">
-                                    نتیجه‌ای یافت نشد.
+                                    {{ $t('no_words_found') }}
                                 </p>
                             </div>
                         </div>
@@ -120,7 +120,7 @@
 
                     <!-- Words List -->
                     <div class="dark:text-white text-black p-4 md:px-10 xl:px-24 2xl:px-4 py-10">
-                        <h1 class="text-xl lg:text-2xl font-bold mb-6">لیست کلمات</h1>
+                        <h1 class="text-xl lg:text-2xl font-bold mb-6">{{ $t('word_list') }}</h1>
 
                         <div v-if="words.length > 0" class="space-y-2 border border-gray-700/50 rounded-xl max-w-7xl mx-auto">
                             <div v-for="(word, index) in words" :key="word.id"
@@ -138,11 +138,11 @@
                                 <!-- Mobile Labels and Content -->
                                 <div class="grid grid-cols-1 gap-2 w-full lg:hidden">
                                     <div class="flex flex-col">
-                                        <span class="text-gray-400 text-sm">معنی:</span>
+                                        <span class="text-gray-400 text-sm">{{ $t('meaning') }}:</span>
                                         <span class="truncate">{{ word . meaning }}</span>
                                     </div>
                                     <div class="flex flex-col">
-                                        <span class="text-gray-400 text-sm">دسته‌بندی‌ها:</span>
+                                        <span class="text-gray-400 text-sm">{{ $t('categories') }}:</span>
                                         <span class="truncate">
                                             <span
                                                 v-for="(category, i) in (word.categories ? word.categories.slice(0, 3) : [])"
@@ -170,22 +170,22 @@
                                 <div class="flex justify-end gap-3 xl:gap-2 w-full">
                                     <button @click="viewWord(word)"
                                         class="px-4 xl:px-5 py-2 rounded bg-blue-200 text-blue-700 hover:bg-blue-300 transition-all duration-200 hover:scale-105">
-                                        مشاهده
+                                        {{ $t('view') }}
                                     </button>
 
                                     <button @click="editWord(word)"
                                         class="px-4 xl:px-5 py-2 rounded bg-blue-500 dark:text-white text-black hover:bg-blue-600 transition-all duration-200 hover:scale-105">
-                                        ویرایش
+                                        {{ $t('edit') }}
                                     </button>
 
                                     <button @click="deleteWord(word.id)"
                                         class="px-4 xl:px-5 py-2 rounded bg-red-500 dark:text-white text-black hover:bg-red-600 transition-all duration-200 hover:scale-105">
-                                        حذف
+                                        {{ $t('delete') }}
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        <p v-else class="text-gray-600 text-center py-8 text-lg">هیچ کلمه‌ای یافت نشد</p>
+                        <p v-else class="text-gray-600 text-center py-8 text-lg">{{ $t('no_words_found') }}</p>
                     </div>
 
 
@@ -198,31 +198,31 @@
             <div class="bg-white dark:bg-gray-800 border border-gray-700 p-6 sm:p-8 rounded-lg shadow-xl w-full max-w-5xl mx-4 max-h-[90vh] overflow-y-auto"
                 @click.stop>
                 <h2 class="text-xl lg:text-2xl font-bold mb-6 dark:text-white text-black border-b border-gray-700 pb-4">
-                    جزئیات کلمه
+                    {{ $t('word') }}
                 </h2>
 
                 <div class="space-y-6 mb-6">
                     <!-- Word -->
                     <div class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">
-                        <strong class="dark:text-white text-black text-lg sm:col-span-1">کلمه:</strong>
+                        <strong class="dark:text-white text-black text-lg sm:col-span-1">{{ $t('word') }}:</strong>
                         <span class="text-gray-300 sm:col-span-5">{{ selectedWord . word }}</span>
                     </div>
 
                     <!-- Meaning -->
                     <div class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">
-                        <strong class="dark:text-white text-black text-lg sm:col-span-1">معنی:</strong>
+                        <strong class="dark:text-white text-black text-lg sm:col-span-1">{{ $t('meaning') }}:</strong>
                         <span class="text-gray-300 sm:col-span-5">{{ selectedWord . meaning }}</span>
                     </div>
 
                     <!-- Pronunciation -->
                     <div class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">
-                        <strong class="dark:text-white text-black text-lg sm:col-span-1">تلفظ:</strong>
+                        <strong class="dark:text-white text-black text-lg sm:col-span-1">{{ $t('pronunciation') }}:</strong>
                         <span class="text-gray-300 sm:col-span-5">{{ selectedWord . pronunciation }}</span>
                     </div>
 
                     <!-- Description -->
                     <div class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">
-                        <strong class="dark:text-white text-black text-lg sm:col-span-1">توضیحات:</strong>
+                        <strong class="dark:text-white text-black text-lg sm:col-span-1">{{ $t('description') }}:</strong>
                         <div
                             class="text-gray-300 sm:col-span-5 break-words whitespace-pre-wrap min-h-[100px] bg-gray-800/50 p-4 rounded-lg border border-gray-700">
                             {{ selectedWord . description }}
@@ -230,7 +230,7 @@
                     </div>
 
                     <div v-if="selectedWord.voice_url" class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">
-                        <strong class="dark:text-white text-black text-lg sm:col-span-1">وویس:</strong>
+                        <strong class="dark:text-white text-black text-lg sm:col-span-1">{{ $t('audio_file') }}:</strong>
                         <audio controls class="sm:col-span-5  p-2 ">
                             <source :src="selectedWord.voice_url" type="audio/mp3" />
                             Your browser does not support the audio element.
@@ -239,14 +239,14 @@
 
                     <!-- Image -->
                     <div v-if="selectedWord.image_url" class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">
-                        <strong class="dark:text-white text-black text-lg sm:col-span-1">تصویر:</strong>
+                        <strong class="dark:text-white text-black text-lg sm:col-span-1">{{ $t('image') }}:</strong>
                         <img :src="selectedWord.image_url" alt="Word Image"
                             class="sm:col-span-5 rounded-lg shadow-md" />
                     </div>
 
                     <!-- Categories -->
                     <div class="flex flex-wrap gap-2 mt-3">
-                        <strong class="dark:text-white text-black text-lg sm:col-span-1 ml-16">توضیحات:</strong>
+                        <strong class="dark:text-white text-black text-lg sm:col-span-1 ml-16">{{ $t('categories') }}:</strong>
                         <span v-for="category in selectedWord.categories" :key="categoryId"
                             class="bg-gray-600 dark:text-white text-black text-xs px-3 py-1 rounded-full flex items-center">
                             {{ category . name }}
@@ -261,11 +261,11 @@
                 <div class="flex justify-end gap-3 mt-8 border-t border-gray-700 pt-4">
                     <button @click="editWord(selectedWord)"
                         class="px-6 py-2.5 bg-blue-500 dark:text-white text-black rounded-lg hover:bg-blue-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#FF2D20] focus:ring-offset-2 focus:ring-offset-gray-800">
-                        ویرایش
+                        {{ $t('edit') }}
                     </button>
                     <button @click="closeModal"
                         class="px-6 py-2.5 bg-gray-600 dark:text-white text-black rounded-lg hover:bg-gray-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-800">
-                        بستن
+                        {{ $t('leave') }}
                     </button>
                 </div>
             </div>
@@ -275,11 +275,11 @@
         <div v-if="showAddModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center overflow-y-auto py-4" @click="closeModal">
             <div class="bg-white m-4 rounded-lg w-full max-w-3xl p-4 dark:text-white text-black dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 shadow-md"
                 @click.stop>
-                <h2 class="text-lg font-bold mb-2">افزودن کلمه جدید</h2>
+                <h2 class="text-lg font-bold mb-2">{{ $t('add_new_word') }}</h2>
 
                 <button v-if="!showAutoInput" type="button" @click="showAutoInput = true"
                     class="px-3 py-1.5 bg-blue-500 dark:text-white text-black rounded hover:bg-blue-600 text-sm mb-2">
-                    پر کردن خودکار
+                    {{ $t('auto_fill') }}
                 </button>
 
                 <!-- Auto Fill Input -->
@@ -288,7 +288,7 @@
                         class="m-2 px-2 py-1.5 border rounded w-full dark:bg-gray-800 text-sm" />
                     <button type="button" @click="fetchAutoFill" :disabled="isLoading"
                         class="px-3 py-1.5 bg-blue-500 dark:text-white text-black rounded hover:bg-blue-600 flex items-center text-sm">
-                        <span v-if="!isLoading">ارسال</span>
+                        <span v-if="!isLoading">{{ $t('send') }}</span>
                         <span v-else>
                             <svg class="animate-spin h-4 w-4 mr-1 dark:text-white text-black" xmlns="http://www.w3.org/2000/svg"
                                 fill="none" viewBox="0 0 24 24">
@@ -296,7 +296,7 @@
                                     stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
                             </svg>
-                            لطفاً صبر کنید...
+                            {{ $t('please_wait') }}
                         </span>
                     </button>
                 </div>
@@ -304,28 +304,28 @@
 
                 <form @submit.prevent="addWord" class="grid grid-cols-2 gap-3">
                     <div>
-                        <label for="add-word" class="text-sm">کلمه</label>
+                        <label for="add-word" class="text-sm">{{ $t('word') }}</label>
                         <input id="add-word" v-model="newWord.word" type="text"
                             class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" required />
                     </div>
                     <div>
-                        <label for="add-meaning" class="text-sm">معنی</label>
+                        <label for="add-meaning" class="text-sm">{{ $t('meaning') }}</label>
                         <input id="add-meaning" v-model="newWord.meaning" type="text"
                             class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" required />
                     </div>
                     <div>
-                        <label for="add-pronunciation" class="text-sm">تلفظ</label>
+                        <label for="add-pronunciation" class="text-sm">{{ $t('pronunciation') }}</label>
                         <input id="add-pronunciation" v-model="newWord.pronunciation" type="text"
                             class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />
                     </div>
                     <div>
-                        <label for="add-description" class="text-sm">توضیحات</label>
+                        <label for="add-description" class="text-sm">{{ $t('description') }}</label>
                         <input id="add-description" v-model="newWord.description" type="text"
                             class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />
                     </div>
 
                     <div class="">
-                        <label class="text-sm">فایل صوتی</label>
+                        <label class="text-sm">{{ $t('audio_file') }}</label>
                         <div class="flex items-center gap-3">
                             <button type="button" @click="toggleRecording" class="px-3 py-1.5 rounded-full dark:text-white text-black transition-all duration-300 shadow-lg flex items-center justify-center" :class="isRecording ? 'bg-red-500 animate-pulse' : 'bg-blue-500 hover:bg-blue-600'">
                                 <svg v-if="!isRecording" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
@@ -342,18 +342,18 @@
 
 
                     <div>
-                        <label for="add-image" class="text-sm">تصویر</label>
+                        <label for="add-image" class="text-sm">{{ $t('image') }}</label>
                         <input id="add-image" type="file" accept="image/*" @change="handleImageUpload"
                                class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />
                         <p v-if="newWord.image" class="text-xs text-green-400 mt-1">
-                            فایل انتخاب شده: {{ newWord.image.name }}
+                            {{ $t('image') }}: {{ newWord.image.name }}
                         </p>
                         <div v-if="uploadProgress.image >= 0" :class="{'bg-green-500': uploadProgress.image === 100, 'bg-blue-500': uploadProgress.image < 100}" class="h-1 rounded mt-1" :style="{width: uploadProgress.image + '%'}"></div>
                     </div>
 
                     <!-- انتخاب دسته‌بندی‌ها -->
                     <div class="col-span-2">
-                        <label for="add-categories" class="text-sm">دسته‌بندی‌ها</label>
+                        <label for="add-categories" class="text-sm">{{ $t('categories') }}</label>
                         <select id="add-categories" v-model="newWord.selectedCategories" multiple
                             class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm">
                             <option v-for="category in categories" :key="category.id" :value="category.id">
@@ -376,11 +376,11 @@
                     <div class="col-span-2 flex justify-start mt-2">
                         <button type="submit"
                             class="px-3 py-1.5 bg-green-500 dark:text-white text-black rounded hover:bg-green-600 ml-3 text-sm">
-                            ذخیره
+                            {{ $t('save') }}
                         </button>
                         <button type="button" @click="closeAddModal"
                             class="px-3 py-1.5 bg-gray-500 dark:text-white text-black rounded hover:bg-gray-600 text-sm">
-                            لغو
+                            {{ $t('close') }}
                         </button>
                     </div>
                 </form>
@@ -394,35 +394,35 @@
             <div class="bg-white dark:bg-gray-800 border border-gray-700 p-4 sm:p-6 rounded-lg shadow-xl w-full max-w-2xl mx-auto my-auto max-h-[90vh] overflow-y-auto"
                 @click.stop>
                 <h2 class="text-lg sm:text-xl font-bold mb-4 dark:text-white text-black">
-                    ویرایش کلمه
+                    {{ $t('edit_word') }}
                 </h2>
 
                 <form @submit.prevent="saveWord" class="space-y-3">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                         <!-- Word Input -->
                         <div>
-                            <label class="block font-medium dark:text-white text-black text-sm mb-1">کلمه:</label>
+                            <label class="block font-medium dark:text-white text-black text-sm mb-1">{{ $t('word') }}:</label>
                             <input v-model="editForm.word" type="text"
                                 class="w-full px-3 py-1.5 rounded-lg border border-gray-700 bg-gray-800/50 dark:text-white text-black focus:outline-none focus:ring-2 focus:ring-[#FF2D20] transition-all duration-200" />
                         </div>
 
                         <!-- Meaning Input -->
                         <div>
-                            <label class="block font-medium dark:text-white text-black text-sm mb-1">معنی:</label>
+                            <label class="block font-medium dark:text-white text-black text-sm mb-1">{{ $t('meaning') }}:</label>
                             <input v-model="editForm.meaning" type="text"
                                 class="w-full px-3 py-1.5 rounded-lg border border-gray-700 bg-gray-800/50 dark:text-white text-black focus:outline-none focus:ring-2 focus:ring-[#FF2D20] transition-all duration-200" />
                         </div>
 
                         <!-- Pronunciation Input -->
                         <div>
-                            <label class="block font-medium dark:text-white text-black text-sm mb-1">تلفظ:</label>
+                            <label class="block font-medium dark:text-white text-black text-sm mb-1">{{ $t('pronunciation') }}:</label>
                             <input v-model="editForm.pronunciation" type="text"
                                 class="w-full px-3 py-1.5 rounded-lg border border-gray-700 bg-gray-800/50 dark:text-white text-black focus:outline-none focus:ring-2 focus:ring-[#FF2D20] transition-all duration-200" />
                         </div>
 
                         <!-- Description Input -->
                         <div>
-                            <label class="block font-medium dark:text-white text-black text-sm mb-1">توضیحات:</label>
+                            <label class="block font-medium dark:text-white text-black text-sm mb-1">{{ $t('description') }}:</label>
                             <input v-model="editForm.description" type="text"
                                 class="w-full px-3 py-1.5 rounded-lg border border-gray-700 bg-gray-800/50 dark:text-white text-black focus:outline-none focus:ring-2 focus:ring-[#FF2D20] transition-all duration-200" />
                         </div>
@@ -430,7 +430,7 @@
                         <!-- File Inputs -->
 
                         <div>
-                            <label class="block font-medium dark:text-white text-black text-sm mb-1">فایل صوتی</label>
+                            <label class="block font-medium dark:text-white text-black text-sm mb-1">{{ $t('audio_file') }}</label>
                             <div class="flex items-center space-x-2">
                                 <button type="button" @click="toggleRecording" class="p-2 bg-blue-500 dark:text-white text-black rounded-full">
                                     <span v-if="!isRecording">🎤 ضبط</span>
@@ -445,17 +445,17 @@
                         </div>
 
                         <div>
-                            <label class="block font-medium dark:text-white text-black text-sm mb-1">تصویر</label>
+                            <label class="block font-medium dark:text-white text-black text-sm mb-1">{{ $t('image') }}</label>
                             <input type="file" accept="image/*" @change="handleImageUpload"
                                 class="w-full px-3 py-1.5 text-sm rounded-lg border border-gray-700 bg-gray-800/50 dark:text-white text-black focus:outline-none focus:ring-2 focus:ring-[#FF2D20] transition-all duration-200" />
-                            <p v-if="editForm.image" class="text-xs text-green-400 mt-0.5">فایل انتخاب شده: {{ editForm.word }}</p>
+                            <p v-if="editForm.image" class="text-xs text-green-400 mt-0.5">{{ $t('image') }}: {{ editForm.word }}</p>
                             <div v-if="uploadProgress.image >= 0" :class="{'bg-green-500': uploadProgress.image === 100, 'bg-blue-500': uploadProgress.image < 100}" class="h-1 rounded mt-1" :style="{width: uploadProgress.image + '%'}"></div>
 
                         </div>
 
                         <!-- Categories -->
                         <div class="md:col-span-2">
-                            <label class="block font-medium dark:text-white text-black text-sm mb-1">دسته‌بندی‌ها:</label>
+                            <label class="block font-medium dark:text-white text-black text-sm mb-1">{{ $t('categories') }}:</label>
                             <select v-model="editForm.selectedCategories" multiple
                                 class="w-full px-3 py-1.5 rounded-lg border border-gray-700 bg-gray-800/50 dark:text-white text-black focus:outline-none focus:ring-2 focus:ring-[#FF2D20] transition-all duration-200 text-sm">
                                 <option v-for="category in categories" :key="category.id" :value="category.id">
@@ -478,11 +478,11 @@
                     <div class="flex justify-end gap-2 mt-4">
                         <button type="submit"
                             class="px-4 py-2 bg-blue-700 dark:text-white text-black text-sm rounded-lg hover:bg-blue-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#FF2D20] focus:ring-offset-2 focus:ring-offset-gray-800">
-                            ذخیره تغییرات
+                            {{ $t('save') }}
                         </button>
                         <button type="button" @click="closeEditModal"
                             class="px-4 py-2 bg-gray-600 dark:text-white text-black text-sm rounded-lg hover:bg-gray-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-800">
-                            انصراف
+                            {{ $t('close') }}
                         </button>
                     </div>
                 </form>

@@ -10,27 +10,24 @@
 
         <template #form>
             <!-- انتخاب دسته‌بندی‌ها -->
-            <div class="col-span-2">
-                <label for="add-categories" class="text-sm">دسته‌بندی‌ها</label>
-                <select id="add-categories" v-model="form.selectedCategories" multiple
-                        class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm">
-                    <option v-for="category in categories" :key="category.id" :value="category.id">
+            <div class="col-span-5">
+                <label class="block font-medium dark:text-white text-black text-sm mb-1">دسته‌بندی‌ها:</label>
+                <select v-model="form.selectedCategories" multiple
+                        class="w-full px-3 py-1.5 rounded-lg border border-gray-700 bg-gray-800/50 dark:text-white text-black focus:outline-none focus:ring-2 focus:ring-[#FF2D20] transition-all duration-200 text-sm">
+                    <option v-for="category in allCategories" :key="category.id" :value="category.id">
                         {{ category.name }}
                     </option>
                 </select>
+
+                <!-- نمایش دسته‌بندی‌های انتخاب‌شده -->
+                <div class="flex flex-wrap gap-2 mt-2">
+                    <span v-for="categoryId in form.selectedCategories" :key="categoryId"
+                          class="bg-gray-600 dark:text-white text-black text-xs px-2 py-0.5 rounded-full flex items-center">
+                        {{ getCategoryName(categoryId) }}
+                        <button type="button" @click="removeCategory(categoryId)" class="ml-1.5 text-red-400">×</button>
+                    </span>
+                </div>
             </div>
-
-            <div class="flex flex-wrap gap-1.5 mt-2">
-                        <span v-for="categoryId in form.selectedCategories" :key="categoryId"
-                              class="bg-gray-600 dark:text-white text-black text-xs px-2 py-0.5 rounded-full flex items-center">
-                            {{ getCategoryName(categoryId) }}
-                            <button type="button" @click="removeCategory(categoryId)" class="ml-1.5 text-red-400">
-                                ×
-                            </button>
-                        </span>
-            </div>
-
-
         </template>
 
         <template #actions>
@@ -60,6 +57,7 @@ const props = defineProps({
     userPermissions: Object,
 });
 
+// استفاده از useForm برای مدیریت وضعیت انتخاب دسته‌بندی‌ها
 const form = useForm({
     selectedCategories: props.categories.map(category => category.id),
 });
