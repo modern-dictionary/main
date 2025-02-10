@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import axios from 'axios';
 
 defineProps({
+    categories: Array,
     teams: Array,
     currentUser: Object,
 });
@@ -25,10 +26,10 @@ const message = ref('');
                         <h1 class="text-2xl font-bold mb-4">{{ $t('team_list') }}</h1>
                         <div class="space-y-4">
                             <div v-for="team in teams" :key="team.id"
-                                class="p-4 border border-gray-700 shadow rounded-md grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                                class="p-4 border border-gray-700 shadow rounded-md grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
 
                                 <!-- Team Name -->
-                                <h2 class="text-lg sm:text-xl font-semibold col-span-1 sm:col-span-2 lg:col-span-1">
+                                <h2 class="text-lg font-semibold col-span-1 sm:col-span-2 lg:col-span-1">
                                     {{ team.name }}
                                 </h2>
 
@@ -43,6 +44,13 @@ const message = ref('');
                                     <div class="text-sm sm:text-base text-gray-400">
                                         {{ $t('word_count') }}: {{ team.words_count }}
                                     </div>
+                                </div>
+                                <div class="flex justify-start gap-3 xl:gap-2 w-full ml-auto">
+                                        <span v-for="category in (team.categories ? team.categories.slice(0, 3) : [])"
+                                              :key="category.id"
+                                              class="bg-gray-600 dark:text-white text-black text-xs px-3 py-1 rounded-xl">
+                                            {{ category.name }}
+                                        </span>
                                 </div>
 
                                 <!-- Action Buttons -->
