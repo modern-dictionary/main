@@ -15,14 +15,14 @@ const message = ref('');
 <template>
     <AppLayout title="Dashboard">
         <template #header>
-            <h2 class="font-semibold text-xl dark:text-white text-black leading-tight rounded-lg">تیم ها</h2>
+            <h2 class="font-semibold text-xl dark:text-white text-black leading-tight rounded-lg">{{ $t('team_list') }}</h2>
         </template>
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto dark:text-white text-black sm:px-6 lg:px-8">
-                <div class="bg-gray-200 dark:bg-gray-800 overflow-hidden shadow-xl rounded-lg transition-all duration-300" dir="rtl">
+                <div class="bg-gray-200 dark:bg-gray-800 overflow-hidden shadow-xl rounded-lg transition-all duration-300">
                     <div class="mb-5 p-5 lg:p-8 bg-gradient-to-br border-gray-700 rounded-lg slide-up">
-                        <h1 class="text-2xl font-bold mb-4">لیست تیم‌ها</h1>
+                        <h1 class="text-2xl font-bold mb-4">{{ $t('team_list') }}</h1>
                         <div class="space-y-4">
                             <div v-for="team in teams" :key="team.id"
                                 class="p-4 border border-gray-700 shadow rounded-md grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
@@ -35,13 +35,13 @@ const message = ref('');
                                 <!-- Team Stats -->
                                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 col-span-1 sm:col-span-2 lg:col-span-3 gap-2 sm:gap-4">
                                     <div class="text-sm sm:text-base text-gray-400">
-                                        تعداد اعضا: {{1+ team.users_count }}
+                                        {{ $t('member_count') }}: {{1+ team.users_count }}
                                     </div>
                                     <div class="text-sm sm:text-base text-gray-400">
-                                        مالک تیم: {{ team.owner.name }}
+                                        {{ $t('team_owner') }}: {{ team.owner.name }}
                                     </div>
                                     <div class="text-sm sm:text-base text-gray-400">
-                                        تعداد کلمات: {{ team.words_count }}
+                                        {{ $t('word_count') }}: {{ team.words_count }}
                                     </div>
                                 </div>
 
@@ -52,7 +52,7 @@ const message = ref('');
                                         class="bg-gray-400 w-full sm:w-40 text-center dark:text-white text-black px-3 py-1.5 sm:px-4 sm:py-2 rounded text-sm sm:text-base cursor-not-allowed"
                                         disabled
                                     >
-                                        مالک تیم
+                                        {{ $t('team_owner') }}
                                     </button>
 
                                     <button
@@ -60,7 +60,7 @@ const message = ref('');
                                         @click="leaveTeam(team.id, currentUser.id)"
                                         class="bg-red-500 w-full sm:w-40 text-center dark:text-white text-black px-3 py-1.5 sm:px-4 sm:py-2 rounded text-sm sm:text-base hover:bg-red-600"
                                     >
-                                        خارج شدن
+                                        {{ $t('leave') }}
                                     </button>
 
                                     <button
@@ -68,7 +68,7 @@ const message = ref('');
                                         @click="addMemberToTeam(team.id, currentUser.email)"
                                         class="bg-blue-500 w-full sm:w-40 text-center dark:text-white text-black px-3 py-1.5 sm:px-4 sm:py-2 rounded text-sm sm:text-base hover:bg-blue-600"
                                     >
-                                        عضو شدن
+                                        {{ $t('join') }}
                                     </button>
                                 </div>
 

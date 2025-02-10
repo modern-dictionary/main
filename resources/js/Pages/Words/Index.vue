@@ -79,7 +79,7 @@
                             <!-- Search results -->
                             <div>
                                 <h3 class="text-md font-bold mb-2">
-                                    نتایج جستجو:
+                                    {{ $t('search_results') }}
                                 </h3>
                                 <div v-if="filteredWords.length > 0" class="list-disc pl-5">
                                     <div v-for="(word, index) in filteredWords" :key="word.id"
@@ -138,7 +138,7 @@
                                 <!-- Mobile Labels and Content -->
                                 <div class="grid grid-cols-1 gap-2 w-full lg:hidden">
                                     <div class="flex flex-col">
-                                        <span class="text-gray-400 text-sm">معنی:</span>
+                                        <span class="text-gray-400 text-sm">{{ $t('meaning') }}:</span>
                                         <span class="truncate">{{ word . meaning }}</span>
                                     </div>
                                     <div class="flex flex-col">
@@ -279,7 +279,7 @@
 
                 <button v-if="!showAutoInput" type="button" @click="showAutoInput = true"
                     class="px-3 py-1.5 bg-blue-500 dark:text-white text-black rounded hover:bg-blue-600 text-sm mb-2">
-                    پر کردن خودکار
+                    {{ $t('auto_fill') }}
                 </button>
 
                 <!-- Auto Fill Input -->
@@ -288,7 +288,7 @@
                         class="m-2 px-2 py-1.5 border rounded w-full dark:bg-gray-800 text-sm" />
                     <button type="button" @click="fetchAutoFill" :disabled="isLoading"
                         class="px-3 py-1.5 bg-blue-500 dark:text-white text-black rounded hover:bg-blue-600 flex items-center text-sm">
-                        <span v-if="!isLoading">ارسال</span>
+                        <span v-if="!isLoading">{{ $t('send') }}</span>
                         <span v-else>
                             <svg class="animate-spin h-4 w-4 mr-1 dark:text-white text-black" xmlns="http://www.w3.org/2000/svg"
                                 fill="none" viewBox="0 0 24 24">
@@ -296,7 +296,7 @@
                                     stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
                             </svg>
-                            لطفاً صبر کنید...
+                            {{ $t('please_wait') }}
                         </span>
                     </button>
                 </div>
@@ -346,7 +346,7 @@
                         <input id="add-image" type="file" accept="image/*" @change="handleImageUpload"
                                class="mt-1 block dark:bg-gray-800 w-full border rounded p-1.5 text-sm" />
                         <p v-if="newWord.image" class="text-xs text-green-400 mt-1">
-                            فایل انتخاب شده: {{ newWord.image.name }}
+                            {{ $t('image') }}: {{ newWord.image.name }}
                         </p>
                         <div v-if="uploadProgress.image >= 0" :class="{'bg-green-500': uploadProgress.image === 100, 'bg-blue-500': uploadProgress.image < 100}" class="h-1 rounded mt-1" :style="{width: uploadProgress.image + '%'}"></div>
                     </div>
@@ -376,11 +376,11 @@
                     <div class="col-span-2 flex justify-start mt-2">
                         <button type="submit"
                             class="px-3 py-1.5 bg-green-500 dark:text-white text-black rounded hover:bg-green-600 ml-3 text-sm">
-                            ذخیره
+                            {{ $t('save') }}
                         </button>
                         <button type="button" @click="closeAddModal"
                             class="px-3 py-1.5 bg-gray-500 dark:text-white text-black rounded hover:bg-gray-600 text-sm">
-                            لغو
+                            {{ $t('close') }}
                         </button>
                     </div>
                 </form>
@@ -394,7 +394,7 @@
             <div class="bg-white dark:bg-gray-800 border border-gray-700 p-4 sm:p-6 rounded-lg shadow-xl w-full max-w-2xl mx-auto my-auto max-h-[90vh] overflow-y-auto"
                 @click.stop>
                 <h2 class="text-lg sm:text-xl font-bold mb-4 dark:text-white text-black">
-                    ویرایش کلمه
+                    {{ $t('edit_word') }}
                 </h2>
 
                 <form @submit.prevent="saveWord" class="space-y-3">
@@ -448,7 +448,7 @@
                             <label class="block font-medium dark:text-white text-black text-sm mb-1">{{ $t('image') }}</label>
                             <input type="file" accept="image/*" @change="handleImageUpload"
                                 class="w-full px-3 py-1.5 text-sm rounded-lg border border-gray-700 bg-gray-800/50 dark:text-white text-black focus:outline-none focus:ring-2 focus:ring-[#FF2D20] transition-all duration-200" />
-                            <p v-if="editForm.image" class="text-xs text-green-400 mt-0.5">فایل انتخاب شده: {{ editForm.word }}</p>
+                            <p v-if="editForm.image" class="text-xs text-green-400 mt-0.5">{{ $t('image') }}: {{ editForm.word }}</p>
                             <div v-if="uploadProgress.image >= 0" :class="{'bg-green-500': uploadProgress.image === 100, 'bg-blue-500': uploadProgress.image < 100}" class="h-1 rounded mt-1" :style="{width: uploadProgress.image + '%'}"></div>
 
                         </div>
@@ -478,11 +478,11 @@
                     <div class="flex justify-end gap-2 mt-4">
                         <button type="submit"
                             class="px-4 py-2 bg-blue-700 dark:text-white text-black text-sm rounded-lg hover:bg-blue-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#FF2D20] focus:ring-offset-2 focus:ring-offset-gray-800">
-                            ذخیره تغییرات
+                            {{ $t('save') }}
                         </button>
                         <button type="button" @click="closeEditModal"
                             class="px-4 py-2 bg-gray-600 dark:text-white text-black text-sm rounded-lg hover:bg-gray-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-800">
-                            انصراف
+                            {{ $t('close') }}
                         </button>
                     </div>
                 </form>

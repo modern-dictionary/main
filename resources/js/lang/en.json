@@ -42,5 +42,19 @@
     "join": "Join",
     "leave": "Leave",
     "audio_file": "Audio file",
-    "image": "Image"
+    "image": "Image",
+    "name_category": "Name",
+    "category": "Category",
+    "category_details": "Category Details",
+    "word_details": "Word Details",
+    "no_category_found": "No category found",
+    "save": "Save",
+    "close": "Close",
+    "edit_word": "Edit Word",
+    "edit_category": "Edit Category",
+    "search_results": "Search Results",
+    "auto_fill": "Auto Fill",
+    "send": "Send",
+    "please_wait": "Please wait..."
+
 }

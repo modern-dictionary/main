@@ -185,10 +185,10 @@ const { locale } = useI18n();
     <div :dir="locale === 'en' ? 'ltr' : 'rtl'">
         <div
             class="mb-5 p-5 lg:p-8 bg-gradient-to-br border-gray-700 transition duration-300 rounded-lg slide-up">
-            <h1 class="mt-8 text-2xl font-medium text-white">
+            <h1 class="mt-8 text-2xl font-medium text-black dark:text-white">
                 {{ $t('welcome') }}
             </h1>
-            <p class="mt-6 text-white leading-relaxed">
+            <p class="mt-6 text-black dark:text-white leading-relaxed">
                 {{ $t('dashboard_description') }}
             </p>
         </div>
@@ -196,7 +196,7 @@ const { locale } = useI18n();
         <div
             class="mb-5 p-5 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 rounded-lg slide-up" style="animation-delay: 0.2s">
 
-            <h2 class="text-lg text-white p-6 font-bold mb-4">{{ $t('data_chart') }}</h2>
+            <h2 class="text-lg text-black dark:text-white p-6 font-bold mb-4">{{ $t('data_chart') }}</h2>
             <div class="w-full mx-auto" style="height: 300px">
                 <canvas id="dashboardChart"></canvas>
             </div>
@@ -207,10 +207,10 @@ const { locale } = useI18n();
             <!-- Words Section -->
             <div
                 class="mb-5 p-5 text-white hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 rounded-lg slide-up" style="animation-delay: 0.3s">
-                <h1 class="text-xl font-bold mb-6">{{ $t('new_words') }}</h1>
+                <h1 class="text-xl font-bold mb-6 text-black dark:text-white">{{ $t('new_words') }}</h1>
 
                 <!-- Desktop Headers -->
-                <div class="mb-2 p-2 hidden md:grid md:grid-cols-4 pb-2">
+                <div class="mb-2 p-2 hidden md:grid md:grid-cols-4 pb-2 text-black dark:text-white">
                     <div class="pr-4 lg:pr-8"><strong>{{ $t('new_words') }}</strong></div>
                     <div class="pr-4"><strong>{{ $t('meaning') }}</strong></div>
                     <div class="pr-4"><strong>{{ $t('pronunciation') }}</strong></div>
@@ -223,7 +223,7 @@ const { locale } = useI18n();
                         class="mb-5 p-5 rounded-lg shadow-sm md:hidden flex flex-col gap-2 transition duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 hover:bg-gray-700/50 slide-up"
                         :style="{ animationDelay: `${0.4 + (index * 0.1)}s` }">
                         <div class="flex items-center font-medium">
-                            <span class="ml-2 dark:text-white text-black/70">{{ index + 1 }}.</span>
+                            <span class="ml-2 dark:text-white text-black">{{ index + 1 }}.</span>
                             <span class="dark:text-white text-black">{{ word . word }}</span>
                         </div>
                         <div class="mb-2 p-2 grid gap-1 text-sm">
@@ -256,10 +256,10 @@ const { locale } = useI18n();
             <!-- Users Section -->
             <div
                 class="mb-5 p-5 text-white hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 rounded-lg slide-up" style="animation-delay: 0.3s">
-                <h1 class="text-xl font-bold mb-6">{{ $t('new_members') }}</h1>
+                <h1 class="text-xl font-bold mb-6 text-black dark:text-white">{{ $t('new_members') }}</h1>
 
                 <!-- Desktop Headers -->
-                <div class="mb-2 p-2 hidden md:grid md:grid-cols-3 pb-2">
+                <div class="mb-2 p-2 hidden md:grid md:grid-cols-3 pb-2 text-black dark:text-white">
                     <div class="pr-4 lg:pr-8"><strong>{{ $t('name') }}</strong></div>
                     <div class="pr-4"><strong>{{ $t('email') }}</strong></div>
                     <div class="pr-4"><strong>{{ $t('membership_date') }}</strong></div>

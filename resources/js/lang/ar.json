@@ -42,5 +42,19 @@
     "join": "الانضمام",
     "leave": "المغادرة",
     "audio_file": "ملف صوتي",
-    "image": "صورة"
+    "image": "صورة",
+    "name_category": "الاسم",
+    "category": "الفئة",
+    "category_details": "تفاصيل الفئة",
+    "word_details": "تفاصيل الكلمة",
+    "no_category_found": "لم يتم العثور على أي فئة",
+    "save": "حفظ",
+    "close": "إغلاق",
+    "edit_word": "تحرير الكلمة",
+    "edit_category": "تحرير الفئة",
+    "search_results": "نتائج البحث",
+    "auto_fill": "الملء التلقائي",
+    "send": "إرسال",
+    "please_wait": "يرجى الانتظار..."
+
 }

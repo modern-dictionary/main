@@ -96,7 +96,7 @@ const deleteCategory = (id) => {
                         <!-- Search results -->
                         <div>
                             <h3 class="text-md font-bold mb-2">
-                                نتایج جستجو:
+                                {{ $t('search_results') }}
                             </h3>
                             <div
                                 v-if="filteredCategories.length > 0"
@@ -139,7 +139,7 @@ const deleteCategory = (id) => {
                                 </div>
                             </div>
                             <p v-else class="text-gray-500">
-                                نتیجه‌ای یافت نشد.
+                                {{ $t('no_category_found') }}
                             </p>
                         </div>
                     </div>
@@ -189,7 +189,7 @@ const deleteCategory = (id) => {
                         </div>
 
                         <p v-else class="text-gray-600 text-center py-8 text-lg">
-                            هیچ کلمه‌ای یافت نشد
+                            {{ $t('no_category_found') }}
                         </p>
                     </div>
                   </div>
@@ -205,27 +205,27 @@ const deleteCategory = (id) => {
                 @click.stop
             >
                 <h2 class="text-xl lg:text-2xl font-bold mb-6 dark:text-white text-black border-b border-gray-700 pb-4">
-                    جزئیات دسته بندی
+                    {{ $t('category_details') }}
                 </h2>
 
                 <div class="space-y-6 mb-6">
                     <!-- Category -->
                     <div class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">
-                        <strong class="dark:text-white text-black text-lg sm:col-span-1">کلمه:</strong>
+                        <strong class="dark:text-white text-black text-lg sm:col-span-1">{{ $t('category') }}:</strong>
                         <span class="text-gray-300 sm:col-span-5">{{ selectedCategory.name }}</span>
                     </div>
 
                     <!-- Description -->
                     <div class="grid grid-cols-1 sm:grid-cols-6 gap-4 items-start">
-                        <strong class="dark:text-white text-black text-lg sm:col-span-1">توضیحات:</strong>
-                        <div class="text-gray-300 sm:col-span-5 break-categorys whitespace-pre-wrap min-h-[100px] bg-gray-800/50 p-4 rounded-lg border border-gray-700">
+                        <strong class="dark:text-white text-black text-lg sm:col-span-1">{{ $t('description') }}:</strong>
+                        <div class="text-gray-300 sm:col-span-5 break-categories whitespace-pre-wrap min-h-[100px] bg-gray-800/50 p-4 rounded-lg border border-gray-700">
                             {{ selectedCategory.description }}
                         </div>
                     </div>
 
                     <!-- Category Words -->
                     <div v-if="selectedCategory.words && selectedCategory.words.length > 0" class="mt-6">
-                      <h3 class="text-lg font-bold dark:text-white text-black border-b border-gray-700 pb-2">لیست کلمات</h3>
+                      <h3 class="text-lg font-bold dark:text-white text-black border-b border-gray-700 pb-2">{{ $t('category_list') }}</h3>
                       <ul v-if="selectedCategory.words && selectedCategory.words.length > 0" class="mt-4 space-y-2">
                         <li v-for="(word, index) in selectedCategory.words" :key="word.id" class="text-gray-300 p-2 border-b border-gray-600">
                           <div class="p-4 rounded shadow-sm grid grid-cols-3 items-center">
@@ -239,7 +239,7 @@ const deleteCategory = (id) => {
                           </div>
                         </li>
                       </ul>
-                      <p v-else class="text-gray-400 mt-4">هنوز کلمه‌ای در این دسته‌بندی ثبت نشده است.</p>
+                      <p v-else class="text-gray-400 mt-4">{{ $t('no_category_found') }}</p>
                     </div>
                 </div>
 
@@ -249,13 +249,13 @@ const deleteCategory = (id) => {
                         @click="editCategory(selectedCategory)"
                         class="px-6 py-2.5 bg-blue-500 dark:text-white text-black rounded-lg hover:bg-blue-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#FF2D20] focus:ring-offset-2 focus:ring-offset-gray-800"
                     >
-                        ویرایش
+                        {{ $t('edit') }}
                     </button>
                     <button
                         @click="closeModal"
                         class="px-6 py-2.5 bg-gray-600 dark:text-white text-black rounded-lg hover:bg-gray-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-800"
                     >
-                        بستن
+                        {{ $t('leave') }}
                     </button>
                 </div>
             </div>
@@ -271,10 +271,10 @@ const deleteCategory = (id) => {
                 class="bg-white dark:text-white text-black dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 p-6 rounded shadow-md w-1/2"
                 @click.stop
             >
-                <h2 class="text-lg font-bold mb-4">افزودن دسته بندی جدید</h2>
+                <h2 class="text-lg font-bold mb-4">{{ $t('add_new_category') }}</h2>
                 <form @submit.prevent="addCategory" class="grid grid-cols-2 gap-4">
                     <div>
-                        <label for="add-category">نام</label>
+                        <label for="add-category">{{ $t('name_category') }}</label>
                         <input
                             id="add-category"
                             v-model="newCategory.name"
@@ -284,7 +284,7 @@ const deleteCategory = (id) => {
                         />
                     </div>
                     <div>
-                        <label for="add-description">توضیحات</label>
+                        <label for="add-description">{{ $t('description') }}</label>
                         <input
                             id="add-description"
                             v-model="newCategory.description"
@@ -297,14 +297,14 @@ const deleteCategory = (id) => {
                             type="submit"
                             class="px-4 py-2 bg-green-500 dark:text-white text-black rounded hover:bg-green-600 ml-5"
                         >
-                            ذخیره
+                            {{ $t('save') }}
                         </button>
                         <button
                             type="button"
                             @click="closeAddModal"
                             class="ml-4 px-4 py-2 bg-gray-500 dark:text-white text-black rounded hover:bg-gray-600"
                         >
-                            لغو
+                            {{ $t('close') }}
                         </button>
                     </div>
                 </form>
@@ -322,14 +322,14 @@ const deleteCategory = (id) => {
                 @click.stop
             >
                 <h2 class="text-xl lg:text-2xl font-bold mb-6 dark:text-white text-black">
-                    ویرایش دسته بندی
+                    {{ $t('edit_category') }}
                 </h2>
 
                 <form @submit.prevent="saveCategory" class="space-y-4">
                     <div class="grid md:grid-cols-2 gap-4">
                         <!-- Name Input -->
                         <div>
-                            <label class="block font-medium dark:text-white text-black mb-2">کلمه:</label>
+                            <label class="block font-medium dark:text-white text-black mb-2">{{ $t('name_category') }}:</label>
                             <input
                                 v-model="editForm.name"
                                 type="text"
@@ -339,7 +339,7 @@ const deleteCategory = (id) => {
 
                         <!-- Description Input -->
                         <div>
-                            <label class="block font-medium dark:text-white text-black mb-2">توضیحات:</label>
+                            <label class="block font-medium dark:text-white text-black mb-2">{{ $t('description') }}:</label>
                             <input
                                 v-model="editForm.description"
                                 type="text"
@@ -354,14 +354,14 @@ const deleteCategory = (id) => {
                             type="submit"
                             class="px-6 py-2.5 bg-blue-700 dark:text-white text-black rounded-lg hover:bg-blue-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#FF2D20] focus:ring-offset-2 focus:ring-offset-gray-800"
                         >
-                            ذخیره تغییرات
+                            {{ $t('save') }}
                         </button>
                         <button
                             type="button"
                             @click="closeEditModal"
                             class="px-6 py-2.5 bg-gray-600 dark:text-white text-black rounded-lg hover:bg-gray-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-800"
                         >
-                            انصراف
+                            {{ $t('Close') }}
                         </button>
                     </div>
                 </form>
