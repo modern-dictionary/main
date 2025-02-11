@@ -65,16 +65,16 @@ const logout = () => {
 
                             <div class="hidden sm:flex items-center sm:items-stretch overflow-x-auto sm:overflow-x-visible ms-4 text-black dark:text-white">
                                 <div class="flex gap-2 sm:gap-8 ">
-                                    <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                                    <NavLink :href="route('dashboard')" :active="route().current('dashboard')" class="text-black dark:text-white">
                                         {{ $t('dashboard') }}
                                     </NavLink>
-                                    <NavLink :href="route('words.index')" :active="route().current('words.index')">
+                                    <NavLink :href="route('words.index')" :active="route().current('words.index')" class="text-black dark:text-white">
                                         {{ $t('words') }}
                                     </NavLink>
-                                    <NavLink :href="route('categories.index')" :active="route().current('categories.index')">
+                                    <NavLink :href="route('categories.index')" :active="route().current('categories.index')" class="text-black dark:text-white">
                                         {{ $t('categories') }}
                                     </NavLink>
-                                    <NavLink :href="route('teams.index')" :active="route().current('teams.index')">
+                                    <NavLink :href="route('teams.index')" :active="route().current('teams.index')" class="text-black dark:text-white">
                                         {{ $t('teams') }}
                                     </NavLink>
                                 </div>
@@ -279,7 +279,7 @@ const logout = () => {
                             {{ $t('teams') }}
                         </ResponsiveNavLink>
                     </div>
-                    <hr>
+                    <hr class="border-black dark:border-white">
                     <ResponsiveNavLink
                         class="text-black dark:text-white"
                         v-for="lang in languages"
@@ -302,6 +302,8 @@ const logout = () => {
                             </svg>
                         </button>
                     </div>
+
+                    <hr class="border-black dark:border-white">
 
                     <!-- تنظیمات موبایل -->
                     <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">

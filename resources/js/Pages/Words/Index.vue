@@ -429,19 +429,19 @@
 
                         <!-- File Inputs -->
 
-                        <div>
-                            <label class="block font-medium dark:text-white text-black text-sm mb-1">{{ $t('audio_file') }}</label>
-                            <div class="flex items-center space-x-2">
-                                <button type="button" @click="toggleRecording" class="p-2 bg-blue-500 dark:text-white text-black rounded-full">
-                                    <span v-if="!isRecording">🎤 ضبط</span>
-                                    <span v-else>⏹ توقف</span>
+                        <div class="">
+                            <label class="text-sm">{{ $t('audio_file') }}</label>
+                            <div class="flex items-center gap-3">
+                                <button type="button" @click="toggleRecording" class="px-3 py-1.5 rounded-full dark:text-white text-black transition-all duration-300 shadow-lg flex items-center justify-center" :class="isRecording ? 'bg-red-500 animate-pulse' : 'bg-blue-500 hover:bg-blue-600'">
+                                    <svg v-if="!isRecording" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                                        <rect x="9" y="5" width="6" height="14" rx="3" />
+                                    </svg>
+                                    <svg v-else xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                                        <circle cx="12" cy="12" r="6" />
+                                    </svg>
                                 </button>
-                                <audio v-if="editForm.voice" :src="audioUrl" controls class="ml-2"></audio>
+                                <audio v-if="editForm.voice" :src="audioUrl" controls class="w-full rounded-lg shadow-md"></audio>
                             </div>
-                            <div v-if="uploadProgress.voice >= 0"
-                                 :class="{'bg-green-500': uploadProgress.voice === 100, 'bg-blue-500': uploadProgress.voice < 100}"
-                                 class="h-1 rounded mt-1"
-                                 :style="{width: uploadProgress.voice + '%'}"></div>
                         </div>
 
                         <div>
