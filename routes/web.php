@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\GeneralController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -13,6 +14,8 @@ use App\Http\Controllers\S3Controller;
 
 
 Route::get('/', [ReportController::class, 'landingData'])->name('landing');
+Route::get('/library', [GeneralController::class, 'index']);
+Route::get('/search', [GeneralController::class, 'search']);
 
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',])->group(function ()
@@ -38,7 +41,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::post('/teams/{team}/join-request', [TeamController::class, 'sendJoinRequest'])->name('teams.join-request');
     Route::delete('/teams/{team}/leave-team', [TeamController::class, 'leave'])->name('teams.leave-team');
 
-    // Add this route
+    // Chart data
     Route::get('/dashboard/chart-data', [DashboardController::class, 'getChartData'])
         ->name('dashboard.chart-data');
 

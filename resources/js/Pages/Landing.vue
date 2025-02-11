@@ -163,7 +163,7 @@ function handleImageError() {
                                             <span class=" text-gray-500 text-xs sm:text-base">{{ index + 1 }}</span>
                                             <span class="truncate">{{ user.name }}</span>
                                         </div>
-                                        <div class="text-center">{{ user.team_count }}</div>
+                                        <div class="text-center">{{ user.team_count + 1}}</div>
                                         <div class="text-center">{{ user.word_count }}</div>
                                         <div class="text-center text-xs sm:text-base">{{ user.joined_at }}</div>
                                     </div>
