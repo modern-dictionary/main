@@ -37,6 +37,11 @@ return [
     'recaptcha' => [
       'secret' => env('RECAPTCHA_SECRET_KEY'),
       'sitekey' => env('RECAPTCHA_SECRET_KEY'),
+    ],
+    'elasticsearch' => [
+        'hosts' => [
+            env('ELASTICSEARCH_HOST', 'localhost:9200'),
+        ],
     ]
 
 ];
