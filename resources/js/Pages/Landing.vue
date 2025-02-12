@@ -72,6 +72,13 @@ function handleImageError() {
                                 ثبت نام
                             </Link>
                         </template>
+
+                        <Link
+                            :href="route('library')"
+                            class=" mr-4 border border-gray-700 rounded-md px-3 py-2 text-white ring-1 ring-transparent transition-all duration-300 hover:bg-white/10 hover:scale-105 focus:outline-none focus-visible:ring-[#FF2D20] shadow-lg hover:shadow-[#FF2D20]/20"
+                        >
+                            کتابخانه
+                        </Link>
                     </nav>
 
                     <div class="flex flex-col gap-6 overflow-hidden rounded-lg bg-gradient-to-br from-gray-800/50 to-gray-700/50 p-6 shadow-lg ring-1 ring-white/10 transition duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 backdrop-blur-sm">

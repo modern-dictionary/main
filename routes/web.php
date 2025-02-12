@@ -14,7 +14,7 @@ use App\Http\Controllers\S3Controller;
 
 
 Route::get('/', [ReportController::class, 'landingData'])->name('landing');
-Route::get('/library', [GeneralController::class, 'index']);
+Route::get('/library', [GeneralController::class, 'index'])->name('library');
 Route::get('/search', [GeneralController::class, 'search']);
 
 
