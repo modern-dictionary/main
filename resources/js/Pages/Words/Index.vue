@@ -35,7 +35,7 @@
     <AppLayout title="کلمات">
 
         <template #header dir="rtl">
-            <div class="flex flex-col gap-4 sm:gap-6 md:grid md:grid-cols-2 lg:grid-cols-3 items-center">
+            <div class="flex flex-col gap-4 sm:gap-6 lg:grid lg:grid-cols-3 items-center">
                 <!-- Title -->
                 <h2 class="font-semibold text-xl dark:dark:text-white text-black leading-tight rounded-lg">
                     {{ $t('word') }}
@@ -250,9 +250,6 @@
                         <span v-for="category in selectedWord.categories" :key="categoryId"
                             class="bg-gray-600 dark:text-white text-black text-xs px-3 py-1 rounded-full flex items-center">
                             {{ category . name }}
-                            <button type="button" @click="removeCategory(categoryId)" class="ml-2 text-red-400">
-                                ×
-                            </button>
                         </span>
                     </div>
                 </div>
@@ -430,7 +427,7 @@
                         <!-- File Inputs -->
 
                         <div class="">
-                            <label class="text-sm">{{ $t('audio_file') }}</label>
+                            <label class="text-sm text-black dark:text-white">{{ $t('audio_file') }}</label>
                             <div class="flex items-center gap-3">
                                 <button type="button" @click="toggleRecording" class="px-3 py-1.5 rounded-full dark:text-white text-black transition-all duration-300 shadow-lg flex items-center justify-center" :class="isRecording ? 'bg-red-500 animate-pulse' : 'bg-blue-500 hover:bg-blue-600'">
                                     <svg v-if="!isRecording" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">

@@ -17,7 +17,12 @@ class GeneralController extends Controller
 
     public function index()
     {
-        $words = Word::with(['user.teams', 'category'])->get();
+      $words = Word::with([
+        'user:id,name',
+        'user.teams:id,name',
+        'category:id,name'
+        ])->get();
+
 
         foreach ($words as $word) {
             $this->elasticsearch->indexWord($word);
