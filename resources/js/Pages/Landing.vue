@@ -31,10 +31,10 @@ function handleImageError() {
 </script>
 
 <template>
-    <Head title="Welcome" />
+    <Head title="Home" />
     <div
         class="bg-gradient-to-br from-gray-900 to-gray-800 text-white/90 min-h-screen"
-        dir="rtl"
+        :dir="locale === 'en' ? 'ltr' : 'rtl'"
     >
         <img
             id="background"
