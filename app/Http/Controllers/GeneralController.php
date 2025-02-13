@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Word;
-use App\Services\ElasticsearchService;
 use Illuminate\Http\Request;
+use App\Services\ElasticsearchService;
+use App\Models\Word;
+use App\Models\User;
+use App\Models\Team;
+use App\Models\Category;
+use Inertia\Inertia;
+
 
 class GeneralController extends Controller
 {
@@ -17,18 +22,17 @@ class GeneralController extends Controller
 
     public function index()
     {
-      $words = Word::with([
-        'user:id,name',
-        'user.teams:id,name',
-        'category:id,name'
+        $words = Word::with([
+            'user:id,name',
+            'user.teams:id,name',
+            'categories:id,name'
         ])->get();
-
 
         foreach ($words as $word) {
             $this->elasticsearch->indexWord($word);
         }
 
-        return view('library.index', compact('words'));
+        return Inertia::render('library/index', compact('words'));
     }
 
     public function search(Request $request)

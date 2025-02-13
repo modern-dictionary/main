@@ -3,65 +3,64 @@
 namespace App\Services;
 
 use Elasticsearch\ClientBuilder;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
+use Exception;
 
 class ElasticsearchService
 {
     protected $client;
+    protected $isElasticsearchAvailable = false;
 
     public function __construct()
     {
-        $this->client = ClientBuilder::create()
-            ->setHosts([config('services.elasticsearch.hosts')])
-            ->build();
+        if (class_exists(ClientBuilder::class)) {
+            try {
+                $this->client = ClientBuilder::create()
+                    ->setHosts([config('services.elasticsearch.hosts')])
+                    ->build();
+                $this->client->info();
+                $this->isElasticsearchAvailable = true;
+            } catch (Exception $e) {
+                Log::warning('Elasticsearch is not available. Falling back to database search.');
+            }
+        } else {
+            Log::warning('Elasticsearch package not installed. Using database search instead.');
+        }
     }
 
     public function indexWord($word)
     {
-        return $this->client->index([
-            'index' => 'words',
-            'id'    => $word->id,
-            'body'  => [
-                'word'          => $word->word,
-                'meaning'       => $word->meaning,
-                'pronunciation' => $word->pronunciation,
-                'description'   => $word->description,
-                'voice_url'     => $word->voice ? Storage::disk('liara')->url($word->voice) : null,
-                'image_url'     => $word->image ? Storage::disk('liara')->url($word->image) : null,
-                'user'          => [
-                    'id'   => $word->user->id,
-                    'name' => $word->user->name,
-                ],
-                'teams'         => $word->user->teams->map(function ($team) {
-                    return [
-                        'id'   => $team->id,
-                        'name' => $team->name,
-                        'owner' => [
-                            'id'   => $team->owner->id,
-                            'name' => $team->owner->name,
-                        ],
-                    ];
-                })->toArray(),
-                'category'      => [
-                    'id'          => $word->category->id,
-                    'name'        => $word->category->name,
+        if ($this->isElasticsearchAvailable) {
+            return $this->client->index([
+                'index' => 'words',
+                'id'    => $word->id,
+                'body'  => [
+                    'word'          => $word->word,
+                    'meaning'       => $word->meaning,
+                    'user'          => $word->user->name ?? null,
+                    'teams'         => $word->user->teams->pluck('name')->toArray(),
+                    'categories'    => $word->categories->pluck('name')->toArray(),
                 ]
-            ],
-        ]);
+            ]);
+        }
     }
 
     public function searchWords($query)
     {
-        return $this->client->search([
-            'index' => 'words',
-            'body'  => [
-                'query' => [
-                    'multi_match' => [
-                        'query'  => $query,
-                        'fields' => ['word', 'meaning', 'description', 'user.name', 'category.name', 'teams.name'],
+        if ($this->isElasticsearchAvailable) {
+            return $this->client->search([
+                'index' => 'words',
+                'body'  => [
+                    'query' => [
+                        'match' => ['word' => $query],
                     ],
                 ],
-            ],
-        ]);
+            ]);
+        } else {
+            return \App\Models\Word::with(['user:id,name', 'user.teams:id,name', 'categories:id,name'])
+                ->where('word', 'LIKE', "%$query%")
+                ->orWhere('meaning', 'LIKE', "%$query%")
+                ->get();
+        }
     }
 }
