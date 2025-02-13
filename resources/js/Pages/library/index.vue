@@ -35,13 +35,20 @@ import axios from "axios";
                     <!-- Search Module -->
                     <div v-if="showSearchModal"
                         class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50"
-                        @click="closeModal">
+                        @click="closeSearchModal">
                         <div class="bg-white dark:text-white text-black dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 p-6 rounded shadow-md w-3/4"
                             @click.stop>
                             <!-- search bar in module -->
                             <div class="mb-4 flex">
                                 <input v-model="searchTerm" type="text" :placeholder="$t('search_word_or_meaning')"
                                     class="lg:w-1/2 w-full border justify-center dark:bg-gray-800 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+
+                                    <button
+                                    @click="searchWords"
+                                    class="ml-2 px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 transition"
+                                    >
+                                      {{ $t('search') }}
+                                    </button>
                             </div>
 
                             <!-- Search results -->
@@ -49,8 +56,8 @@ import axios from "axios";
                               <h3 class="text-md font-bold mb-2">
                                 {{ $t('search_results') }}
                               </h3>
-                              <div v-if="filteredWords.length > 0" class="list-disc pl-5">
-                                <div v-for="(word, index) in filteredWords" :key="word.id"
+                              <div v-if="searchResults.length > 0" class="list-disc pl-5">
+                                <div v-for="(word, index) in searchResults" :key="word.id"
                                 class="p-4 rounded shadow-sm grid grid-cols-5 items-center">
 
                                 <!-- شماره و کلمه -->
@@ -101,7 +108,7 @@ import axios from "axios";
 
                         <div v-if="words.length > 0" class="space-y-2 border border-gray-700/50 rounded-xl max-w-7xl mx-auto">
                             <div v-for="(word, index) in words" :key="word.id"
-                                class="p-4 xl:p-6 rounded-xl shadow-sm flex flex-col lg:grid lg:grid-cols-4 gap-4 lg:gap-6 xl:gap-8 items-start lg:items-center hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 transform translate-y-0 hover:-translate-y-1 dark:text-white text-black">
+                                class="p-4 xl:p-6 rounded-xl shadow-sm flex flex-col lg:grid lg:grid-cols-7 gap-4 lg:gap-6 xl:gap-8 items-start lg:items-center hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 transform translate-y-0 hover:-translate-y-1 dark:text-white text-black">
                                 <!-- Word -->
                                 <div class="flex items-center w-full">
                                     <div class="ml-4 xl:ml-12 text-gray-400">{{ index + 1 }}</div>
@@ -109,8 +116,9 @@ import axios from "axios";
                                         <img :src="word.image_url"  alt="Word Image"
                                             class="w-12 h-12 object-cover rounded-full">
                                     </div>
-                                    <div class="font-medium truncate">{{ word . word }}</div>
+
                                 </div>
+                                <div class="font-medium truncate mx-8">{{ word.word }}</div>
 
                                 <!-- Mobile Labels and Content -->
                                 <div class="grid grid-cols-1 gap-2 w-full lg:hidden">
@@ -187,7 +195,7 @@ import axios from "axios";
             </div>
         </div>
         <!-- Show Modal -->
-        <div v-if="showModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50"
+        <div v-if="showViewModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50"
             @click="closeModal">
             <div class="bg-white dark:bg-gray-800 border border-gray-700 p-6 sm:p-8 rounded-lg shadow-xl w-full max-w-5xl mx-4 max-h-[90vh] overflow-y-auto"
                 @click.stop>
@@ -263,6 +271,7 @@ export default {
         },
         categories: {
             type: Array,
+            default: () => [],
             required: true,
         },
     },
@@ -270,9 +279,12 @@ export default {
         return {
             allCategories: [],
             showSearchModal: false,
+            showViewModal: false,
             searchTerm: "",
             searchResults: [],
             loading: false,
+            filteredWords: [],
+            selectedWord: {},
         };
     },
     methods: {
@@ -285,22 +297,42 @@ export default {
             this.searchResults = []; // پاک کردن نتایج جستجو
         },
         async searchWords() {
-            if (!this.searchTerm.trim()) {
-                this.searchResults = [];
-                return;
+          if (!this.searchTerm.trim()) {
+            this.searchResults = [];
+            return;
+          }
+          this.loading = true;
+          try {
+            const response = await axios.get(`/search`, {
+              params: { query: this.searchTerm }
+            });
+
+            console.log("Response data:", response.data);
+            console.log("Mapped search results:", this.searchResults);
+
+            if (Array.isArray(response.data)) {
+              this.searchResults = response.data;
+            } else {
+              console.warn("Unexpected response structure:", response.data);
+              this.searchResults = [];
             }
-            this.loading = true;
-            try {
-                const response = await axios.get(`/search`, {
-                    params: { query: this.searchTerm }
-                });
-                this.searchResults = response.data.hits.hits.map(hit => hit._source);
-            } catch (error) {
-                console.error("Error fetching search results:", error);
-            } finally {
-                this.loading = false;
-            }
+          } catch (error) {
+            console.error("Error fetching search results:", error);
+          } finally {
+            this.loading = false;
+          }
         },
+        viewWord(word) {
+            this.selectedWord = {
+                ...word,
+                categories: word.categories || []
+            };
+            this.showViewModal = true;
+        },
+        closeModal(){
+          this.showViewModal = false;
+        },
+
     },
     computed: {
         filteredWords() {
