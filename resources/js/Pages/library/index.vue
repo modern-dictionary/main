@@ -4,114 +4,22 @@ import {
 
 } from "@inertiajs/vue3";
 import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue";
-import AppLayout from "@/Layouts/AppLayout.vue";
+import MainLayout from '@/Layouts/MainLayout.vue';
 import axios from "axios";
 </script>
 
 <template>
-
-    <Head title="words" ><title>words</title></Head>
-
-    <header class="grid grid-cols-1 items-center gap-4 py-6 sm:py-10 lg:grid-cols-3">
-        <nav
-            v-if="canLogin"
-            class="-mx-3 flex flex-1 justify-start space-x-4 rtl:space-x-reverse"
-        >
-            <Link
-                v-if="$page.props.auth.user"
-                :href="route('dashboard')"
-                class=" mr-4 border border-gray-700 rounded-md px-3 py-2 text-white ring-1 ring-transparent transition-all duration-300 hover:bg-white/10 hover:scale-105 focus:outline-none focus-visible:ring-[#FF2D20] shadow-lg hover:shadow-[#FF2D20]/20"
-            >
-                داشبورد
-            </Link>
-
-            <template v-else class=" flex items-center space-x-2">
-                <Link
-                    :href="route('login')"
-                    class="rounded-md mr-5 px-3 py-2 text-white ring-1 ring-white/20 transition-all duration-300 hover:bg-white/10 hover:scale-105 focus:outline-none focus-visible:ring-[#FF2D20] shadow-lg hover:shadow-[#FF2D20]/20"
-                >
-                    ورود
-                </Link>
-
-                <Link
-                    v-if="canRegister"
-                    :href="route('register')"
-                    class="rounded-md px-3 py-2 text-white ring-1 ring-white/20 transition-all duration-300 hover:bg-white/10 hover:scale-105 focus:outline-none focus-visible:ring-[#FF2D20] shadow-lg hover:shadow-[#FF2D20]/20"
-                >
-                    ثبت نام
-                </Link>
-            </template>
-
-            <Link
-                :href="route('library')"
-                class=" mr-4 border border-gray-700 rounded-md px-3 py-2 text-white ring-1 ring-transparent transition-all duration-300 hover:bg-white/10 hover:scale-105 focus:outline-none focus-visible:ring-[#FF2D20] shadow-lg hover:shadow-[#FF2D20]/20"
-            >
-                کتابخانه
-            </Link>
-        </nav>
-
-        <div class="flex flex-col gap-6 overflow-hidden rounded-lg bg-gradient-to-br from-gray-800/50 to-gray-700/50 p-6 shadow-lg ring-1 ring-white/10 transition duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 backdrop-blur-sm">
-          <div class="relative w-full lg:w-96 xl:w-[500px] mx-auto lg:mx-0 lg:justify-self-center">
-              <input v-model="searchTerm" @focus="openSearchModal" type="text" :placeholder="$t('search_word_or_meaning')"
-                  class="w-full border rounded-xl p-2 sm:p-3 lg:p-4 dark:dark:text-white text-black focus:outline-none dark:bg-gray-800/50 focus:ring-2 focus:ring-[#FF2D20] hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 placeholder-gray-400 text-sm sm:text-base lg:text-medium" />
-          </div>
-        </div>
-        <div class="hidden sm:flex sm:items-center sm:ms-6">
-
-            <!-- دکمه تغییر تم -->
-            <div>
-                <button @click="toggleTheme" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700">
-                    <svg v-if="isDarkMode" class="w-6 h-6 text-gray-800 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <circle cx="12" cy="12" r="4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></circle>
-                        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                              d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
-                    </svg>
-                    <svg v-else class="w-6 h-6 text-gray-800 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
-                    </svg>
-                </button>
-            </div>
-
-            <div class="relative ms-6">
-                <Dropdown align="right" width="48">
-                    <template #trigger>
-                        <button
-                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md
-                        text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300
-                        focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-700 active:bg-gray-50 dark:active:bg-gray-700
-                        transition ease-in-out duration-150"
-                        >
-                            {{ $t('language') }}
-
-                            <svg class="ms-2 -me-0.5 size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                            </svg>
-                        </button>
-                    </template>
-
-                    <template #content>
-                        <div class="block px-4 py-2 text-xs text-gray-400">
-                            {{ $t('lang') }}
-                        </div>
-                        <DropdownLink
-                            v-for="lang in languages"
-                            :key="lang.code"
-                            as="button"
-                            @click="setLanguage(lang.code)">
-                            {{ lang.label.toUpperCase() }}
-                        </DropdownLink>
-                    </template>
-                </Dropdown>
-            </div>
-            </div>
-
-    </header>
+    <MainLayout title="library">
         <!-- Search Module -->
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-gray-200 dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
                   <!-- Search Bar -->
+
+                  <div class="relative w-full lg:w-96 xl:w-[500px] mx-auto lg:mx-0 lg:justify-self-center">
+                      <input v-model="searchTerm" @focus="openSearchModal" type="text" :placeholder="$t('search_word_or_meaning')"
+                          class="w-full border rounded-xl p-2 sm:p-3 lg:p-4 dark:dark:text-white text-black focus:outline-none dark:bg-gray-800/50 focus:ring-2 focus:ring-[#FF2D20] hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 hover:bg-gray-700/50 placeholder-gray-400 text-sm sm:text-base lg:text-medium" />
+                  </div>
 
                     <!-- Search Module -->
                     <div v-if="showSearchModal"
@@ -338,6 +246,7 @@ import axios from "axios";
                 </div>
             </div>
         </div>
+    </MainLayout>
 </template>
 
 <script>

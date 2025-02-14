@@ -56,5 +56,14 @@
     "auto_fill": "پر کردن خودکار",
     "send": "ارسال",
     "please_wait": "لطفا صبر کنید...",
-    "search": "جستجو"
+    "search": "جستجو",
+    "register": "ثبت نام",
+    "login": "ورود",
+    "logout": "خروج",
+    "email": "ایمیل",
+    "password": "رمز عبور",
+    "confirm_password": "تأیید رمز عبور",
+    "forgot_password": "رمز عبور را فراموش کرده‌اید؟",
+    "remember_me": "مرا به خاطر بسپار",
+    "library": "کتابخانه"
 }
