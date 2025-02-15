@@ -65,6 +65,15 @@
     "confirm_password": "Confirm Password",
     "forgot_password": "Forgot Password?",
     "remember_me": "Remember Me",
-    "library": "Library"
+    "library": "Library",
+    "total_words": "Total Words",
+    "total_teams": "Total Teams",
+    "total_users": "Total Users",
+    "best_teams": "Best Teams",
+    "best_members": "Best Members",
+    "team_name": "Team Name",
+    "users": "Users",
+    "date": "Date",
+    "created_by": "Created and configured by Kasra Mehralizadeh and Mojtaba Allam"
 
 }

@@ -49,9 +49,9 @@ function handleImageError() {
                     <div class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-gradient-to-br from-gray-800/50 to-gray-700/50 p-6 shadow-lg ring-1 ring-white/10 transition duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 lg:p-10 lg:pb-10 w-full backdrop-blur-sm">
                         <div :class="['grid grid-cols-1 sm:grid-cols-3 gap-6 w-full', { '!hidden': screenshotHidden }]" id="screenshot-container">
                             <div v-for="(stat, index) in [
-                                { title: 'تعداد کل مخاطبان', value: totalUsers },
-                                { title: 'تعداد کل تیم ها', value: totalTeams },
-                                { title: 'تعداد کل کلمات', value: totalWords }
+                                { title: $t('total_users'), value: totalUsers },
+                                { title: $t('total_teams'), value: totalTeams },
+                                { title: $t('total_words'), value: totalWords }
                             ]" :key="index"
                             class="text-center p-6 bg-gray-700/50 rounded-lg transform  hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300">
                                 <div class="text-lg font-medium mb-2">{{ stat.title }}</div>
@@ -64,12 +64,12 @@ function handleImageError() {
                     <div class="grid gap-6 lg:grid-cols-2 lg:gap-8 my-10">
                         <!-- Team Statistics Card -->
                         <div class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-gradient-to-br from-gray-800/50 to-gray-700/50 p-6 shadow-lg ring-1 ring-white/10 transition duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10  lg:p-10 lg:pb-10 w-full backdrop-blur-sm">
-                            <h2 class="text-xl font-bold text-[#FF2D20]">بهترین تیم ها</h2>
+                            <h2 class="text-xl font-bold text-[#FF2D20]">{{ $t('best_teams') }}</h2>
                             <div class="w-full">
                                 <div class="pb-4 grid grid-cols-3 w-full text-gray-300">
-                                    <div class="text-center font-medium">نام تیم</div>
-                                    <div class="text-center font-medium">مخاطبان</div>
-                                    <div class="text-center font-medium">کلمات</div>
+                                    <div class="text-center font-medium">{{ $t('team_name') }}</div>
+                                    <div class="text-center font-medium">{{ $t('users') }}</div>
+                                    <div class="text-center font-medium">{{ $t('words') }}</div>
                                 </div>
                                 <div
                                     v-if="teamStats.length > 0"
@@ -90,19 +90,22 @@ function handleImageError() {
                                         <div class="text-center">{{ team.word_count }}</div>
                                     </div>
                                 </div>
-                                <p v-else class="text-gray-500 text-center">تیمی موجود نیست</p>
+                                <p v-else class="text-gray-500 text-center">{{ $t('no_words_found') }}</p>
                             </div>
                         </div>
 
                         <!-- Top Users Card -->
-                        <div class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-gradient-to-br from-gray-800/50 to-gray-700/50 p-6 shadow-lg ring-1 ring-white/10  hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 lg:p-10 lg:pb-10 w-full backdrop-blur-sm">
-                            <h2 class="text-xl font-bold text-[#FF2D20]">بهترین اعضا</h2>
+                        <div class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-gradient-to-br
+                        from-gray-800/50 to-gray-700/50 p-6 shadow-lg ring-1 ring-white/10  hover:ring-white/20
+                        hover:shadow-xl hover:shadow-[#FF2D20]/10 transition duration-300 lg:p-10 lg:pb-10 w-full
+                        backdrop-blur-sm" :dir="locale === 'en' ? 'ltr' : 'rtl'">
+                            <h2 class="text-xl font-bold text-[#FF2D20]">{{ $t('best_members') }}</h2>
                             <div class="w-full overflow-x-auto">
                                 <div class="pb-4 grid grid-cols-4 w-full min-w-[600px] text-gray-300">
-                                    <div class="text-center font-medium">اسم</div>
-                                    <div class="text-center font-medium">تیم ها</div>
-                                    <div class="text-center font-medium">کلمات</div>
-                                    <div class="text-center font-medium">تاریخ شروع</div>
+                                    <div class="text-center font-medium">{{ $t('name') }}</div>
+                                    <div class="text-center font-medium">{{ $t('teams') }}</div>
+                                    <div class="text-center font-medium">{{ $t('words') }}</div>
+                                    <div class="text-center font-medium">{{ $t('date') }}</div>
                                 </div>
 
                                 <div
@@ -124,7 +127,7 @@ function handleImageError() {
                                     </div>
                                 </div>
 
-                                <p v-else class="text-gray-500 text-center">مخاطبی موجود نیست</p>
+                                <p v-else class="text-gray-500 text-center">{{ $t('no_words_found') }}</p>
                             </div>
                         </div>
 
@@ -133,7 +136,7 @@ function handleImageError() {
 
                 <footer class="py-16 text-center text-sm text-gray-400">
                     <p class="transition-all duration-300 hover:text-white hover:scale-105">
-                        ساخته و تنظیم شده توسط کسری مهرعلی زاده و مجتبی علام
+                        {{ $t('created_by') }}
                     </p>
                 </footer>
             </div>

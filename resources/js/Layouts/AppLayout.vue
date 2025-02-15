@@ -279,17 +279,18 @@ const logout = () => {
                             {{ $t('teams') }}
                         </ResponsiveNavLink>
                     </div>
-                    <hr class="border-black dark:border-white">
-                    <ResponsiveNavLink
+                    <div class="border-t border-gray-700 dark:border-gray-500">
+                      <ResponsiveNavLink
                         class="text-black dark:text-white"
                         v-for="lang in languages"
                         :key="lang.code"
                         as="button"
                         @click="setLanguage(lang.code)">
                         {{ lang.label.toUpperCase() }}
-                    </ResponsiveNavLink>
+                      </ResponsiveNavLink>
+                    </div>
 
-                    <div>
+                    <div class="p-2">
                         <button @click="toggleTheme" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700">
                             <svg v-if="isDarkMode" class="w-6 h-6 text-gray-800 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <circle cx="12" cy="12" r="4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></circle>
@@ -303,10 +304,9 @@ const logout = () => {
                         </button>
                     </div>
 
-                    <hr class="border-black dark:border-white">
 
                     <!-- تنظیمات موبایل -->
-                    <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+                    <div class="pt-4 pb-1 border-t border-gray-700 dark:border-gray-500">
                         <div class="flex items-center px-4">
                             <div v-if="$page.props.jetstream.managesProfilePhotos" class="shrink-0 me-3">
                                 <img class="size-10 rounded-full object-cover" :src="$page.props.auth.user.profile_photo_url" :alt="$page.props.auth.user.name">
@@ -340,7 +340,7 @@ const logout = () => {
 
                             <!-- مدیریت تیم در موبایل -->
                             <template v-if="$page.props.jetstream.hasTeamFeatures">
-                                <div class="border-t border-gray-200 dark:border-gray-600" />
+                                <div class="border-t border-gray-700 dark:border-gray-500" />
 
                                 <div class="block px-4 py-2 text-xs text-gray-400">
                                     {{ $t('team_management') }}
@@ -357,7 +357,7 @@ const logout = () => {
 
                                 <!-- تغییر تیم -->
                                 <template v-if="$page.props.auth.user.all_teams.length > 1">
-                                    <div class="border-t border-gray-200 dark:border-gray-600" />
+                                    <div class="border-t border-gray-700 dark:border-gray-500" />
 
                                     <div class="block px-4 py-2 text-xs text-gray-400">
                                         {{ $t('switch_team') }}

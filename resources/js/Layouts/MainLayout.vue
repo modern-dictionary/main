@@ -168,17 +168,18 @@ const setLanguage = (lang) => {
                             {{ $t('library') }}
                         </ResponsiveNavLink>
                     </div>
-                    <hr class="border-black dark:border-white">
-                    <ResponsiveNavLink
+                    <div class="border-t border-gray-700 dark:border-gray-500">
+                      <ResponsiveNavLink
                         class="text-black dark:text-white"
                         v-for="lang in languages"
                         :key="lang.code"
                         as="button"
                         @click="setLanguage(lang.code)">
                         {{ lang.label.toUpperCase() }}
-                    </ResponsiveNavLink>
+                      </ResponsiveNavLink>
+                    </div>
 
-                    <div>
+                    <div class="p-2">
                         <button @click="toggleTheme" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700">
                             <svg v-if="isDarkMode" class="w-6 h-6 text-gray-800 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <circle cx="12" cy="12" r="4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></circle>
@@ -191,9 +192,6 @@ const setLanguage = (lang) => {
                             </svg>
                         </button>
                     </div>
-
-                    <hr class="border-black dark:border-white">
-
                 </div>
             </nav>
 

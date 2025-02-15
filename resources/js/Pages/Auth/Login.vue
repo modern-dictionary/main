@@ -68,7 +68,7 @@ const submit = () => {
         />
         <div class="relative min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
 
-
+          <Link :href="route('landing')">
             <div class=" mt-4 flex flex-col gap-6 overflow-hidden rounded-lg bg-gradient-to-br from-gray-800/50 to-gray-700/50 p-6 shadow-lg ring-1 ring-white/10 transition duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 backdrop-blur-sm">
                         <svg
                             class="  h-12 w-auto text-white lg:h-16 lg:text-[#FF2D20] transition-all duration-300 hover:scale-110"
@@ -81,7 +81,8 @@ const submit = () => {
                                 fill="currentColor"
                             />
                         </svg>
-                    </div>
+              </div>
+            </Link>
 
             <div class="w-full sm:max-w-md mt-2 px-6 py-4">
                 <div class="flex flex-col gap-6 overflow-hidden rounded-lg bg-gradient-to-br from-gray-800/50 to-gray-700/50 p-6 shadow-lg ring-1 ring-white/10 transition duration-300 hover:ring-white/20 hover:shadow-xl hover:shadow-[#FF2D20]/10 backdrop-blur-sm">
