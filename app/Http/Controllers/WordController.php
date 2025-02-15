@@ -122,6 +122,8 @@ class WordController extends Controller
             $word->categories()->sync($categories);
         }
 
+        broadcast(new WordUpdated($word))->toOthers();
+
         return response()->json(['message' => 'کلمه با موفقیت به‌روزرسانی شد', 'word' => $word], 200);
     }
 
@@ -141,4 +143,15 @@ class WordController extends Controller
 
         return response()->json(['message' => 'کلمه با موفقیت حذف شد'], 200);
     }
+
+    public function addWordToTeam(Request $request, $teamId)
+    {
+        $team = Team::findOrFail($teamId);
+        $word = Word::findOrFail($request->word_id);
+
+        $team->words()->attach($word->id);
+
+        return response()->json(['message' => 'Word added to team successfully']);
+    }
+
 }

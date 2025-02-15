@@ -29,5 +29,10 @@ class Word extends Model
     {
         return $this->belongsToMany(Category::class, 'word_category', 'word_id','category_id');
     }
+
+    public function teams(): BelongsToMany
+    {
+        return $this->belongsToMany(Word::class, 'team_word', 'word_id', 'team_id');
+    }
     use HasFactory;
 }
