@@ -32,7 +32,7 @@ class Word extends Model
 
     public function teams(): BelongsToMany
     {
-        return $this->belongsToMany(Word::class, 'team_word', 'word_id', 'team_id');
+        return $this->belongsToMany(Team::class, 'team_word', 'word_id', 'team_id');
     }
     use HasFactory;
 }

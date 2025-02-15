@@ -2,11 +2,26 @@
     <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
       @click="$emit('close')">
         <div class="bg-gray-200 dark:bg-gray-900 p-6 rounded-lg w-full max-w-2xl">
+          <div class="grid grid-cols-2">
+            <div class="space-y-2">
+              <h2 class="text-2xl font-bold text-black dark:text-white">{{ team.name }}</h2>
+              <p class="text-gray-400">{{ $t('team_owner') }}: {{ team.owner.name }}</p>
+              <p class="text-gray-400">{{ $t('member_count') }}: {{ 1 + team.users_count }}</p>
+              <p class="text-gray-400">{{ $t('word_count') }}: {{ team.words_count }}</p>
+            </div>
 
-            <h2 class="text-2xl font-bold text-black dark:text-white">{{ team.name }}</h2>
-            <p class="text-gray-400">{{ $t('team_owner') }}: {{ team.owner.name }}</p>
-            <p class="text-gray-400">{{ $t('member_count') }}: {{ 1 + team.users_count }}</p>
-            <p class="text-gray-400">{{ $t('word_count') }}: {{ team.words_count }}</p>
+            <div class="grid grid-cols-1">
+              <a :href="route('team.words', { team: team.id })"
+                  class="m-4 px-4 xl:px-5 py-2 rounded bg-blue-200 text-blue-700 hover:bg-blue-300 transition-all duration-200 hover:scale-105">
+                  {{ $t('words') }}
+              </a>
+
+              <a :href="route('team.categories', { team: team.id })"
+                  class="m-4 px-4 xl:px-5 py-2 rounded bg-blue-500 dark:text-white text-black hover:bg-blue-600 transition-all duration-200 hover:scale-105">
+                  {{ $t('categories') }}
+              </a>
+            </div>
+          </div>
 
             <!-- لیست اعضا -->
             <h3 class="mt-4 text-lg font-semibold text-black dark:text-white">{{ $t('members') }}</h3>

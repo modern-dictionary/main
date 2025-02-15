@@ -40,6 +40,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::get('/teams', [TeamController::class, 'index'])->name('teams.index');
     Route::post('/teams/{team}/join-request', [TeamController::class, 'sendJoinRequest'])->name('teams.join-request');
     Route::delete('/teams/{team}/leave-team', [TeamController::class, 'leave'])->name('teams.leave-team');
+    Route::get('/teams/{team}/words', [TeamController::class, 'team_words'])->name('team.words');
+    Route::get('/teams/{team}/categories', [TeamController::class, 'team_categories'])->name('team.categories');
+
 
     // Chart data
     Route::get('/dashboard/chart-data', [DashboardController::class, 'getChartData'])
