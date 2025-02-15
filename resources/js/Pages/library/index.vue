@@ -115,7 +115,7 @@ import axios from "axios";
                                         <span class="text-gray-400 text-sm">{{ $t('meaning') }}:</span>
                                         <span class="truncate">{{ word . meaning }}</span>
                                     </div>
-                                    <div class="flex flex-col">
+                                    <div class="flex flex-col" v-if="word.categories !== []">
                                         <span class="text-gray-400 text-sm">{{ $t('categories') }}:</span>
                                         <span class="truncate">
                                             <span
@@ -145,7 +145,7 @@ import axios from "axios";
                                 <div class="hidden lg:block truncate xl:pr-4">
                                     {{ word . meaning }}
                                 </div>
-                                <div class="flex justify-start gap-3 xl:gap-2 w-full ml-auto">
+                                <div class="flex hidden lg:block truncate xl:pr-4 justify-start gap-3 xl:gap-2 w-full ml-auto">
                                     <span v-for="category in (word.categories ? word.categories.slice(0, 3) : [])"
                                         :key="category.id"
                                         class="bg-gray-600 dark:text-white text-black text-xs px-3 py-1 rounded-xl">
@@ -154,12 +154,12 @@ import axios from "axios";
                                 </div>
 
                                 <!-- نام کاربر -->
-                                <div class="text-sm text-gray-700 dark:text-gray-300">
+                                <div class="text-sm  hidden lg:block truncate xl:pr-4 text-gray-700 dark:text-gray-300">
                                   👤 {{ word.user ? word.user.name : '-' }}
                                 </div>
 
                                 <!-- تیم‌ها -->
-                                <div class="flex justify-start gap-2">
+                                <div class="flex hidden lg:block truncate xl:pr-4 justify-start gap-2">
                                   <span v-for="team in (word.user && word.user.teams ? word.user.teams.slice(0, 2) : [])"
                                   :key="team.id"
                                   class="bg-green-600 dark:text-white text-xs px-3 py-1 rounded-xl">
