@@ -66,10 +66,9 @@ class TeamController extends Controller
     {
         $words = $team->words()->with('categories')->get();
         $categories = Category::whereHas('words', function ($query) use ($team) {
-          $query->whereIn('id', $team->words->pluck('id'));
+          $query->whereIn('words.id', $team->words->pluck('id'));
         })->get();
 
-        // اضافه کردن URL برای فایل‌های تصویر و صوت
         $words->transform(function ($word) {
           $word->image_url = $word->image ? Storage::disk('liara')->url($word->image) : null;
           $word->voice_url = $word->voice ? Storage::disk('liara')->url($word->voice) : null;
@@ -83,14 +82,46 @@ class TeamController extends Controller
         ]);
     }
 
+    public function addWordToTeam(Request $request, Team $team)
+    {
+      $request->validate([
+        'word_id' => 'required|exists:words,id',
+      ]);
+
+      if (!$team->words()->where('word_id', $request->word_id)->exists()) {
+        $team->words()->attach($request->word_id);
+      }
+
+        return response()->json(['message' => 'Word added to team successfully']);
+    }
+
     public function team_categories(Team $team)
     {
       $categories = $team->categories()->withCount('words')->get();
-      return Inertia::render('Words/Categories', [
+      return Inertia::render('Words/categories', [
         'categories' => $categories,
         'team' => $team,
       ]);
     }
+
+    public function addCategory(Request $request, Team $team)
+    {
+        $request->validate([
+          'category_id' => 'required|exists:categories,id',
+        ]);
+
+        if ($team->id !== auth()->user()->current_team_id) {
+          return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        // بررسی می‌کنیم که آیا دسته‌بندی قبلاً به تیم اضافه شده است یا خیر
+        if (!$team->categories()->where('categories.id', $request->category_id)->exists()) {
+          $team->categories()->attach($request->category_id);
+        }
+
+        return response()->json(['message' => 'Category added to team successfully']);
+      }
+
 
 
 }

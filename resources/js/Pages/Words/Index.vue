@@ -38,7 +38,7 @@
             <div class="flex flex-col gap-4 sm:gap-6 lg:grid lg:grid-cols-3 items-center">
                 <!-- Title -->
                 <h2 class="font-semibold text-xl dark:dark:text-white text-black leading-tight rounded-lg">
-                    {{ $t('word') }}
+                    {{ $t('words') }}
                 </h2>
 
                 <!-- Search Bar -->
@@ -655,6 +655,28 @@
                     },
                 })
                 .then(response => {
+                    if (window.location.pathname.includes('/team/')) {
+                      const teamId = this.$page.props.auth.user.current_team_id;
+                      console.log("Current Team ID:", teamId);
+
+                      return axios.post(`/team/${teamId}/words/add-word`, {
+                        word_id: response.data.word.id,
+                      })
+                      .then(response => {
+                          console.log("Word added to team:", response.data);
+                        })
+                        .catch(error => {
+                          console.error("Error in addWord:", error);
+                          if (error.response) {
+                            console.error("Server response:", error.response.data);
+                          }
+                        });
+                      }
+                })
+                .then(teamResponse => {
+                    if (teamResponse) {
+                      console.log('Word added to team:', teamResponse.data);
+                    }
                     const notification = document.createElement('div');
                     notification.className = 'fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg bg-green-500 dark:text-white text-black transform transition-all duration-500';
                     notification.innerHTML = '<div class="flex items-center"><span class="mr-2">✓</span>کلمه با موفقیت اضافه شد</div>';
