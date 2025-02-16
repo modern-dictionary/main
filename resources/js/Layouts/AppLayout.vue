@@ -85,7 +85,7 @@ const logout = () => {
 
                             <!-- دکمه تغییر تم -->
                             <div>
-                                <button @click="toggleTheme" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700">
+                                <button @click="toggleTheme" class="p-2 rounded-full bg-gray-400 dark:bg-gray-700">
                                     <svg v-if="isDarkMode" class="w-6 h-6 text-gray-800 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <circle cx="12" cy="12" r="4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></circle>
                                         <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -291,7 +291,7 @@ const logout = () => {
                     </div>
 
                     <div class="p-2">
-                        <button @click="toggleTheme" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700">
+                        <button @click="toggleTheme" class="p-2 rounded-full bg-gray-400 dark:bg-gray-700">
                             <svg v-if="isDarkMode" class="w-6 h-6 text-gray-800 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <circle cx="12" cy="12" r="4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></circle>
                                 <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"

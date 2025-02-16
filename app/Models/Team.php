@@ -50,13 +50,11 @@ class Team extends JetstreamTeam
         ];
     }
 
-    public function words(): HasManyThrough
+    public function words(): BelongsToMany
     {
-        return $this->hasManyThrough(Word::class, User::class, 'id', 'user_id', 'id', 'id')
-            ->whereHas('teams', function ($query) {
-                $query->whereColumn('teams.id', 'team_user.team_id');
-            });
+        return $this->belongsToMany(Word::class, 'team_word', 'team_id', 'word_id');
     }
+
 
     public function users(): BelongsToMany
     {

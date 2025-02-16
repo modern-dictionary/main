@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Team;
+use App\Models\Word;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 
@@ -46,7 +47,7 @@ class TeamController extends Controller
     {
         $team->users()->syncWithoutDetaching([auth()->id()]);
       return response()->json(['message' => 'درخواست عضویت با موفقیت ارسال شد.']);
-  }
+    }
 
     public function leave(Team $team)
     {
@@ -60,4 +61,73 @@ class TeamController extends Controller
 
         return response()->json(['message' => 'You have left the team successfully.']);
     }
+
+    public function team_words(Team $team)
+    {
+        $words = $team->words()->with('categories')->get();
+        $categories = Category::whereHas('words', function ($query) use ($team) {
+          $query->whereIn('words.id', $team->words->pluck('id'));
+        })->get();
+
+        $words->transform(function ($word) {
+          $word->image_url = $word->image ? Storage::disk('liara')->url($word->image) : null;
+          $word->voice_url = $word->voice ? Storage::disk('liara')->url($word->voice) : null;
+          return $word;
+        });
+
+        return Inertia::render('Words/Index', [
+          'words' => $words,
+          'categories' => $categories,
+          'team' => [
+              'id' => $team->id,
+              'name' => $team->name, // ارسال نام تیم به Vue
+          ],
+        ]);
+    }
+
+    public function addWordToTeam(Request $request, Team $team)
+    {
+      $request->validate([
+        'word_id' => 'required|exists:words,id',
+      ]);
+
+      if (!$team->words()->where('word_id', $request->word_id)->exists()) {
+        $team->words()->attach($request->word_id);
+      }
+
+        return response()->json(['message' => 'Word added to team successfully']);
+    }
+
+    public function team_categories(Team $team)
+    {
+      $categories = $team->categories()->withCount('words')->get();
+      return Inertia::render('Words/categories', [
+        'categories' => $categories,
+        'team' => [
+            'id' => $team->id,
+            'name' => $team->name, // ارسال نام تیم به Vue
+        ],
+      ]);
+    }
+
+    public function addCategory(Request $request, Team $team)
+    {
+        $request->validate([
+          'category_id' => 'required|exists:categories,id',
+        ]);
+
+        if ($team->id !== auth()->user()->current_team_id) {
+          return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        // بررسی می‌کنیم که آیا دسته‌بندی قبلاً به تیم اضافه شده است یا خیر
+        if (!$team->categories()->where('categories.id', $request->category_id)->exists()) {
+          $team->categories()->attach($request->category_id);
+        }
+
+        return response()->json(['message' => 'Category added to team successfully']);
+      }
+
+
+
 }

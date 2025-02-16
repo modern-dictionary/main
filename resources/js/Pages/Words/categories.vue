@@ -1,5 +1,6 @@
 <script setup>
 import { Head, Link, useForm } from "@inertiajs/vue3";
+import { computed } from "vue";
 import AuthenticationCard from "@/Components/AuthenticationCard.vue";
 import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue";
 import Checkbox from "@/Components/Checkbox.vue";
@@ -9,6 +10,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import axios from "axios";
+
 
 const form = useForm({
     name: "",
@@ -27,6 +29,25 @@ const deleteCategory = (id) => {
             });
     }
 };
+
+const props = defineProps({
+    categories: {
+        type: Array,
+        required: true
+    },
+    team: {
+        type: Object,
+        required: false
+    }
+});
+
+const teamTitle = computed(() => {
+    if (props.team) {
+        return ` ${props.team.name}`;
+    } else {
+        return '';
+    }
+});
 </script>
 
 <template>
@@ -38,7 +59,7 @@ const deleteCategory = (id) => {
             <div class="flex flex-col gap-4 sm:gap-6 md:grid md:grid-cols-2 lg:grid-cols-3 items-center">
                 <!-- Title -->
                 <h2 class="font-semibold text-xl dark:text-white text-black leading-tight rounded-lg">
-                    {{ $t('categories') }}
+                    {{ $t('categories') }} - {{ teamTitle }}
                 </h2>
 
                 <!-- Search Bar -->
@@ -406,27 +427,75 @@ export default {
         },
         closeSearchModal() {
             this.showSearchModal = false;
-            this.searchTerm = ""; // پاک کردن عبارت جستجو هنگام بستن ماژول
+            this.searchTerm = "";
         },
-        // handleClickOutside(event) {
-        //   if (
-        //     this.showSearchModal &&
-        //     !event.target.closest(".absolute") &&
-        //     !event.target.closest("input")
-        //   ) {
-        //     this.closeSearchModal();
-        //   }
-        // },
-        addCategory() {
-            axios.post(route("categories.store"), this.newCategory).then((response) => {
-              console.log("دسته جدید اضافه شد:", response.data);
-              this.categories.push(response.data); // افزودن دسته جدید به لیست
-              this.closeAddModal();
+
+        linkCategoryToTeam(categoryId, teamId) {
+          axios.post(`/team/${teamId}/categories/add-category`, { category_id: categoryId })
+          .then((response) => {
+              console.log("دسته به تیم مربوطه اضافه شد:", response.data);
+            })
+            .catch((error) => {
+              console.error("خطا در ربط دادن دسته به تیم:", error);
+            });
+          },
+
+          addCategory(event) {
+            if (event) event.preventDefault();
+
+            // در اینجا فرض شده که this.newCategory یک رشته است که نام دسته را نگه می‌دارد.
+            // در صورت نیاز می‌توانید این مقدار را به صورت آبجکت (مثلاً { name: "..." }) نیز ارسال کنید.
+            const formData = new FormData();
+            formData.append('name', this.newCategory.name);
+            formData.append('description', this.newCategory.description);
+
+            axios.post(route("categories.store"), formData, {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              },
+            })
+            .then(response => {
+              // دسته جدید ایجاد شده و در response.data.category قرار دارد.
+              if (window.location.pathname.includes('/team/')) {
+                const teamId = this.$page.props.auth.user.current_team_id;
+                console.log("Current Team ID:", teamId);
+
+                return axios.post(`/team/${teamId}/categories/add-category`, {
+                  category_id: response.data.category.id,
+                })
+                .then(response => {
+                  console.log("Category linked to team:", response.data);
+                })
+                .catch(error => {
+                  console.error("Error linking category to team:", error);
+                  if (error.response) {
+                    console.error("Server response:", error.response.data);
+                  }
+                });
+              }
+            })
+            .then(teamResponse => {
+              if (teamResponse) {
+                console.log("Category linked to team:", teamResponse.data);
+              }
+              const notification = document.createElement('div');
+              notification.className = 'fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg bg-green-500 dark:text-white text-black transform transition-all duration-500';
+              notification.innerHTML = '<div class="flex items-center"><span class="mr-2">✓</span>دسته با موفقیت اضافه شد</div>';
+              document.body.appendChild(notification);
               setTimeout(() => {
                 location.reload();
-               }, 500);
+              }, 2000);
+            })
+            .catch(error => {
+              console.error('Error in addCategory:', error.response ? error.response.data : error);
+              const notification = document.createElement('div');
+              notification.className = 'fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg bg-red-500 dark:text-white text-black transform transition-all duration-500';
+              notification.innerHTML = '<div class="flex items-center"><span class="mr-2">✕</span>خطا در ذخیره‌سازی دسته</div>';
+              document.body.appendChild(notification);
             });
-        },
+          },
+
+
         closeAddModal() {
             this.showAddModal = false;
             this.newCategory = {

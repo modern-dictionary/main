@@ -122,6 +122,8 @@ class WordController extends Controller
             $word->categories()->sync($categories);
         }
 
+        broadcast(new WordUpdated($word))->toOthers();
+
         return response()->json(['message' => 'کلمه با موفقیت به‌روزرسانی شد', 'word' => $word], 200);
     }
 
@@ -141,4 +143,5 @@ class WordController extends Controller
 
         return response()->json(['message' => 'کلمه با موفقیت حذف شد'], 200);
     }
+
 }

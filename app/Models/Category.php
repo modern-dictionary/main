@@ -18,6 +18,6 @@ class Category extends Model
 
     public function teams(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Word::class, 'team_category', 'category_id', 'team_id');
+        return $this->belongsToMany(Team::class, 'team_category', 'category_id', 'team_id');
     }
 }
