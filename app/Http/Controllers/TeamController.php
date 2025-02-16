@@ -78,7 +78,10 @@ class TeamController extends Controller
         return Inertia::render('Words/Index', [
           'words' => $words,
           'categories' => $categories,
-          'team' => $team,
+          'team' => [
+              'id' => $team->id,
+              'name' => $team->name, // ارسال نام تیم به Vue
+          ],
         ]);
     }
 
@@ -100,7 +103,10 @@ class TeamController extends Controller
       $categories = $team->categories()->withCount('words')->get();
       return Inertia::render('Words/categories', [
         'categories' => $categories,
-        'team' => $team,
+        'team' => [
+            'id' => $team->id,
+            'name' => $team->name, // ارسال نام تیم به Vue
+        ],
       ]);
     }
 

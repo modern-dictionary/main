@@ -1,8 +1,6 @@
 <script setup>
-    import {
-        Head,
-
-    } from "@inertiajs/vue3";
+    import { Head } from "@inertiajs/vue3";
+    import { computed } from "vue";
     import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue";
     import AppLayout from "@/Layouts/AppLayout.vue";
     import axios from "axios";
@@ -26,6 +24,25 @@
                 });
         }
     };
+
+    const props = defineProps({
+        words: {
+            type: Array,
+            required: true
+        },
+        team: {
+            type: Object,
+            required: false
+        }
+    });
+
+    const teamTitle = computed(() => {
+        if (props.team) {
+            return ` ${props.team.name}`;
+        } else {
+            return '';
+        }
+    });
 </script>
 
 <template>
@@ -38,7 +55,7 @@
             <div class="flex flex-col gap-4 sm:gap-6 lg:grid lg:grid-cols-3 items-center">
                 <!-- Title -->
                 <h2 class="font-semibold text-xl dark:dark:text-white text-black leading-tight rounded-lg">
-                    {{ $t('words') }}
+                    {{ $t('words') }} - {{ teamTitle }}
                 </h2>
 
                 <!-- Search Bar -->

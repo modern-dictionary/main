@@ -1,5 +1,6 @@
 <script setup>
 import { Head, Link, useForm } from "@inertiajs/vue3";
+import { computed } from "vue";
 import AuthenticationCard from "@/Components/AuthenticationCard.vue";
 import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue";
 import Checkbox from "@/Components/Checkbox.vue";
@@ -9,6 +10,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import axios from "axios";
+
 
 const form = useForm({
     name: "",
@@ -27,6 +29,25 @@ const deleteCategory = (id) => {
             });
     }
 };
+
+const props = defineProps({
+    categories: {
+        type: Array,
+        required: true
+    },
+    team: {
+        type: Object,
+        required: false
+    }
+});
+
+const teamTitle = computed(() => {
+    if (props.team) {
+        return ` ${props.team.name}`;
+    } else {
+        return '';
+    }
+});
 </script>
 
 <template>
@@ -38,7 +59,7 @@ const deleteCategory = (id) => {
             <div class="flex flex-col gap-4 sm:gap-6 md:grid md:grid-cols-2 lg:grid-cols-3 items-center">
                 <!-- Title -->
                 <h2 class="font-semibold text-xl dark:text-white text-black leading-tight rounded-lg">
-                    {{ $t('categories') }}
+                    {{ $t('categories') }} - {{ teamTitle }}
                 </h2>
 
                 <!-- Search Bar -->
