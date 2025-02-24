@@ -77,7 +77,7 @@
                 </div>
 
                 <!-- Title -->
-                <h2 class="font-semibold text-xl dark:dark:text-white text-black leading-tight rounded-lg">
+                <h2 class="font-semibold text-xl dark:text-white text-black leading-tight rounded-lg">
                     {{ $t('words') }} - {{ teamTitle }}
                 </h2>
 
